@@ -5,7 +5,7 @@ import com.hyundai.domain.login.entity.enumtype.Role;
 import com.hyundai.domain.login.security.JwtTokenProvider;
 import com.hyundai.domain.login.security.KakaoOauthClient;
 import com.hyundai.domain.login.security.dto.LoginRequestDto;
-import com.hyundai.domain.login.mapper.MemberMapper;
+import com.hyundai.global.mapper.MemberMapper;
 import com.hyundai.domain.login.security.dto.LoginResponseDto;
 import com.hyundai.domain.login.security.dto.TokenDto;
 import lombok.RequiredArgsConstructor;
