@@ -24,7 +24,7 @@
 		  p:dataSource-ref="dataSource"
 		  p:typeAliasesPackage="com.hyundai.domain"/>
 
-	<bean id="applicationProperties" class="com.hyundai.config.ApplicationProperties">
+	<bean id="applicationProperties" class="com.hyundai.global.config.ApplicationProperties">
 		<property name="DOMAIN" value="${front.domain}" />
 		<property name="FRONT_LOCAL_URL" value="${front.local.url}" />
 		<property name="KAKAO_CLIENT_ID" value="${spring.social.kakao.client_id}"/>
