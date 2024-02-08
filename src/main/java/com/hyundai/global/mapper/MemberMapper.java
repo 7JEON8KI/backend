@@ -1,4 +1,4 @@
-package com.hyundai.domain.login.mapper;
+package com.hyundai.global.mapper;
 
 import com.hyundai.domain.login.entity.Member;
 import org.apache.ibatis.annotations.Param;
