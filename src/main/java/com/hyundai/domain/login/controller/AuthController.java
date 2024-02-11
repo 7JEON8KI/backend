@@ -15,7 +15,7 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
 @Log4j
-@RequestMapping("/api/v1")
+@RequestMapping("/auth")
 @RestController
 public class AuthController {
 
@@ -27,24 +27,24 @@ public class AuthController {
     private JwtResolver jwtResolver;
 
     // 회원 가입 혹은 재로그인
-    @PostMapping("/kakao/login")
+    @PostMapping("/login/kakao")
     public ResponseEntity<LoginResponseDto> login(
             @RequestBody LoginRequestDto loginRequestDto
     ) {
-        log.info("/api/v1/kakao/login : 로그인 시도");
+        log.info("/api/v1/auth/login/kakao : 로그인 시도");
         LoginResponseDto loginResponseDto = authService.oAuthLogin(loginRequestDto);
         return new ResponseEntity(loginResponseDto, HttpStatus.OK);
     }
 
-    @GetMapping("/auth/test/save")
+    @GetMapping("/test/save")
     public ResponseEntity<LoginResponseDto> email() {
-        log.info("/test");
+        log.info("/test/save : 이메일 회원가입 시도");
         LoginResponseDto loginResponseDto = authService.joinByEmail("myemail@test.com");
         jwtResolver.getMemberIdByAccessToken(loginResponseDto.getAccessToken());
         return new ResponseEntity(loginResponseDto, HttpStatus.OK);
     }
 
-    @GetMapping("/auth/test/member")
+    @GetMapping("/test/member")
     public ResponseEntity<String> getMemberInfo(
     ) {
         String resolvedMemberId = (String) RequestContextHolder
@@ -54,7 +54,7 @@ public class AuthController {
         return new ResponseEntity(resolvedMemberId, HttpStatus.OK);
     }
 
-    @GetMapping("/auth/member")
+    @GetMapping("/member")
     public ResponseEntity<Member> getMemberInfoWithImg(
     ) {
         String resolvedMemberId = (String) RequestContextHolder
