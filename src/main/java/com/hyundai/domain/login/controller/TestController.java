@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping
 @RestController
-public class AdminController {
+public class TestController {
 
     @RequestMapping("/test")
     public ResponseEntity<String> test(){
