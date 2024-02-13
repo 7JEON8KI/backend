@@ -12,4 +12,10 @@ public class ApplicationProperties {
     private String KAKAO_REDIRECT_URI;
     private String KAKAO_CLIENT_ID;
     private String JWT_SECRET_KEY;
+    private String AWS_REGION;
+    private String AWS_ACCESS_KEY;
+    private String AWS_SECRET_KEY;
+    private String AWS_BUCKET;
+
+
 }

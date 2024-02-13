@@ -1,3 +1,4 @@
+/*
 package com.hyundai.domain.login.dto;
 
 import lombok.AllArgsConstructor;
@@ -14,4 +15,4 @@ public class Criteria {
     private int pageNum;
     private int pageSize;
     private String sorted;
-}
+}*/
