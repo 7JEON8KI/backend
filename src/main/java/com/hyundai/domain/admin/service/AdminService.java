@@ -14,4 +14,5 @@ public interface AdminService {
     void deleteMember(Member member);
 
 
+    String test();
 }

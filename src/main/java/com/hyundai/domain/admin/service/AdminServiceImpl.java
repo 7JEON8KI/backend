@@ -1,6 +1,7 @@
 package com.hyundai.domain.admin.service;
 
 import com.hyundai.domain.admin.Enum.Standard;
+import com.hyundai.domain.admin.dto.AdminMember;
 import com.hyundai.domain.login.entity.Member;
 import com.hyundai.domain.utils.paging.Criteria;
 import com.hyundai.global.mapper.AdminMapper;
@@ -26,7 +27,8 @@ public class AdminServiceImpl implements AdminService{
     public Map<String, Object> getMemberList() {
         System.out.println(Standard.ID.getStandard());
         Criteria cri = new Criteria();
-        List<Member> members = adminMapper.getListByStandard(cri, Standard.ID.getStandard());
+        List<AdminMember> members = adminMapper.getListByStandard(cri, Standard.ID.getStandard());
+        log.debug(members.toString());
         Map<String, Object> result = new HashMap<>();
         result.put("members", members);
         return result;
@@ -39,7 +41,7 @@ public class AdminServiceImpl implements AdminService{
         Criteria cri = new Criteria();
         cri.setPageNum(pageNum);
         Standard stan = Standard.valueOf(standard);
-        List<Member> members = adminMapper.getListByStandard(cri, stan.getStandard());
+        List<AdminMember> members = adminMapper.getListByStandard(cri, stan.getStandard());
         Map<String, Object> result = new HashMap<>();
         result.put("members", members);
         return result;
@@ -52,5 +54,10 @@ public class AdminServiceImpl implements AdminService{
     @Override
     public void deleteMember(Member member) {
 
+    }
+
+    @Override
+    public String test(){
+        return adminMapper.test();
     }
 }
