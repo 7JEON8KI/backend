@@ -25,13 +25,6 @@
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 	</beans:bean>
 
-	<interceptors>
-		<interceptor>
-			<mapping path="/api/v1/auth/**"/>
-			<beans:bean id="jwtInterceptor" class="com.hyundai.domain.login.security.JwtInterceptor" />
-		</interceptor>
-	</interceptors>
-
 	<context:component-scan base-package="com.hyundai" />
 
 </beans:beans>
