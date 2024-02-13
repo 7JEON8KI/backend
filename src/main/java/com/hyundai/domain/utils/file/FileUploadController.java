@@ -11,7 +11,12 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
+/**
+ * AWS S3 파일 업로드 테스트 컨트롤러
+ * @author : 강은구
+ * @fileName : AwsS3Util
+ * @since : 2/11/24
+ */
 @RestController
 public class FileUploadController {
 
