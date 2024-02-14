@@ -13,6 +13,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author : 변형준
@@ -35,7 +37,11 @@ public class TokenInterceptor implements HandlerInterceptor {
         String accessToken = request.getHeader("accessToken");
         log.debug("넘겨받은 accessToken :: " + accessToken);
         // accessToken을 이용해 카카오 API를 호출하여 email을 가져오는 로직
-        String memberEmail = callKakaoApi(accessToken);
+        Map<String, Object> map = callKakaoApi(accessToken);
+        String memberEmail = map.get("memberEmail").toString();
+        request.setAttribute("memberEmail", memberEmail);
+        accessToken = map.get("accessToken").toString();
+        request.setAttribute("accessToken", accessToken);
         log.debug("카카오 API로부터 받은 email :: " + memberEmail);
         // email을 이용해 memberId를 가져오는 로직
         String memberId = getMemberIdByEmail(memberEmail);
@@ -46,11 +52,16 @@ public class TokenInterceptor implements HandlerInterceptor {
     }
 
     // accessToken을 이용해 카카오 API를 호출하여 email을 가져오는 메소드
-    private String callKakaoApi(String accessToken) throws JsonProcessingException {
+    private Map<String, Object> callKakaoApi(String accessToken) throws JsonProcessingException {
+        Map<String, Object> map = new HashMap<>();
         // 카카오 API 호출 로직
         accessToken = jwtProvider.getAccessToken(accessToken);
+        map.put("accessToken", accessToken);
+        log.debug("토큰 디코딩 결과 :: " + accessToken);
         OAuthMember oAuthMember = kakaoClient.getMemberInfo(accessToken);
-        return oAuthMember.getEmail();
+        map.put("memberEmail", oAuthMember.getEmail());
+        log.debug("카카오 API로부터 받은 email :: " + oAuthMember.getEmail());
+        return map;
     }
 
     // email을 이용해 memberId를 가져오는 메소드

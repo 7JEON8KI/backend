@@ -17,5 +17,5 @@ public class KakaoLoginResponseDto {
     private String memberEmail;
     private String accessToken;
     private String refreshToken;
-    private boolean isMember;
+    private Boolean isMember;
 }

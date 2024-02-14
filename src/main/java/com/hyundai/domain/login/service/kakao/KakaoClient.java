@@ -89,5 +89,26 @@ public class KakaoClient implements OAuthClient {
         //요청 반환데이터를 메소드 리턴값으로 반환
         return rt.postForObject(url, infoRequest, KakaoMember.class);
     }
+
+    public void unlink(String accessToken) {
+        String url = "https://kapi.kakao.com/v1/user/unlink";
+
+        // 요청 객체 생성
+        RestTemplate rt = new RestTemplate();
+
+        // 헤더 생성
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.add("Authorization", "Bearer " + accessToken); // accessToken 정보 전달
+
+        // 바디 생성
+        MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+
+        // 헤더 + 바디 조합
+        HttpEntity<MultiValueMap<String, String>> unlinkRequest = new HttpEntity<>(body, headers);
+
+        //요청 반환데이터를 메소드 리턴값으로 반환
+        rt.postForObject(url, unlinkRequest, String.class);
+    }
 }
 

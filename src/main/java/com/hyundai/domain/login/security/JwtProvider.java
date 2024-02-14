@@ -73,7 +73,7 @@ public class JwtProvider {
         log.debug("해독된 토큰:: " + payload);
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonPayload = objectMapper.readTree(payload);
-        String accessToken = jsonPayload.get("accessToken").asText();
+        String accessToken = jsonPayload.get("AccessToken").asText();
         log.debug("accessToken:: " + accessToken);
         return accessToken;
     }

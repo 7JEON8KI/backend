@@ -96,19 +96,18 @@ public class OAuthService {
         return true;
     }
 
-
-
-
-
-    public String deleteMember(String memberId) {
+    public String deleteMember(String memberId, String accessToken) {
         log.debug("------ 회원 탈퇴 ------");
         Member deleteMember = Member.builder()
                 .memberId(memberId)
                 .build();
         memberMapper.deleteMember(memberId);
+
+        //카카오 연결 끊기
+        kakaoClient.unlink(accessToken);
+
         log.debug("------ 회원 탈퇴 완료 ------");
         return "회원 탈퇴 완료";
     }
-
 
 }

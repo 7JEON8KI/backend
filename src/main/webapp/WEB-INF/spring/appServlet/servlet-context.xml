@@ -27,8 +27,10 @@
 	<beans:bean id="webMvcConfig" class="com.hyundai.global.config.WebMvcConfig" />
 	<interceptors>
 		<interceptor>
-			<mapping path="/api/v1/**"/>
-			<beans:bean id="TokenInterceptor" class="com.hyundai.global.interceptor.TokenInterceptor" />
+			<mapping path="/**"/>
+			<exclude-mapping path="/auth/login/kakao"/>
+			<exclude-mapping path="/auth/save"/>
+			<beans:bean id="tokenInterceptor" class="com.hyundai.global.interceptor.TokenInterceptor" />
 		</interceptor>
 	</interceptors>
 

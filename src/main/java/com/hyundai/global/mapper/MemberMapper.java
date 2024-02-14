@@ -11,7 +11,7 @@ public interface MemberMapper {
     int insertMemberAndInfo(Map<String, Object> map);
     Member findMemberByEmail(String memberEmail);
     void updateRefreshToken(Map<String, Object> map);
-    int deleteMember(String id);
+    int deleteMember(String memberId);
     Member getMemberByEmail(String email);
 
 

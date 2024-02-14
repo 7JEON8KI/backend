@@ -81,18 +81,12 @@
         WHERE  REFRESH_TOKEN = #{refreshToken}
     </select>
 
-    <select id="getMemberList" resultType="Member">
-        SELECT member_id AS "id"
-             , member_email AS "email"
-             , member_nickname AS "nickname"
-             , member_role AS "role"
-             , member_image AS "imgUrl"
-             , null AS "platform"
-             , created_at AS "createdDate"
-             , modified_at AS "updatedDate"
-             , deleted_at AS "isDeleted"
-        FROM   tbl_member
-    </select>
+    <delete id="deleteMember">
+        UPDATE tbl_member
+        SET deleted_at = sysdate
+          , modified_at = sysdate
+        WHERE member_id = #{memberId}
+    </delete>
 
     <update id="updateMember" parameterType="Member">
         UPDATE tbl_member
@@ -110,11 +104,6 @@
         WHERE member_id = #{id}
     </update>
 
-    <delete id="deleteMember" parameterType="Member">
-        UPDATE tbl_member
-        SET deleted_at = sysdate
-          , modified_at = sysdate
-        WHERE member_id = #{id}
-    </delete>
+
 
 </mapper>

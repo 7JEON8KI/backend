@@ -2,7 +2,7 @@ package com.hyundai.domain.login.controller;
 
 /**
  * @author : 변형준
- * @fileName : LoginController
+ * @fileName : AuthController
  * @since : 2/11/24
  */
 
@@ -21,8 +21,8 @@ import javax.servlet.http.HttpServletRequest;
 
 @Log4j
 @RestController
-@RequestMapping("/auth")
-public class LoginController {
+@RequestMapping(value = "/auth", produces = "application/json; charset=utf8")
+public class AuthController {
 
     @Autowired
     private OAuthService oAuthService;
@@ -51,26 +51,15 @@ public class LoginController {
         }
     }
 
+    @DeleteMapping("/deleteMember")
+    public ResponseEntity<String> unlink(HttpServletRequest request) {
+        String memberId = request.getAttribute("memberId").toString();
+        String accessToken = request.getAttribute("accessToken").toString();
+        //db 삭제
+        log.debug("deleteUser:" + memberId);
+        oAuthService.deleteMember(memberId, accessToken);
 
-    @PostMapping("/logout")
-    public ResponseEntity<String> logout(HttpServletRequest request) {
-        log.debug("test" + request.getHeader("accessToken"));
-        String memberId = (String) request.getAttribute("memberId");
-
-        return ResponseEntity.ok().body(memberId + "님 로그아웃 되었습니다.");
+        return ResponseEntity.ok().body("success");
     }
-
-//    @DeleteMapping("/deleteMember")
-//    public ResponseEntity<String> unlink(String jwtToken) {
-//        String memberId = jwtProvider.getSubject(jwtToken);
-//
-//        //db 삭제
-//        log.debug("deleteUser...");
-//        oAuthService.deleteMember(memberId);
-//
-//        return ResponseEntity.ok().body("success");
-//    }
-
-
 }
 
