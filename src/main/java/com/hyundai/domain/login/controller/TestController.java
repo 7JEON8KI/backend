@@ -4,9 +4,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/api")
+@RequestMapping
 @RestController
-public class AdminController {
+public class TestController {
 
     @RequestMapping("/test")
     public ResponseEntity<String> test(){

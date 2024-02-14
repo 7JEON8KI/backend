@@ -1,66 +1,50 @@
 package com.hyundai.domain.login.controller;
 
-import com.hyundai.domain.login.entity.Member;
-import com.hyundai.domain.login.security.JwtResolver;
-import com.hyundai.domain.login.security.dto.LoginResponseDto;
-import com.hyundai.domain.login.service.AuthService;
-import com.hyundai.domain.login.service.MemberService;
-import com.hyundai.domain.login.security.dto.LoginRequestDto;
+/**
+ * @author : 변형준
+ * @fileName : AuthController
+ * @since : 2/11/24
+ */
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.hyundai.domain.login.dto.kakao.KakaoParams;
+import com.hyundai.domain.login.dto.oauth.OAuthMemberRequestDto;
+import com.hyundai.domain.login.service.oauth.OAuthService;
+import com.hyundai.global.message.ResponseMessage;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Log4j
-@RequestMapping("/api/v1")
 @RestController
+@RequestMapping(value = "/auth", produces = "application/json; charset=utf8")
 public class AuthController {
 
     @Autowired
-    private AuthService authService;
-    @Autowired
-    private MemberService memberService;
-    @Autowired
-    private JwtResolver jwtResolver;
+    private OAuthService oAuthService;
 
-    // 회원 가입 혹은 재로그인
-    @PostMapping("/kakao/login")
-    public ResponseEntity<LoginResponseDto> login(
-            @RequestBody LoginRequestDto loginRequestDto
-    ) {
-        log.info("/api/v1/kakao/login : 로그인 시도");
-        LoginResponseDto loginResponseDto = authService.oAuthLogin(loginRequestDto);
-        return new ResponseEntity(loginResponseDto, HttpStatus.OK);
+    @PostMapping("/login/kakao")
+    public ResponseEntity handleKakaoLogin(@RequestBody KakaoParams kakaoParams){
+        log.debug("넘겨받은 Kakao 인증키 :: " + kakaoParams.getAuthorizationCode());
+        return ResponseMessage.SuccessResponse("카카오 로그인 성공", oAuthService.getMemberByOauthLogin(kakaoParams));
     }
 
-    @GetMapping("/auth/test/save")
-    public ResponseEntity<LoginResponseDto> email() {
-        log.info("/test");
-        LoginResponseDto loginResponseDto = authService.joinByEmail("myemail@test.com");
-        jwtResolver.getMemberIdByAccessToken(loginResponseDto.getAccessToken());
-        return new ResponseEntity(loginResponseDto, HttpStatus.OK);
+    @PostMapping("/save")
+    public ResponseEntity saveMember(@RequestHeader("refreshToken") String jwtRefreshToken, @RequestBody OAuthMemberRequestDto oAuthMemberRequestDto) throws JsonProcessingException {
+        log.debug("넘겨받은 회원정보 :: " + oAuthMemberRequestDto.getMemberEmail());
+        log.debug("넘겨받은 refreshToken :: " + jwtRefreshToken);
+        return ResponseMessage.SuccessResponse("회원가입 성공",  oAuthService.saveMember(oAuthMemberRequestDto, jwtRefreshToken));
     }
 
-    @GetMapping("/auth/test/member")
-    public ResponseEntity<String> getMemberInfo(
-    ) {
-        String resolvedMemberId = (String) RequestContextHolder
-                .currentRequestAttributes().getAttribute("memberId", RequestAttributes.SCOPE_REQUEST);
-
-        log.info("/member 헤더로 memberId 꺼내기 : " + resolvedMemberId);
-        return new ResponseEntity(resolvedMemberId, HttpStatus.OK);
-    }
-
-    @GetMapping("/auth/member")
-    public ResponseEntity<Member> getMemberInfoWithImg(
-    ) {
-        String resolvedMemberId = (String) RequestContextHolder
-                .currentRequestAttributes().getAttribute("memberId", RequestAttributes.SCOPE_REQUEST);
-        log.info("memberId : " + resolvedMemberId);
-        Member member = memberService.getMemberByMemberId(resolvedMemberId);
-        return new ResponseEntity(member, HttpStatus.OK);
+    @DeleteMapping("/deleteMember")
+    public ResponseEntity unlink(HttpServletRequest request) {
+        String memberId = request.getAttribute("memberId").toString();
+        String accessToken = request.getAttribute("accessToken").toString();
+        log.debug("deleteUser:" + memberId);
+        return ResponseMessage.SuccessResponse("회원탈퇴 성공", oAuthService.deleteMember(memberId, accessToken));
     }
 }
+

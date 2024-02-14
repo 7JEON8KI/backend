@@ -20,7 +20,7 @@ public class MemberDto {
     private String memberNickname;
     private String memberPhone;
     private String memberImage;
-    private int memberGender;
+    private String memberGender;
     private LocalDate memberBirth;
     private Role memberRole;
     private LocalDateTime createdAt;

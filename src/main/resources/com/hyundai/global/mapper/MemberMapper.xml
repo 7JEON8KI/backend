@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundai.global.mapper.MemberMapper">
+
+    <insert id="insertMemberAndInfo" parameterType="map">
+        { CALL insert_member_and_info(
+                #{memberId}
+            , #{memberEmail}
+            , #{memberName}
+            , #{memberNickname}
+            , #{memberPhone}
+            , #{memberImage}
+            , #{memberGender}
+            , #{memberBirth}
+            , #{memberRole}
+            , #{infoAddr}
+            , #{infoZipcode}
+            , #{refreshToken}) }
+    </insert>
+
+
+    <select id="findMemberByEmail" resultType="Member">
+        SELECT member_id AS "memberId"
+             , member_email AS "memberEmail"
+             , member_name AS "memberName"
+             , member_nickname AS "memberNickname"
+             , member_phone AS "memberPhone"
+             , member_image AS "memberImage"
+             , member_gender AS "memberGender"
+             , member_birth AS "memberBirth"
+             , member_role AS "member_role"
+             , REFRESH_TOKEN AS "refreshToken"
+             , created_at AS "createdAt"
+             , modified_at AS "updatedAt"
+             , deleted_at AS "deletedAt"
+        FROM   tbl_member
+        WHERE  member_email = #{memberEmail}
+    </select>
+    
+    <select id="updateRefreshToken">
+        UPDATE tbl_member
+        SET REFRESH_TOKEN = #{refreshToken}
+        WHERE member_id = #{memberId}
+    </select>
+    
+
+    <select id="findMemberByMemberId" resultType="Member">
+        SELECT member_id AS "memberId"
+             , member_email AS "memberEmail"
+             , member_name AS "memberName"
+             , member_nickname AS "memberNickname"
+             , member_phone AS "memberPhone"
+             , member_image AS "memberImage"
+             , member_gender AS "memberGender"
+             , member_birth AS "memberBirth"
+             , member_role AS "member_role"
+             , REFRESH_TOKEN AS "refreshToken"
+             , created_at AS "createdAt"
+             , modified_at AS "updatedAt"
+             , deleted_at AS "deletedAt"
+        FROM   tbl_member
+        WHERE  member_id = #{memberId}
+    </select>
+
+    <select id="findMemberByRefreshToken" resultType="Member">
+        SELECT member_id AS "memberId"
+             , member_email AS "memberEmail"
+             , member_name AS "memberName"
+             , member_nickname AS "memberNickname"
+             , member_phone AS "memberPhone"
+             , member_image AS "memberImage"
+             , member_gender AS "memberGender"
+             , member_birth AS "memberBirth"
+             , member_role AS "member_role"
+             , REFRESH_TOKEN AS "refreshToken"
+             , created_at AS "createdAt"
+             , modified_at AS "updatedAt"
+             , deleted_at AS "deletedAt"
+        FROM   tbl_member
+        WHERE  REFRESH_TOKEN = #{refreshToken}
+    </select>
+
+    <delete id="deleteMember">
+        UPDATE tbl_member
+        SET deleted_at = sysdate
+          , modified_at = sysdate
+        WHERE member_id = #{memberId}
+    </delete>
+
+    <update id="updateMember" parameterType="Member">
+        UPDATE tbl_member
+        SET member_nickname = #{nickname, jdbcType=VARCHAR}
+          , member_image = #{imgUrl, jdbcType=VARCHAR}
+          , modified_at = sysdate
+        WHERE member_id = #{id}
+    </update>
+
+    <update id="updateDeletedMember" parameterType="Member">
+        UPDATE tbl_member
+        SET deleted_at = null
+          , member_nickname = #{nickname, jdbcType=VARCHAR}
+          , modified_at = sysdate
+        WHERE member_id = #{id}
+    </update>
+
+
+
+</mapper>
