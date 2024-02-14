@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hyundai.global.mapper.OrderMapper">
+<!--    <insert id="insertOrder" parameterType="com.hyundai.domain.orders.entity.Orders" useGeneratedKeys="true" keyProperty="orderId">-->
+    <insert id="insertOrder" useGeneratedKeys="true" keyProperty="orderId">
+        <selectKey keyProperty="orderId" order="BEFORE" resultType="long">
+            select SEQ_TBL_ORDERS.nextval from dual
+        </selectKey>
+        INSERT INTO tbl_orders (ORDER_ID, MEMBER_ID_NO, ORDER_NUMBER, RECEIVER_NAME, PHONE_NUMBER, ZIPCODE,
+                            ADDRESS, ORDER_REQUIRED, ORDER_STATUS, PAYMENT_METHOD)
+        VALUES (
+                SEQ_TBL_ORDERS.nextval,
+                   #{userIdNo},
+                   #{orderNumber},
+                   #{receiverName},
+                   #{phoneNumber},
+                   #{zipcode},
+                   #{address},
+                   #{orderRequired},
+                   #{orderStatus},
+                   #{paymentMethod}
+               )
+    </insert>
+
+    <!--<select id="selectOneOrderInfoByProductId" resultType="com.hyundai.domain.orders.dto.OrderInfo">
+        SELECT p.PRODUCT_ID,
+               p.PRODUCT_NAME,
+               p.PRICE,
+               #{productCount} as PRODUCT_COUNT,
+               p.DISCOUNT_RATE,
+               i1.IMAGE_URL
+        FROM tbl_product p
+                 JOIN tbl_image i1 ON i1.PRODUCT_ID = p.PRODUCT_ID
+        WHERE p.PRODUCT_ID = #{productId}
+          AND i1.IMAGE_ID = (SELECT MIN(i2.IMAGE_ID)
+                             FROM tbl_image i2
+                             WHERE i2.PRODUCT_ID = p.PRODUCT_ID)
+    </select>
+
+    <select id="selectOrderInfosByProductId" resultType="com.hyundai.domain.orders.dto.OrderInfo">
+        SELECT p.PRODUCT_ID,
+               p.PRODUCT_NAME,
+               cp.PRODUCT_PRICE,
+               cp.PRODUCT_COUNT,
+               cp.PRODUCT_DISCOUNT,
+               i1.IMAGE_URL
+        FROM tbl_cart c
+                 JOIN tbl_cart_product cp ON c.CART_ID = cp.CART_ID
+                 JOIN tbl_product p ON p.PRODUCT_ID = cp.PRODUCT_ID
+                 JOIN tbl_image i1 ON i1.PRODUCT_ID = p.PRODUCT_ID
+        WHERE p.PRODUCT_ID = #{productId}
+          AND i1.IMAGE_ID = (SELECT MIN(i2.IMAGE_ID)
+                             FROM tbl_image i2
+                             WHERE i2.PRODUCT_ID = p.PRODUCT_ID)
+          AND c.MEMBER_ID_NO = #{userIdNo};
+    </select>-->
+
+    <select id="selectOneOrderInfoByProductId" resultType="com.hyundai.domain.orders.dto.OrderInfo">
+        SELECT p.PRODUCT_ID as productId,
+               p.PRODUCT_NAME as productName,
+               p.PRICE,
+               #{productCount} as productCount,
+               p.DISCOUNT_RATE as productDiscount
+        FROM tbl_product p
+        WHERE p.PRODUCT_ID = #{productId}
+    </select>
+
+    <select id="selectOrderInfosByProductId" resultType="com.hyundai.domain.orders.dto.OrderInfo">
+        SELECT p.PRODUCT_ID as productId,
+               p.PRODUCT_NAME  as productName,
+               p.price,
+               cp.CART_PRODUCT_CNT as productDiscount
+        FROM tbl_cart c
+                 JOIN tbl_cart_product cp ON c.CART_ID = cp.CART_ID
+                 JOIN tbl_product p ON p.PRODUCT_ID = cp.PRODUCT_ID
+        WHERE p.PRODUCT_ID = #{productId}
+          AND c.MEMBER_ID = #{userIdNo}
+    </select>
+</mapper>
