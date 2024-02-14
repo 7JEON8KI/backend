@@ -1,6 +1,5 @@
 package com.hyundai.domain.admin.dto;
 
-import com.hyundai.domain.login.entity.Member;
 import com.hyundai.domain.login.entity.enumtype.Role;
 import lombok.*;
 
@@ -8,11 +7,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
-@Builder
-@ToString
 @Setter
 @AllArgsConstructor
-public class AdminMember {
+@RequiredArgsConstructor
+public class AdminMemberDTO {
 
     private String memberId;
     private String memberEmail;
@@ -24,6 +22,6 @@ public class AdminMember {
     private LocalDate memberBirth;
     private Role memberRole;
     private LocalDateTime createdDate;
-    private LocalDateTime updatedDate;
+    private LocalDateTime modifiedDate;
     private LocalDateTime deletedDate;
 }

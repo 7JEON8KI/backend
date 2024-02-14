@@ -1,18 +1,17 @@
 package com.hyundai.domain.admin.service;
 
-import com.hyundai.domain.admin.Enum.Standard;
-import com.hyundai.domain.admin.dto.AdminMember;
-import com.hyundai.domain.login.entity.Member;
-import com.hyundai.domain.utils.paging.Criteria;
+import com.hyundai.domain.admin.dto.AdminMemberDTO;
+import com.hyundai.domain.admin.dto.AdminMemberParamDTO;
+import com.hyundai.domain.utils.file.DownExcelView;
 import com.hyundai.global.mapper.AdminMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Service
@@ -21,43 +20,52 @@ public class AdminServiceImpl implements AdminService{
 
     private final AdminMapper adminMapper;
 
+    private final DownExcelView downExcelView;
 
     @Override
     @Transactional(readOnly = true)
-    public Map<String, Object> getMemberList() {
-        System.out.println(Standard.ID.getStandard());
-        Criteria cri = new Criteria();
-        List<AdminMember> members = adminMapper.getListByStandard(cri, Standard.ID.getStandard());
-        log.debug(members.toString());
-        Map<String, Object> result = new HashMap<>();
-        result.put("members", members);
-        return result;
+    public List<AdminMemberDTO> getMemberList(AdminMemberParamDTO paramDTO) {
+        return adminMapper.getListByParams(paramDTO);
     }
-
 
     @Override
     @Transactional(readOnly = true)
-    public Map<String, Object> getMemberListByPage(String standard, Long pageNum) {
-        Criteria cri = new Criteria();
-        cri.setPageNum(pageNum);
-        Standard stan = Standard.valueOf(standard);
-        List<AdminMember> members = adminMapper.getListByStandard(cri, stan.getStandard());
-        Map<String, Object> result = new HashMap<>();
-        result.put("members", members);
-        return result;
-    }
-    @Override
-    public void modifyMember(Member member) {
-
+    public List<AdminMemberDTO> getMemberListByPage(AdminMemberParamDTO paramDTO, Long pageNum) {
+        paramDTO.setPageNum(pageNum);
+        return adminMapper.getListByParams(paramDTO);
     }
 
     @Override
-    public void deleteMember(Member member) {
-
+    public void modifyMember(AdminMemberDTO member) {
+        adminMapper.modifyMember(member);
     }
 
     @Override
-    public String test(){
-        return adminMapper.test();
+    public void deleteMember(AdminMemberDTO member) {
+        adminMapper.deleteMember(member);
     }
+
+    @Override
+    public void changeMemberAuthorization(AdminMemberDTO member) {
+        adminMapper.grantAuthorization(member);
+    }
+
+    @Override
+    public void getMemberExcelFile(HttpServletResponse response) throws IOException {
+        downExcelView.makeWorkbook(adminMapper.getAllMembers(), "회원 목록", response);
+    }
+
+    @Override
+    public List<AdminMemberDTO> searchMembers(String word) {
+        adminMapper.searchMembers(word);
+        return null;
+    }
+
+    @Override
+    public AdminMemberDTO getMemberDetail(Long memberId) {
+        adminMapper.getMemberDetail(memberId);
+        return null;
+    }
+
 }
+

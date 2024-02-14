@@ -1,18 +1,32 @@
 package com.hyundai.domain.admin.service;
 
+import com.hyundai.domain.admin.dto.AdminMemberDTO;
+import com.hyundai.domain.admin.dto.AdminMemberParamDTO;
 import com.hyundai.domain.login.entity.Member;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 public interface AdminService {
-    Map<String, Object> getMemberList();
+    List<AdminMemberDTO> getMemberList(AdminMemberParamDTO paramDTO);
 
-    public Map<String, Object> getMemberListByPage(String standard, Long pageNum);
+    List<AdminMemberDTO> getMemberListByPage(AdminMemberParamDTO paramDTO, Long pageNum);
 
-    void modifyMember(Member member);
-    void deleteMember(Member member);
+    void modifyMember(AdminMemberDTO member);
+
+    void deleteMember(AdminMemberDTO member);
+
+    void changeMemberAuthorization(AdminMemberDTO member);
 
 
-    String test();
+    void getMemberExcelFile(HttpServletResponse response) throws IOException;
+
+    List<AdminMemberDTO> searchMembers(String word);
+
+    AdminMemberDTO getMemberDetail(Long memberId);
+
+
 }
