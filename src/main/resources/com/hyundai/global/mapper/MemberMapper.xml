@@ -3,14 +3,22 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hyundai.global.mapper.MemberMapper">
 
-    <insert id="insertMember" parameterType="Member">
-        INSERT INTO tbl_member (member_id, member_email, member_role)
-        VALUES (
-                 #{memberId}
-               , #{memberEmail, jdbcType=VARCHAR}
-               , #{memberRole, jdbcType=VARCHAR}
-               )
+    <insert id="insertMemberAndInfo" parameterType="map">
+        { CALL insert_member_and_info(
+                #{memberId}
+            , #{memberEmail}
+            , #{memberName}
+            , #{memberNickname}
+            , #{memberPhone}
+            , #{memberImage}
+            , #{memberGender}
+            , #{memberBirth}
+            , #{memberRole}
+            , #{infoAddr}
+            , #{infoZipcode}
+            , #{refreshToken}) }
     </insert>
+
 
     <select id="findMemberByEmail" resultType="Member">
         SELECT member_id AS "memberId"
@@ -22,13 +30,20 @@
              , member_gender AS "memberGender"
              , member_birth AS "memberBirth"
              , member_role AS "member_role"
-             , refresh_token AS "refreshToken"
+             , REFRESH_TOKEN AS "refreshToken"
              , created_at AS "createdAt"
              , modified_at AS "updatedAt"
              , deleted_at AS "deletedAt"
         FROM   tbl_member
         WHERE  member_email = #{memberEmail}
     </select>
+    
+    <select id="updateRefreshToken">
+        UPDATE tbl_member
+        SET REFRESH_TOKEN = #{refreshToken}
+        WHERE member_id = #{memberId}
+    </select>
+    
 
     <select id="findMemberByMemberId" resultType="Member">
         SELECT member_id AS "memberId"
@@ -40,7 +55,7 @@
              , member_gender AS "memberGender"
              , member_birth AS "memberBirth"
              , member_role AS "member_role"
-             , refresh_token AS "refreshToken"
+             , REFRESH_TOKEN AS "refreshToken"
              , created_at AS "createdAt"
              , modified_at AS "updatedAt"
              , deleted_at AS "deletedAt"
@@ -58,12 +73,12 @@
              , member_gender AS "memberGender"
              , member_birth AS "memberBirth"
              , member_role AS "member_role"
-             , refresh_token AS "refreshToken"
+             , REFRESH_TOKEN AS "refreshToken"
              , created_at AS "createdAt"
              , modified_at AS "updatedAt"
              , deleted_at AS "deletedAt"
         FROM   tbl_member
-        WHERE  refresh_token = #{refreshToken}
+        WHERE  REFRESH_TOKEN = #{refreshToken}
     </select>
 
     <select id="getMemberList" resultType="Member">
