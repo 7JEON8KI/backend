@@ -10,15 +10,16 @@ import java.util.List;
 public interface AdminMapper {
     List<AdminMemberDTO> getListByParams(AdminMemberParamDTO params);
 
-    AdminMemberDTO modifyMember(AdminMemberDTO memberDTO);
+    List<AdminMemberDTO> getAllMembers();
+
+    void modifyMember(AdminMemberDTO memberDTO);
 
     void deleteMember(AdminMemberDTO memberDTO);
 
-    AdminMemberDTO grantAuthorization(AdminMemberDTO memberDTO);
+    void grantAuthorization(AdminMemberDTO memberDTO);
+
+    AdminMemberDTO getMemberDetail(Long memberId);
 
     List<AdminMemberDTO> searchMembers(String word);
-
-    List<AdminMemberDTO> getAllMembers();
-    AdminMemberDTO getMemberDetail(Long memberId);
 
 }
