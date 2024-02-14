@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hyundai.domain.login.dto.oauth.OAuthMember;
 import com.hyundai.domain.login.security.JwtProvider;
 import com.hyundai.domain.login.service.kakao.KakaoClient;
+import com.hyundai.global.exception.GlobalErrorCode;
+import com.hyundai.global.exception.GlobalException;
 import com.hyundai.global.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -66,6 +68,8 @@ public class TokenInterceptor implements HandlerInterceptor {
 
     // email을 이용해 memberId를 가져오는 메소드
     private String getMemberIdByEmail(String memberEmail) {
-        return memberMapper.findMemberByEmail(memberEmail).getMemberId();
+        return memberMapper.findMemberByEmail(memberEmail).orElseThrow(
+                () -> new GlobalException(GlobalErrorCode.DUPLICATE_EMAIL)
+        ).getMemberId();
     }
 }

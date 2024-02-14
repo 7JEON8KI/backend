@@ -10,6 +10,8 @@ import com.hyundai.domain.login.entity.Member;
 import com.hyundai.domain.login.entity.enumtype.Role;
 import com.hyundai.domain.login.security.JwtProvider;
 import com.hyundai.domain.login.service.kakao.KakaoClient;
+import com.hyundai.global.exception.GlobalErrorCode;
+import com.hyundai.global.exception.GlobalException;
 import com.hyundai.global.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -34,8 +37,6 @@ public class OAuthService {
     private final JwtProvider jwtProvider;
     private final KakaoClient kakaoClient;
 
-
-
     // 받아온 유저정보로 로그인 시도
     public KakaoLoginResponseDto getMemberByOauthLogin(OAuthParams oAuthParams) {
         log.debug("------ Oauth 로그인 시도 ------");
@@ -46,7 +47,7 @@ public class OAuthService {
         log.debug("전달받은 유저정보:: " + oAuthMember.getEmail());
 
         // 획득된 회원정보 DB 조회
-        Member accessMember = memberMapper.findMemberByEmail(oAuthMember.getEmail());
+        Optional<Member> accessMember = memberMapper.findMemberByEmail(oAuthMember.getEmail());
 
         boolean isMember = false;
 
@@ -56,10 +57,10 @@ public class OAuthService {
         String refreshToken = jwtProvider.createRefreshToken(kakaoTokenResponseDto);
         log.debug("------ JWT 발급완료 ------");
 
-        if (accessMember != null) {
+        if (accessMember.isPresent()) {
             isMember = true;
             Map<String, Object> map = new HashMap<>();
-            map.put("memberId", accessMember.getMemberId());
+            map.put("memberId", accessMember.get().getMemberId());
             map.put("refreshToken", refreshToken);
             memberMapper.updateRefreshToken(map);
         }
@@ -72,12 +73,14 @@ public class OAuthService {
                 .build();
     }
 
-    public boolean saveMember(OAuthMemberRequestDto oAuthMemberRequestDto, String jwtRefreshToken) throws JsonProcessingException {
+    public String saveMember(OAuthMemberRequestDto oAuthMemberRequestDto, String jwtRefreshToken) throws JsonProcessingException {
         log.debug("------ 회원가입 ------");
-        Member member = memberMapper.findMemberByEmail(oAuthMemberRequestDto.getMemberEmail());
-        if(member != null) {
-            return false;
-        }
+        memberMapper.findMemberByEmail(oAuthMemberRequestDto.getMemberEmail()).ifPresent(
+                member -> {
+                    throw new GlobalException(GlobalErrorCode.DUPLICATE_EMAIL);
+                }
+        );
+
         Map<String, Object> params = new HashMap<>();
         params.put("memberId", UUID.randomUUID().toString());
         params.put("memberEmail", oAuthMemberRequestDto.getMemberEmail());
@@ -93,7 +96,7 @@ public class OAuthService {
         params.put("refreshToken", jwtRefreshToken);
         memberMapper.insertMemberAndInfo(params);
         log.debug("------ 회원가입 완료 ------");
-        return true;
+        return oAuthMemberRequestDto.getMemberName();
     }
 
     public String deleteMember(String memberId, String accessToken) {
@@ -102,12 +105,10 @@ public class OAuthService {
                 .memberId(memberId)
                 .build();
         memberMapper.deleteMember(memberId);
-
         //카카오 연결 끊기
         kakaoClient.unlink(accessToken);
-
         log.debug("------ 회원 탈퇴 완료 ------");
-        return "회원 탈퇴 완료";
+        return memberMapper.findMemberByMemberId(memberId).getMemberName();
     }
 
 }

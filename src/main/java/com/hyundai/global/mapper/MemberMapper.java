@@ -5,13 +5,14 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public interface MemberMapper {
 
-    int insertMemberAndInfo(Map<String, Object> map);
-    Member findMemberByEmail(String memberEmail);
+    void insertMemberAndInfo(Map<String, Object> map);
+    Optional<Member> findMemberByEmail(String memberEmail);
     void updateRefreshToken(Map<String, Object> map);
-    int deleteMember(String memberId);
+    void deleteMember(String memberId);
     Member getMemberByEmail(String email);
 
 
