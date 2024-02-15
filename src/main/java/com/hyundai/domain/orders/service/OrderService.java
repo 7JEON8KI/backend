@@ -12,11 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class OrderService {
     private final OrderMapper orderMapper;
 
-    public OrderInfo selectOneOrderInfoByProductId(Long productId, int productCount, Long memberId) {
+    public OrderInfo selectOneOrderInfoByProductId(Long productId, int productCount, String memberId) {
         return orderMapper.selectOneOrderInfoByProductId(productId, productCount, memberId);
     }
 
-    public OrderInfo selectOrderInfosByProductId(Long productId, Long memberId) {
+    public OrderInfo selectOrderInfosByProductId(Long productId, String memberId) {
         return orderMapper.selectOrderInfosByProductId(productId, memberId);
     }
 }

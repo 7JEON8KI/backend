@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
 public interface OrderMapper {
     void insertOrder(Orders orders);
 
-    OrderInfo selectOneOrderInfoByProductId(@Param("productId") Long productId, @Param("productCount") int productCount, @Param("memberId") Long memberId);
+    OrderInfo selectOneOrderInfoByProductId(@Param("productId") Long productId, @Param("productCount") int productCount, @Param("memberId") String memberId);
 
-    OrderInfo selectOrderInfosByProductId(@Param("productId") Long productId, @Param("memberId") Long memberId);
+    OrderInfo selectOrderInfosByProductId(@Param("productId") Long productId, @Param("memberId") String memberId);
 }

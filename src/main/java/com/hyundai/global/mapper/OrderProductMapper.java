@@ -10,5 +10,5 @@ import java.util.List;
 public interface OrderProductMapper {
     void insertOrderProduct(OrderProduct orderProduct);
 
-    List<Long> selectOPIdByOrderIdAndProductId(@Param("memberId") Long memberId, @Param("productId") Long productId);
+    List<Long> selectOPIdByOrderIdAndProductId(@Param("memberId") String memberId, @Param("productId") Long productId);
 }

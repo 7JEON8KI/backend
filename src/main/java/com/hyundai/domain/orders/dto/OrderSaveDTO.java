@@ -6,7 +6,7 @@ import lombok.ToString;
 @Getter
 //@ToString
 public class OrderSaveDTO {
-    private Long memberId;
+    private String memberId;
     private Long productId;
     private int orderPrice;
     private int orderCount;

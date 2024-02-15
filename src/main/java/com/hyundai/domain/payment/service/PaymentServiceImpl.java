@@ -23,7 +23,7 @@ public class PaymentServiceImpl {
     private final OrderProductMapper orderProductMapper;
     private final ProductMapper productMapper;
 
-    public void saveOrder(Long memberId, List<OrderSaveDTO> orderSaveDtos) {
+    public void saveOrder(String memberId, List<OrderSaveDTO> orderSaveDtos) {
         OrderSaveDTO saveDto = orderSaveDtos.get(0);
         Orders orders = Orders.builder()
                 .memberId(memberId)
