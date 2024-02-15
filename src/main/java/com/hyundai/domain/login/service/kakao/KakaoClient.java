@@ -1,11 +1,11 @@
 package com.hyundai.domain.login.service.kakao;
 
 import com.hyundai.domain.login.dto.kakao.KakaoMember;
-import com.hyundai.domain.login.dto.kakao.KakaoToken;
+import com.hyundai.domain.login.dto.kakao.KakaoTokenResponseDto;
 import com.hyundai.domain.login.dto.oauth.OAuthMember;
 import com.hyundai.domain.login.dto.oauth.OAuthParams;
 import com.hyundai.domain.login.entity.enumtype.OAuthProvider;
-import com.hyundai.domain.login.service.oatuh.OAuthClient;
+import com.hyundai.domain.login.service.oauth.OAuthClient;
 import com.hyundai.global.config.ApplicationProperties;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +16,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Objects;
 
 /**
  * @author : 변형준
@@ -37,7 +39,7 @@ public class KakaoClient implements OAuthClient {
     }
 
     @Override
-    public String getOauthLoginToken(OAuthParams oauthParams) {
+    public KakaoTokenResponseDto getOauthLoginToken(OAuthParams oauthParams) {
         String url = applicationProperties.getKAKAO_TOKEN_URL();
         log.debug("전달할 code:: " + oauthParams.getAuthorizationCode());
 
@@ -51,16 +53,17 @@ public class KakaoClient implements OAuthClient {
         body.add("grant_type", GRANT_TYPE);
         body.add("client_id", applicationProperties.getKAKAO_CLIENT_ID());
         body.add("redirect_uri", applicationProperties.getKAKAO_REDIRECT_URI());
-
+        log.debug(applicationProperties.getKAKAO_CLIENT_ID());
+        log.debug(applicationProperties.getKAKAO_REDIRECT_URI());
         // 헤더와 바디 합체
-        HttpEntity<MultiValueMap<String, String>> tokenRequest = new HttpEntity(body, headers);
+        HttpEntity<MultiValueMap<String, String>> tokenRequest = new HttpEntity<>(body, headers);
         log.debug("현재 httpEntity 상태:: " + tokenRequest);
 
         // 토큰 수신
-        KakaoToken accessToken = rt.postForObject(url, tokenRequest, KakaoToken.class);
-        log.debug("accessToken :: " + accessToken);
+        KakaoTokenResponseDto kakaoToken = rt.postForObject(url, tokenRequest, KakaoTokenResponseDto.class);
 
-        return accessToken.getAccess_token();
+        log.debug("kakaoToken :: " + Objects.requireNonNull(kakaoToken).getAccessToken());
+        return kakaoToken;
     }
 
     public OAuthMember getMemberInfo(String accessToken) {
@@ -85,6 +88,27 @@ public class KakaoClient implements OAuthClient {
 
         //요청 반환데이터를 메소드 리턴값으로 반환
         return rt.postForObject(url, infoRequest, KakaoMember.class);
+    }
+
+    public void unlink(String accessToken) {
+        String url = "https://kapi.kakao.com/v1/user/unlink";
+
+        // 요청 객체 생성
+        RestTemplate rt = new RestTemplate();
+
+        // 헤더 생성
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.add("Authorization", "Bearer " + accessToken); // accessToken 정보 전달
+
+        // 바디 생성
+        MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+
+        // 헤더 + 바디 조합
+        HttpEntity<MultiValueMap<String, String>> unlinkRequest = new HttpEntity<>(body, headers);
+
+        //요청 반환데이터를 메소드 리턴값으로 반환
+        rt.postForObject(url, unlinkRequest, String.class);
     }
 }
 

@@ -1,5 +1,6 @@
-package com.hyundai.domain.login.service.oatuh;
+package com.hyundai.domain.login.service.oauth;
 
+import com.hyundai.domain.login.dto.kakao.KakaoTokenResponseDto;
 import com.hyundai.domain.login.dto.oauth.OAuthMember;
 import com.hyundai.domain.login.dto.oauth.OAuthParams;
 import com.hyundai.domain.login.entity.enumtype.OAuthProvider;
@@ -11,6 +12,6 @@ import com.hyundai.domain.login.entity.enumtype.OAuthProvider;
  */
 public interface OAuthClient {
     public OAuthProvider oauthProvider();
-    public String getOauthLoginToken(OAuthParams oauthParams);
+    public KakaoTokenResponseDto getOauthLoginToken(OAuthParams oauthParams);
     public OAuthMember getMemberInfo(String accessToken);
 }

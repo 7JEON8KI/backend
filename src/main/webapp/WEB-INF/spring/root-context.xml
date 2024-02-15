@@ -25,21 +25,24 @@
 		  p:typeAliasesPackage="com.hyundai.domain"/>
 
 	<bean id="applicationProperties" class="com.hyundai.global.config.ApplicationProperties">
-<!--		<property name="DOMAIN" value="${front.domain}" />
+		<property name="DOMAIN" value="${front.domain}" />
 		<property name="FRONT_LOCAL_URL" value="${front.local.url}" />
 		<property name="KAKAO_CLIENT_ID" value="${spring.social.kakao.client_id}"/>
 		<property name="KAKAO_REDIRECT_URI" value="${spring.social.kakao.redirect_uri}"/>
 		<property name="JWT_SECRET_KEY" value="${spring.jwt.secret.key}"/>
-		<property name="KAKAO_TOKEN_URL" value="${spring.social.kakao.token_url}"/>
-		<property name="KAKAO_USER_URL" value="${spring.social.kakao.user_url}"/>-->
+		<property name="KAKAO_TOKEN_URL" value="${spring.social.kakao.token_url}" />
+		<property name="KAKAO_USER_URL" value="${spring.social.kakao.user_url}" />
+		<property name="IMP_API_KEY" value="${iamport.api.key}" />
+		<property name="IMP_SECRET_KEY" value="${iamport.api.secretKey}" />
 		<property name="AWS_REGION" value="${cloud.aws.region.static}"/>
 		<property name="AWS_ACCESS_KEY" value="${cloud.aws.credentials.access-key}"/>
 		<property name="AWS_SECRET_KEY" value="${cloud.aws.credentials.secret-key}"/>
 		<property name="AWS_BUCKET" value="${cloud.aws.s3.bucket}"/>
 	</bean>
 
+
 	<mybatis-spring:scan base-package="com.hyundai.global.mapper"/>
 	<context:component-scan base-package="com.hyundai" />
-	<context:property-placeholder location="classpath:/config.properties"/>
+	<context:property-placeholder location="classpath:/config.properties" />
 
 </beans>

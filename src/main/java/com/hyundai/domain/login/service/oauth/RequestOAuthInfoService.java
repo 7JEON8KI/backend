@@ -1,5 +1,6 @@
-package com.hyundai.domain.login.service.oatuh;
+package com.hyundai.domain.login.service.oauth;
 
+import com.hyundai.domain.login.dto.kakao.KakaoTokenResponseDto;
 import com.hyundai.domain.login.dto.oauth.OAuthMember;
 import com.hyundai.domain.login.dto.oauth.OAuthParams;
 import com.hyundai.domain.login.entity.enumtype.OAuthProvider;
@@ -27,11 +28,11 @@ public class RequestOAuthInfoService {     //Enum = 키, Client = 값으로 저�
         }
 
         //넘겨받은 params의 enum 클래스와 동일한 객체를 주입
-        public OAuthMember request(OAuthParams oAuthParams) {
+        public KakaoTokenResponseDto request(OAuthParams oAuthParams) {
             OAuthClient client = clients.get(oAuthParams.oAuthProvider());
-            String accessToken = client.getOauthLoginToken(oAuthParams);
+            KakaoTokenResponseDto kakaoToken = client.getOauthLoginToken(oAuthParams);
 
-            return client.getMemberInfo(accessToken);
+            return kakaoToken;
         }
     }
 

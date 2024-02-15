@@ -18,6 +18,7 @@ public class ApplicationProperties {
     private String AWS_ACCESS_KEY;
     private String AWS_SECRET_KEY;
     private String AWS_BUCKET;
-
-
+//    iamport
+    private String IMP_API_KEY;
+    private String IMP_SECRET_KEY;
 }

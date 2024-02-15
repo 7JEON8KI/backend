@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundai.global.mapper.ProductMapper">
+    <resultMap id="productResultMap" type="com.hyundai.domain.product.entity.Product">
+        <id property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="productSubName" column="product_sub_name"/>
+        <result property="productType" column="product_type"/>
+        <result property="discountRate" column="discount_rate"/>
+        <result property="productStorage" column="product_storage"/>
+        <result property="productDetail" column="product_detail"/>
+        <result property="thumbnailImageUrl" column="thumbnail_image_url"/>
+        <result property="storeName" column="store_name"/>
+        <result property="storeTel" column="store_tel"/>
+    </resultMap>
+
+    <select id="findById" resultMap="productResultMap">
+        SELECT *
+        FROM tbl_product
+        WHERE product_id = #{productId}
+    </select>
+
+    <select id="findAll" resultMap="productResultMap">
+        SELECT * FROM tbl_product
+    </select>
+
+    <select id="findByType" resultMap="productResultMap">
+        SELECT *
+        FROM tbl_product
+        WHERE PRODUCT_TYPE = #{productType}
+    </select>
+
+    <select id="selectProductStock" resultType="int">
+        SELECT STOCK FROM tbl_product WHERE PRODUCT_ID = #{productId}
+    </select>
+
+    <update id="updateProductStock" parameterType="com.hyundai.domain.product.entity.Product">
+        UPDATE tbl_product
+        SET
+            STOCK = GREATEST(0, STOCK - #{orderCount})
+        WHERE
+            PRODUCT_ID = #{productId}
+    </update>
+
+    <!--<insert id="save" useGeneratedKeys="true" keyProperty="productId">
+        <selectKey keyProperty="productId" order="BEFORE" resultType="long">
+            select seq_tbl_product.nextval from dual
+        </selectKey>
+        INSERT INTO tbl_product (
+        created_at, updated_at, product_id,
+        product_name, product_sub_name, PRICE,
+        PRODUCT_TYPE, STOCK, discount_rate,
+        AMOUNT, CALORIE, product_storage, product_detail,
+        THUMBNAIL_IMAGE_URL, STORE_NAME, STORE_TEL
+        ) VALUES (
+        systimestamp, SYSTIMESTAMP, seq_tbl_product.nextval,
+        #{productName}, #{productSubName}, #{price},
+        #{productType}, #{stock}, #{discountRate},
+        #{amount}, #{calorie}, #{productStorage}, #{productDetail},
+        #{thumbnailImageUrl}, #{storeName}, #{storeTel}
+        )
+    </insert>-->
+</mapper>
