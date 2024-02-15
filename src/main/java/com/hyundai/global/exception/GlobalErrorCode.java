@@ -36,7 +36,10 @@ public enum GlobalErrorCode {
 
     // 400 BAD_REQUEST - 잘못된 요청,
     NOT_HAVE_PERMISSION(BAD_REQUEST, "권한이 없습니다."),
-    NOT_AUTHOR(BAD_REQUEST, "작성자만 조회/수정/삭제할 수 있습니다.");
+    NOT_AUTHOR(BAD_REQUEST, "작성자만 조회/수정/삭제할 수 있습니다."),
+
+    // 400 BAD_REQUEST - 잘못된 요청
+    PRODUCT_STOCK_NOT_ENOUGH(BAD_REQUEST, "재고가 부족합니다.");
 
     private final HttpStatus httpStatus;
     private final String message;

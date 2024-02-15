@@ -32,6 +32,8 @@
 		<property name="JWT_SECRET_KEY" value="${spring.jwt.secret.key}"/>
 		<property name="KAKAO_TOKEN_URL" value="${spring.social.kakao.token_url}" />
 		<property name="KAKAO_USER_URL" value="${spring.social.kakao.user_url}" />
+		<property name="IMP_API_KEY" value="${iamport.api.key}" />
+		<property name="IMP_SECRET_KEY" value="${iamport.api.secretKey}" />
 	</bean>
 
 

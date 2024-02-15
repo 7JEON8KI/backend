@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hyundai.global.mapper.OrderProductMapper">
+    <insert id="insertOrderProduct" parameterType="com.hyundai.domain.orderProduct.entity.OrderProduct" keyProperty="orderProductId">
+        INSERT INTO TBL_ORDERPRODUCT (ORDER_ID, PRODUCT_ID, ORDER_PRODUCT_PRICE, ORDER_PRODUCT_COUNT, ORDER_PRODUCT_DISCOUNT, PRODUCT_IMAGE)
+        VALUES (#{orderId}, #{productId}, #{orderProductPrice}, #{orderProductCount}, #{orderProductDiscount}, #{productImage})
+    </insert>
+
+    <select id="selectOPIdByOrderIdAndProductId" resultType="Long">
+        SELECT op.ORDER_ID
+        FROM TBL_ORDERPRODUCT op
+                 JOIN tbl_orders o ON op.ORDER_ID = o.ORDER_ID
+        WHERE o.MEMBER_ID_NO = #{userIdNo} AND op.PRODUCT_ID = #{productId}
+    </select>
+</mapper>
