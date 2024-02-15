@@ -4,9 +4,9 @@ import lombok.Getter;
 import lombok.ToString;
 
 @Getter
-@ToString
+//@ToString
 public class OrderSaveDTO {
-    private Long userIdNo;
+    private Long memberId;
     private Long productId;
     private int orderPrice;
     private int orderCount;

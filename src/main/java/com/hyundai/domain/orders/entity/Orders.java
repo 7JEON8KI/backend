@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Getter
 public class Orders {
     private Long orderId;
-    private Long userIdNo;
+    private Long memberId;
     private String orderNumber;
     private String receiverName;
     private String phoneNumber;
@@ -20,8 +20,8 @@ public class Orders {
     private LocalDateTime orderDate;
 
     @Builder
-    public Orders(Long userIdNo, String orderNumber, String receiverName, String phoneNumber, int zipcode, String address, String orderRequired, String orderStatus, String paymentMethod) {
-        this.userIdNo = userIdNo;
+    public Orders(Long memberId, String orderNumber, String receiverName, String phoneNumber, int zipcode, String address, String orderRequired, String orderStatus, String paymentMethod) {
+        this.memberId = memberId;
         this.orderNumber = orderNumber;
         this.receiverName = receiverName;
         this.phoneNumber = phoneNumber;

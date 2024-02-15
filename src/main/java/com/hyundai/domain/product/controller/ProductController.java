@@ -19,14 +19,14 @@ public class ProductController {
     // 상품 리스트 조회
     @GetMapping()
     public ResponseEntity getProducts() {
-        Long userId = 1L;
-        return ResponseMessage.SuccessResponse("상품 리스트 조회 성공", productService.getProducts(userId));
+        Long memberId = 1L;
+        return ResponseMessage.SuccessResponse("상품 리스트 조회 성공", productService.getProducts(memberId));
     }
 
     // 상품 상세 조회
     @GetMapping("/{productId}")
     public ResponseEntity getProductDetail(@PathVariable Long productId) {
-        Long userId = 1L;
-        return ResponseMessage.SuccessResponse("상품 상세 조회 성공", productService.getProductDetail(productId, userId));
+        Long memberId = 1L;
+        return ResponseMessage.SuccessResponse("상품 상세 조회 성공", productService.getProductDetail(productId, memberId));
     }
 }
