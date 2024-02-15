@@ -95,7 +95,7 @@
         update
             tbl_member
         set
-            member_role = '권리자'
+            member_role = #{memberRole}
         WHERE
             member_id = #{memberId}
     </update>
