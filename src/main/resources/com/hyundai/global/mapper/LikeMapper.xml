@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundai.global.mapper.LikeMapper">
+
+    <insert id="saveLike" parameterType="map">
+        INSERT INTO tbl_product_like
+        (
+         LIKE_ID
+        , product_id
+        , member_id
+        )
+        VALUES
+        (
+        SEQ_LIKE_ID.nextval
+        , #{productId}
+        , #{memberId}
+        )
+    </insert>
+
+    <delete id="deleteLike" parameterType="map">
+        DELETE FROM tbl_product_like
+        WHERE product_id = #{productId}
+        AND member_id = #{memberId}
+    </delete>
+
+    <select id="findLike" parameterType="map" resultType="Like">
+        SELECT like_id AS "likeId"
+             , product_id AS "productId"
+             , member_id AS "memberId"
+        FROM   tbl_product_like
+        WHERE  product_id = #{productId}
+        AND    member_id = #{memberId}
+    </select>
+
+<!--  좋아요 누른 상품 정보 join 해서 모두 불러오기  -->
+    <select id="findLikeList" resultType="LikeProductDto">
+        SELECT l.like_id AS "likeId"
+             , p.PRODUCT_ID AS "productId"
+             , p.PRODUCT_NAME AS "productName"
+             , p.PRODUCT_SUB_NAME AS "productSubName"
+             , p.PRICE
+             , p.PRODUCTTYPE
+             , p.STOCK
+             , p.DISCOUNTRATE
+             , p.PRODUCT_DETAIL AS "productDetail"
+             , p.AMOUNT
+             , p.CALORIE
+             , p.STORAGE
+             , p.THUMBNAILIMAGEURL
+        FROM   tbl_product_like l
+        Left Join tbl_product p
+        ON     l.product_id = p.product_id
+        WHERE  member_id = #{memberId}
+    </select>
+
+</mapper>
