@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,11 +30,12 @@ public class OrderController {
     //      %2C 는 , 를 의미
     //      %5D 는 ] 를 의미
     @GetMapping("/member/order")
-    public String orderProducts(Model model, @RequestParam String products) throws JsonProcessingException {
+    public String orderProducts(HttpServletRequest request, Model model, @RequestParam String products) throws JsonProcessingException {
+        String memberId = (String) request.getAttribute("memberId");
         ObjectMapper objectMapper = new ObjectMapper();
         List<Long> productIds = objectMapper.readValue(products, new TypeReference<List<Long>>(){});
         List<OrderInfo> orderReqDtos = productIds.stream()
-                .map(id -> orderService.selectOrderInfosByProductId(id, 1001L))
+                .map(id -> orderService.selectOrderInfosByProductId(id, memberId))
                 .collect(Collectors.toList());
 
         model.addAttribute("products", orderReqDtos);
@@ -43,9 +45,10 @@ public class OrderController {
 
     // 주문 상품 하나만 주문하는 경우 (장바구니 없이 바로 주문하는 경우)
     @GetMapping("/member/order/one/{productId}/{productCount}")
-    public String orderOneProduct(/*@Login SessionUser sessionUser, */Model model, @PathVariable Long productId, @PathVariable int productCount) {
+    public String orderOneProduct(HttpServletRequest request, Model model, @PathVariable Long productId, @PathVariable int productCount) {
+        String memberId = (String) request.getAttribute("memberId");
         List<OrderInfo> orderReqDtos = new ArrayList<>();
-        OrderInfo orderReqDto = orderService.selectOneOrderInfoByProductId(productId, productCount, 1001L);
+        OrderInfo orderReqDto = orderService.selectOneOrderInfoByProductId(productId, productCount, memberId);
         orderReqDtos.add(orderReqDto);
         model.addAttribute("products", orderReqDtos);
         model.addAttribute("totalSize", orderReqDtos.size());

@@ -49,7 +49,7 @@ public class RefundServiceImpl implements RefundService {
         br.close();
         conn.disconnect();
 
-        log.info("결제 취소 완료 : 주문 번호 {}", merchant_uid);
+        log.debug("결제 취소 완료 : 주문 번호 {}", merchant_uid);
     }
 
     public String getToken(String apiKey, String secretKey) throws IOException {

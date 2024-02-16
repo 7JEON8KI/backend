@@ -21,7 +21,7 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<ProductResposneDTO> getProducts(Long userId) {
+    public List<ProductResposneDTO> getProducts(String memberId) {
         List<Product> products = productMapper.findAll();
         if(products != null) {
             return ProductResposneDTO.listOf(products);
@@ -32,7 +32,7 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     @Transactional(readOnly = true)
-    public ProductResposneDTO getProductDetail(Long productId, Long userId) {
+    public ProductResposneDTO getProductDetail(Long productId, String memberId) {
         Product product = productMapper.findById(productId).orElseThrow(
                 () -> new GlobalException(GlobalErrorCode.PRODUCT_NOT_FOUND)
         );
