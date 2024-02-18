@@ -15,11 +15,11 @@ public interface AdminService {
 
     List<AdminMemberDTO> getMemberListByPage(AdminMemberParamDTO paramDTO, Long pageNum);
 
-    void modifyMember(AdminMemberDTO member);
+    String modifyMember(AdminMemberDTO member);
 
-    void deleteMember(AdminMemberDTO member);
+    String deleteMember(AdminMemberDTO member);
 
-    void changeMemberAuthorization(AdminMemberDTO member);
+    String changeMemberAuthorization(AdminMemberDTO member);
 
 
     void getMemberExcelFile(HttpServletResponse response) throws IOException;

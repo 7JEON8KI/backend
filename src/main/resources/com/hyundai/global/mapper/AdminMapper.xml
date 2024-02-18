@@ -17,7 +17,7 @@
         <result property="deletedDate" column="deleted_at"/>
     </resultMap>
 
-        <select id="getListByStandard" resultMap="memberMap">
+        <select id="getListByParams" resultMap="memberMap">
             <![CDATA[
             SELECT member_id
                  , member_email
@@ -46,10 +46,10 @@
                        , modified_at
                        , deleted_at
                   FROM tbl_member
-                  where rownum <= #{cri.pageNum} * #{cri.amount}
+                  where rownum <= #{pageNum} * #{amount}
                   ORDER BY #{standard}
                  )
-            WHERE rn > (#{cri.pageNum} - 1) * #{cri.amount}
+            WHERE rn > (#{pageNum} - 1) * #{amount}
             ]]>
         </select>
 

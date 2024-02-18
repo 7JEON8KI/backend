@@ -3,6 +3,8 @@ package com.hyundai.domain.admin.service;
 import com.hyundai.domain.admin.dto.AdminMemberDTO;
 import com.hyundai.domain.admin.dto.AdminMemberParamDTO;
 import com.hyundai.domain.utils.file.DownExcelView;
+import com.hyundai.global.exception.GlobalErrorCode;
+import com.hyundai.global.exception.GlobalException;
 import com.hyundai.global.mapper.AdminMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +27,9 @@ public class AdminServiceImpl implements AdminService{
     @Override
     @Transactional(readOnly = true)
     public List<AdminMemberDTO> getMemberList(AdminMemberParamDTO paramDTO) {
+        if(adminMapper.getListByParams(paramDTO).isEmpty()){
+
+        }
         return adminMapper.getListByParams(paramDTO);
     }
 
@@ -32,40 +37,61 @@ public class AdminServiceImpl implements AdminService{
     @Transactional(readOnly = true)
     public List<AdminMemberDTO> getMemberListByPage(AdminMemberParamDTO paramDTO, Long pageNum) {
         paramDTO.setPageNum(pageNum);
+        if(adminMapper.getListByParams(paramDTO).isEmpty()){
+            throw new GlobalException(GlobalErrorCode.NOT_HAVING_DATA);
+        }
+
         return adminMapper.getListByParams(paramDTO);
     }
 
     @Override
-    public void modifyMember(AdminMemberDTO member) {
-        adminMapper.modifyMember(member);
+    public String modifyMember(AdminMemberDTO member) {
+        try{
+            adminMapper.modifyMember(member);
+            return "성공";
+        } catch (Exception e
+        ){
+            throw new GlobalException(GlobalErrorCode.NON_CLEAR_REASON);
+        }
     }
 
     @Override
-    public void deleteMember(AdminMemberDTO member) {
-        adminMapper.deleteMember(member);
+    public String deleteMember(AdminMemberDTO member) {
+        try{
+            adminMapper.deleteMember(member);
+            return "성공";
+        } catch (Exception e
+        ){
+            throw new GlobalException(GlobalErrorCode.NON_CLEAR_REASON);
+        }
     }
 
     @Override
-    public void changeMemberAuthorization(AdminMemberDTO member) {
-        adminMapper.grantAuthorization(member);
+    public String changeMemberAuthorization(AdminMemberDTO member) {
+        try{
+            adminMapper.grantAuthorization(member);
+            return "성공";
+        } catch (Exception e){
+            throw new GlobalException(GlobalErrorCode.NON_CLEAR_REASON);
+        }
+
+    }
+
+
+
+    @Override
+    public List<AdminMemberDTO> searchMembers(String word) {
+        return adminMapper.searchMembers(word);
+    }
+
+    @Override
+    public AdminMemberDTO getMemberDetail(Long memberId) {
+        return adminMapper.getMemberDetail(memberId);
     }
 
     @Override
     public void getMemberExcelFile(HttpServletResponse response) throws IOException {
         downExcelView.makeWorkbook(adminMapper.getAllMembers(), "회원 목록", response);
     }
-
-    @Override
-    public List<AdminMemberDTO> searchMembers(String word) {
-        adminMapper.searchMembers(word);
-        return null;
-    }
-
-    @Override
-    public AdminMemberDTO getMemberDetail(Long memberId) {
-        adminMapper.getMemberDetail(memberId);
-        return null;
-    }
-
 }
 

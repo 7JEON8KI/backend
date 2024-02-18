@@ -1,10 +1,7 @@
 package com.hyundai.domain.admin.dto;
 
 import com.hyundai.domain.admin.Enum.Standard;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * @author : 강은구

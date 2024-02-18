@@ -12,7 +12,7 @@ public interface AdminMapper {
 
     List<AdminMemberDTO> getAllMembers();
 
-    void modifyMember(AdminMemberDTO memberDTO);
+    String modifyMember(AdminMemberDTO memberDTO);
 
     void deleteMember(AdminMemberDTO memberDTO);
 
