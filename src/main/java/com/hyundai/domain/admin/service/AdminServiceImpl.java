@@ -48,11 +48,11 @@ public class AdminServiceImpl implements AdminService{
     public String modifyMember(AdminMemberDTO member) {
         try{
             adminMapper.modifyMember(member);
-            return "성공";
         } catch (Exception e
         ){
             throw new GlobalException(GlobalErrorCode.NON_CLEAR_REASON);
         }
+        return "성공";
     }
 
     @Override
@@ -85,7 +85,7 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Override
-    public AdminMemberDTO getMemberDetail(Long memberId) {
+    public AdminMemberDTO getMemberDetail(String memberId) {
         return adminMapper.getMemberDetail(memberId);
     }
 

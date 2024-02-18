@@ -12,13 +12,13 @@ public interface AdminMapper {
 
     List<AdminMemberDTO> getAllMembers();
 
-    String modifyMember(AdminMemberDTO memberDTO);
+    void modifyMember(AdminMemberDTO memberDTO);
 
     void deleteMember(AdminMemberDTO memberDTO);
 
     void grantAuthorization(AdminMemberDTO memberDTO);
 
-    AdminMemberDTO getMemberDetail(Long memberId);
+    AdminMemberDTO getMemberDetail(String memberId);
 
     List<AdminMemberDTO> searchMembers(String word);
 

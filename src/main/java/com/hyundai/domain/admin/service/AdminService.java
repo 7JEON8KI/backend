@@ -26,7 +26,7 @@ public interface AdminService {
 
     List<AdminMemberDTO> searchMembers(String word);
 
-    AdminMemberDTO getMemberDetail(Long memberId);
+    AdminMemberDTO getMemberDetail(String memberId);
 
 
 }

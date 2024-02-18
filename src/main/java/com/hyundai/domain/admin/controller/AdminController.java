@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 @Slf4j
 @RequestMapping("/admin")
@@ -46,19 +47,19 @@ public class AdminController {
                 .SuccessResponse(memberDTO.getMemberId() + " 회원 권한 변경", adminService.changeMemberAuthorization(memberDTO));
     }
     @PostMapping("/member/search")
-    public ResponseEntity searchMember(HttpServletRequest request, @RequestParam String search){
+    public ResponseEntity searchMember(HttpServletRequest request, @RequestBody Map<String, String> requestBody){
+
         return ResponseMessage
-                .SuccessResponse(search + " 단어 검색 성공", adminService.searchMembers(search));
+                .SuccessResponse(requestBody.get("search") + " 단어 검색 성공", adminService.searchMembers(requestBody.get("search")));
     }
     @GetMapping("/member/detail/{memberId}")
-    public ResponseEntity getMemberDetail(HttpServletRequest request, @PathVariable Long memberId){
+    public ResponseEntity getMemberDetail(HttpServletRequest request, @PathVariable String memberId){
         return ResponseMessage
                 .SuccessResponse( "회원 조회 성공", adminService.getMemberDetail(memberId));
     }
 
     @GetMapping("/member/excelDown")
     public void excelDown(HttpServletRequest request, HttpServletResponse response) throws Exception{
-        String memberId = request.getAttribute("memberId").toString();
         adminService.getMemberExcelFile(response);
     }
 }

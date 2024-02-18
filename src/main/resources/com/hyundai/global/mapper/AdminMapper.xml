@@ -50,6 +50,7 @@
                   ORDER BY #{standard}
                  )
             WHERE rn > (#{pageNum} - 1) * #{amount}
+                AND deleted_at IS NULL
             ]]>
         </select>
 
@@ -132,6 +133,7 @@
              , deleted_at
         FROM
             tbl_member
-
+        WHERE
+            member_name LIKE '%' || #{word} || '%'
     </select>
 </mapper>
