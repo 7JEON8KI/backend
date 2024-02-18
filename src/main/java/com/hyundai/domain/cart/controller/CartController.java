@@ -38,7 +38,7 @@ public class CartController {
         log.debug("장바구니 추가 ID:" + memberId);
         log.debug("장바구니 추가 상품 ID:" + cartProductRequestDto.getProductId());
         String result = cartService.saveOrDeleteCart(memberId, cartProductRequestDto);
-        return ResponseMessage.SuccessResponse(result, result);
+        return ResponseMessage.SuccessResponse(result, "");
 
     }
 
