@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundai.global.mapper.ReviewMapper">
+
+    <resultMap id="reviewResultMap" type="com.hyundai.domain.review.dto.response.ReviewResponseDto">
+        <id column="reviewId" property="reviewId" jdbcType="INTEGER"/>
+        <result column="productId" property="productId" jdbcType="INTEGER"/>
+        <result column="memberNickname" property="memberNickname" jdbcType="VARCHAR"/>
+        <result column="reviewTitle" property="reviewTitle" jdbcType="VARCHAR"/>
+        <result column="reviewContent" property="reviewContent" jdbcType="CLOB"/>
+        <result column="reviewImageUrl" property="reviewImageUrl" jdbcType="VARCHAR"/>
+        <result column="reviewStar" property="reviewStar" jdbcType="INTEGER"/>
+        <result column="modifiedAt" property="modifiedAt" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="saveReview" parameterType="map" statementType="CALLABLE">
+        {call manage_review(
+                #{memberId, mode=IN, jdbcType=VARCHAR},
+                #{productId, mode=IN, jdbcType=INTEGER},
+                #{reviewTitle, mode=IN, jdbcType=VARCHAR},
+                #{reviewContent, mode=IN, jdbcType=CLOB},
+                #{reviewImageUrl, mode=IN, jdbcType=VARCHAR},
+                #{reviewStar, mode=IN, jdbcType=VARCHAR},
+                #{operation, mode=IN, jdbcType=VARCHAR},
+                #{result, mode=OUT, jdbcType=INTEGER}
+              )}
+    </select>
+
+    <select id="updateReview" parameterType="map" statementType="CALLABLE">
+        {call manage_review(
+                #{memberId, mode=IN, jdbcType=VARCHAR},
+                #{productId, mode=IN, jdbcType=INTEGER},
+                #{reviewTitle, mode=IN, jdbcType=VARCHAR},
+                #{reviewContent, mode=IN, jdbcType=CLOB},
+                #{reviewImageUrl, mode=IN, jdbcType=VARCHAR},
+                #{reviewStar, mode=IN, jdbcType=VARCHAR},
+                #{operation, mode=IN, jdbcType=VARCHAR},
+                #{result, mode=OUT, jdbcType=INTEGER}
+              )}
+    </select>
+
+    <select id="deleteReview" parameterType="map" statementType="CALLABLE">
+        {call manage_review(
+                #{memberId, mode=IN, jdbcType=VARCHAR},
+                #{productId, mode=IN, jdbcType=INTEGER},
+                null,
+                null,
+                null,
+                null,
+                #{operation, mode=IN, jdbcType=VARCHAR},
+                #{result, mode=OUT, jdbcType=INTEGER}
+              )}
+    </select>
+
+
+    <select id="getProductReviewByMemberId" resultType="ReviewResponseDto">
+        SELECT
+            review.review_id AS "reviewId",
+            review.product_id AS "productId",
+            review.member_nickname AS "memberNickname",
+            review.review_title AS "reviewTitle",
+            review.review_content AS "reviewContent",
+            review.review_image_url AS "reviewImageUrl",
+            review.review_star AS "reviewStar",
+            review.modified_at AS "modifiedAt"
+        FROM TABLE(fetch_reviews(
+                #{memberId, jdbcType=VARCHAR},
+                #{productId, jdbcType=NUMERIC},
+                #{reviewType, jdbcType=VARCHAR}
+                   )) review
+    </select>
+    <select id="getReviewsByMemberId" resultMap="reviewResultMap">
+        SELECT
+            review.review_id AS "reviewId",
+            review.product_id AS "productId",
+            review.member_nickname AS "memberNickname",
+            review.review_title AS "reviewTitle",
+            review.review_content AS "reviewContent",
+            review.review_image_url AS "reviewImageUrl",
+            review.review_star AS "reviewStar",
+            review.modified_at AS "modifiedAt"
+        FROM TABLE(fetch_reviews(
+                #{memberId, jdbcType=VARCHAR},
+                #{productId, jdbcType=NUMERIC},
+                #{reviewType, jdbcType=VARCHAR}
+                   )) review
+    </select>
+    <select id="getProductReviews" resultMap="reviewResultMap">
+        SELECT
+            review.review_id AS "reviewId",
+            review.product_id AS "productId",
+            review.member_nickname AS "memberNickname",
+            review.review_title AS "reviewTitle",
+            review.review_content AS "reviewContent",
+            review.review_image_url AS "reviewImageUrl",
+            review.review_star AS "reviewStar",
+            review.modified_at AS "modifiedAt"
+        FROM TABLE(fetch_reviews(
+                #{memberId, jdbcType=VARCHAR},
+                #{productId, jdbcType=NUMERIC},
+                #{reviewType, jdbcType=VARCHAR}
+                   )) review
+    </select>
+
+
+</mapper>

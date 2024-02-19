@@ -19,7 +19,7 @@
 	<interceptors>
 		<interceptor>
 			<mapping path="/**"/>
-			<exclude-mapping path="/**"/>
+			<exclude-mapping path="/reviews/product/{productId}"/>
 			<exclude-mapping path="/auth/login/kakao"/>
 			<exclude-mapping path="/auth/save"/>
 			<beans:bean id="tokenInterceptor" class="com.hyundai.global.interceptor.TokenInterceptor" />
