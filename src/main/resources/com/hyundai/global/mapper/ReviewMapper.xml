@@ -14,9 +14,6 @@
         <result column="modifiedAt" property="modifiedAt" jdbcType="VARCHAR"/>
     </resultMap>
 
-
-
-
     <select id="saveReview" parameterType="map" statementType="CALLABLE">
         {call manage_review(
                 #{memberId, mode=IN, jdbcType=VARCHAR},

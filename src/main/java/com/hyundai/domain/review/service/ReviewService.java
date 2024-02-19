@@ -11,9 +11,9 @@ import java.util.List;
  * @since : 2/18/24
  */
 public interface ReviewService {
-    String saveReview(ReviewRequestDto reviewRequestDto, String memberId);
-    String updateReview(ReviewRequestDto reviewRequestDto, String memberId);
-    String deleteReview(ReviewRequestDto reviewRequestDto, String memberId);
+    void saveReview(ReviewRequestDto reviewRequestDto, String memberId);
+    void updateReview(ReviewRequestDto reviewRequestDto, String memberId);
+    void deleteReview(ReviewRequestDto reviewRequestDto, String memberId);
     ReviewResponseDto getProductReviewByMemberId(String memberId, int productId);
     List<ReviewResponseDto> getReviewsByMemberId(String memberId);
     List<ReviewResponseDto> getProductReviews(int productId);

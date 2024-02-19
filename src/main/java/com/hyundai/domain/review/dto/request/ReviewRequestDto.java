@@ -14,7 +14,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReviewRequestDto {
-    private int reviewId;
     private int productId;
     private String reviewTitle;
     private String reviewContent;

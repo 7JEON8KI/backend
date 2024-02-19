@@ -1,9 +1,12 @@
 package com.hyundai.domain.review.service;
 
+import com.amazonaws.services.apigateway.model.Op;
 import com.hyundai.domain.review.dto.request.ReviewRequestDto;
 import com.hyundai.domain.review.dto.response.ReviewResponseDto;
 import com.hyundai.domain.review.entity.enumType.ReviewGetType;
 import com.hyundai.domain.review.entity.enumType.ReviewOperatation;
+import com.hyundai.global.exception.GlobalErrorCode;
+import com.hyundai.global.exception.GlobalException;
 import com.hyundai.global.mapper.ReviewMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author : 변형준
@@ -25,7 +29,7 @@ public class ReviewServiceImpl implements ReviewService{
 
     private final ReviewMapper reviewMapper;
     @Override
-    public String saveReview(ReviewRequestDto reviewRequestDto, String memberId) {
+    public void saveReview(ReviewRequestDto reviewRequestDto, String memberId) {
         Map<String, Object> params = new HashMap<>();
         params.put("memberId", memberId);
         params.put("productId", reviewRequestDto.getProductId());
@@ -40,15 +44,13 @@ public class ReviewServiceImpl implements ReviewService{
         // 프로시저 실행 결과 가져오기
         Integer result = (Integer) params.get("result");
         // 결과에 따른 메시지 반환
-        if (result == 1) {
-            return "리뷰 추가 성공";
-        } else {
-            return "알 수 없는 오류 발생";
+        if (result == null || result != 1) {
+            throw new GlobalException(GlobalErrorCode.NON_CLEAR_REASON);
         }
     }
 
     @Override
-    public String updateReview(ReviewRequestDto reviewRequestDto, String memberId) {
+    public void updateReview(ReviewRequestDto reviewRequestDto, String memberId) {
         Map<String, Object> params = new HashMap<>();
         params.put("memberId", memberId);
         params.put("productId", reviewRequestDto.getProductId());
@@ -63,15 +65,13 @@ public class ReviewServiceImpl implements ReviewService{
         // 프로시저 실행 결과 가져오기
         Integer result = (Integer) params.get("result");
         // 결과에 따른 메시지 반환
-        if (result == 2) {
-            return "리뷰 업데이트 성공";
-        } else {
-            return "알 수 없는 오류 발생";
+        if (result == null || result != 2) {
+            throw new GlobalException(GlobalErrorCode.NON_CLEAR_REASON);
         }
     }
 
     @Override
-    public String deleteReview(ReviewRequestDto reviewRequestDto, String memberId) {
+    public void deleteReview(ReviewRequestDto reviewRequestDto, String memberId) {
         Map<String, Object> params = new HashMap<>();
         params.put("memberId", memberId);
         params.put("productId", reviewRequestDto.getProductId());
@@ -82,12 +82,9 @@ public class ReviewServiceImpl implements ReviewService{
         // 프로시저 실행 결과 가져오기
         Integer result = (Integer) params.get("result");
         // 결과에 따른 메시지 반환
-         if (result == 0) {
-            return "리뷰 삭제 성공";
-        } else {
-            return "알 수 없는 오류 발생";
+        if (result == null || result != 0) {
+            throw new GlobalException(GlobalErrorCode.NON_CLEAR_REASON);
         }
-
     }
 
     @Override
@@ -97,12 +94,9 @@ public class ReviewServiceImpl implements ReviewService{
         params.put("productId", productId);
         params.put("reviewType", ReviewGetType.MY_PRODUCT_REVIEW.toString());
 
-        ReviewResponseDto result = reviewMapper.getProductReviewByMemberId(params);
-        if (result != null) {
-            return result;
-        } else {
-            return null;
-        }
+        return reviewMapper.getProductReviewByMemberId(params).orElseThrow(
+                () -> new GlobalException(GlobalErrorCode.REVIEW_NOT_FOUND)
+        );
     }
 
     @Override
@@ -111,12 +105,11 @@ public class ReviewServiceImpl implements ReviewService{
         params.put("memberId", memberId);
         params.put("reviewType", ReviewGetType.MY_REVIEWS.toString());
         params.put("result", null);
-        List<ReviewResponseDto> result = reviewMapper.getReviewsByMemberId(params);
-        if (result != null) {
-            return result;
-        } else {
-            return null;
+        List<ReviewResponseDto> reviews = reviewMapper.getReviewsByMemberId(params);
+        if(reviews == null || reviews.isEmpty()) {
+            throw new GlobalException(GlobalErrorCode.REVIEW_NOT_FOUND);
         }
+        return reviews;
     }
 
     @Override
@@ -125,14 +118,10 @@ public class ReviewServiceImpl implements ReviewService{
         params.put("productId", productId);
         params.put("reviewType", ReviewGetType.PRODUCT_REVIEWS.toString());
         params.put("result", null);
-
-        List<ReviewResponseDto> result = reviewMapper.getProductReviews(params);
-        if (result != null) {
-            return result;
-        } else {
-            return null;
+        List<ReviewResponseDto> reviews = reviewMapper.getProductReviews(params);
+        if(reviews == null || reviews.isEmpty()) {
+            throw new GlobalException(GlobalErrorCode.REVIEW_NOT_FOUND);
         }
+        return reviews;
     }
-
-
 }
