@@ -1,6 +1,5 @@
 package com.hyundai.global.mapper;
 
-import com.hyundai.domain.review.dto.response.ReviewListResponseDto;
 import com.hyundai.domain.review.dto.response.ReviewResponseDto;
 
 import java.util.List;

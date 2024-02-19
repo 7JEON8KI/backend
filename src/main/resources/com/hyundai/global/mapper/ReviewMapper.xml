@@ -3,15 +3,15 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hyundai.global.mapper.ReviewMapper">
 
-    <resultMap id="ReviewResponseResultMap" type="ReviewResponseDto">
-        <id property="reviewId" column="review_id" />
-        <result property="productId" column="product_id" />
-        <result property="memberNickname" column="member_nickname" />
-        <result property="reviewTitle" column="review_title" />
-        <result property="reviewContent" column="review_content" />
-        <result property="reviewImageUrl" column="review_image_url" />
-        <result property="reviewStar" column="review_star" />
-        <result property="modifiedAt" column="modified_at" />
+    <resultMap id="reviewResultMap" type="com.hyundai.domain.review.dto.response.ReviewResponseDto">
+        <id column="reviewId" property="reviewId" jdbcType="INTEGER"/>
+        <result column="productId" property="productId" jdbcType="INTEGER"/>
+        <result column="memberNickname" property="memberNickname" jdbcType="VARCHAR"/>
+        <result column="reviewTitle" property="reviewTitle" jdbcType="VARCHAR"/>
+        <result column="reviewContent" property="reviewContent" jdbcType="CLOB"/>
+        <result column="reviewImageUrl" property="reviewImageUrl" jdbcType="VARCHAR"/>
+        <result column="reviewStar" property="reviewStar" jdbcType="INTEGER"/>
+        <result column="modifiedAt" property="modifiedAt" jdbcType="VARCHAR"/>
     </resultMap>
 
 
@@ -56,34 +56,55 @@
               )}
     </select>
 
-    <!-- 상품에 대한 내 리뷰 조회 -->
-    <select id="getProductReviewByMemberId" parameterType="map" statementType="CALLABLE">
-        {call get_reviews(
-                #{memberId, jdbcType=VARCHAR, mode=IN},
-                #{productId, jdbcType=NUMERIC, mode=IN},
-                #{reviewType, jdbcType=VARCHAR, mode=IN},
-                #{cursor, jdbcType=CURSOR, mode=OUT, javaType=java.sql.ResultSet, resultMap=ReviewResponseResultMap}
-              )}
+
+    <select id="getProductReviewByMemberId" resultType="ReviewResponseDto">
+        SELECT
+            review.review_id AS "reviewId",
+            review.product_id AS "productId",
+            review.member_nickname AS "memberNickname",
+            review.review_title AS "reviewTitle",
+            review.review_content AS "reviewContent",
+            review.review_image_url AS "reviewImageUrl",
+            review.review_star AS "reviewStar",
+            review.modified_at AS "modifiedAt"
+        FROM TABLE(fetch_reviews(
+                #{memberId, jdbcType=VARCHAR},
+                #{productId, jdbcType=NUMERIC},
+                #{reviewType, jdbcType=VARCHAR}
+                   )) review
+    </select>
+    <select id="getReviewsByMemberId" resultMap="reviewResultMap">
+        SELECT
+            review.review_id AS "reviewId",
+            review.product_id AS "productId",
+            review.member_nickname AS "memberNickname",
+            review.review_title AS "reviewTitle",
+            review.review_content AS "reviewContent",
+            review.review_image_url AS "reviewImageUrl",
+            review.review_star AS "reviewStar",
+            review.modified_at AS "modifiedAt"
+        FROM TABLE(fetch_reviews(
+                #{memberId, jdbcType=VARCHAR},
+                #{productId, jdbcType=NUMERIC},
+                #{reviewType, jdbcType=VARCHAR}
+                   )) review
+    </select>
+    <select id="getProductReviews" resultMap="reviewResultMap">
+        SELECT
+            review.review_id AS "reviewId",
+            review.product_id AS "productId",
+            review.member_nickname AS "memberNickname",
+            review.review_title AS "reviewTitle",
+            review.review_content AS "reviewContent",
+            review.review_image_url AS "reviewImageUrl",
+            review.review_star AS "reviewStar",
+            review.modified_at AS "modifiedAt"
+        FROM TABLE(fetch_reviews(
+                #{memberId, jdbcType=VARCHAR},
+                #{productId, jdbcType=NUMERIC},
+                #{reviewType, jdbcType=VARCHAR}
+                   )) review
     </select>
 
-    <!-- 내가 쓴 모든 리뷰 조회 -->
-    <select id="getReviewsByMemberId" parameterType="map" statementType="CALLABLE">
-        {call get_reviews(
-            #{memberId, jdbcType=VARCHAR, mode=IN},
-            null,
-            #{reviewType, jdbcType=VARCHAR, mode=IN},
-            #{cursor, jdbcType=CURSOR, mode=OUT, javaType=java.sql.ResultSet, resultMap=ReviewResponseResultMap}
-        )}
-    </select>
-
-    <!-- 상품에 대한 모든 리뷰 조회 -->
-    <select id="getProductReviews" parameterType="map" statementType="CALLABLE">
-        {call get_reviews(
-            null,
-            #{productId, jdbcType=NUMERIC, mode=IN},
-            #{reviewType, jdbcType=VARCHAR, mode=IN},
-            #{cursor, jdbcType=CURSOR, mode=OUT, javaType=java.sql.ResultSet, resultMap=ReviewResponseResultMap}
-        )}
-    </select>
 
 </mapper>

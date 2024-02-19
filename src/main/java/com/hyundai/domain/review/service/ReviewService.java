@@ -1,7 +1,6 @@
 package com.hyundai.domain.review.service;
 
 import com.hyundai.domain.review.dto.request.ReviewRequestDto;
-import com.hyundai.domain.review.dto.response.ReviewListResponseDto;
 import com.hyundai.domain.review.dto.response.ReviewResponseDto;
 
 import java.util.List;

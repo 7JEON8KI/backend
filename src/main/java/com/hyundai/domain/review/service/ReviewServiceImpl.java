@@ -1,7 +1,6 @@
 package com.hyundai.domain.review.service;
 
 import com.hyundai.domain.review.dto.request.ReviewRequestDto;
-import com.hyundai.domain.review.dto.response.ReviewListResponseDto;
 import com.hyundai.domain.review.dto.response.ReviewResponseDto;
 import com.hyundai.domain.review.entity.enumType.ReviewGetType;
 import com.hyundai.domain.review.entity.enumType.ReviewOperatation;
@@ -96,11 +95,11 @@ public class ReviewServiceImpl implements ReviewService{
         Map<String, Object> params = new HashMap<>();
         params.put("memberId", memberId);
         params.put("productId", productId);
-        params.put("reviewType", ReviewGetType.MY_PRODUCT_REVIEW.name());
-        params.put("cursor", null);
-        ReviewResponseDto reviewResponseDto = reviewMapper.getProductReviewByMemberId(params);
-        if (reviewResponseDto != null) {
-            return reviewResponseDto;
+        params.put("reviewType", ReviewGetType.MY_PRODUCT_REVIEW.toString());
+
+        ReviewResponseDto result = reviewMapper.getProductReviewByMemberId(params);
+        if (result != null) {
+            return result;
         } else {
             return null;
         }
@@ -110,11 +109,11 @@ public class ReviewServiceImpl implements ReviewService{
     public List<ReviewResponseDto> getReviewsByMemberId(String memberId) {
         Map<String, Object> params = new HashMap<>();
         params.put("memberId", memberId);
-        params.put("reviewType", ReviewGetType.MY_REVIEWS.name());
-        params.put("cursor", null);
-        List<ReviewResponseDto> reviewResponseDtos = reviewMapper.getReviewsByMemberId(params);
-        if (reviewResponseDtos != null) {
-            return reviewResponseDtos;
+        params.put("reviewType", ReviewGetType.MY_REVIEWS.toString());
+        params.put("result", null);
+        List<ReviewResponseDto> result = reviewMapper.getReviewsByMemberId(params);
+        if (result != null) {
+            return result;
         } else {
             return null;
         }
@@ -124,12 +123,12 @@ public class ReviewServiceImpl implements ReviewService{
     public List<ReviewResponseDto> getProductReviews(int productId) {
         Map<String, Object> params = new HashMap<>();
         params.put("productId", productId);
-        params.put("reviewType", ReviewGetType.PRODUCT_REVIEWS.name());
-        params.put("cursor", null);
+        params.put("reviewType", ReviewGetType.PRODUCT_REVIEWS.toString());
+        params.put("result", null);
 
-        List<ReviewResponseDto> reviewResponseDtos = reviewMapper.getProductReviews(params);
-        if (reviewResponseDtos != null) {
-            return reviewResponseDtos;
+        List<ReviewResponseDto> result = reviewMapper.getProductReviews(params);
+        if (result != null) {
+            return result;
         } else {
             return null;
         }

@@ -1,6 +1,7 @@
 package com.hyundai.domain.review.controller;
 
 import com.hyundai.domain.review.dto.request.ReviewRequestDto;
+import com.hyundai.domain.review.dto.response.ReviewResponseDto;
 import com.hyundai.domain.review.service.ReviewService;
 import com.hyundai.global.message.ResponseMessage;
 import lombok.extern.log4j.Log4j;
