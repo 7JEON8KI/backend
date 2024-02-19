@@ -34,6 +34,10 @@
 		<property name="KAKAO_USER_URL" value="${spring.social.kakao.user_url}" />
 		<property name="IMP_API_KEY" value="${iamport.api.key}" />
 		<property name="IMP_SECRET_KEY" value="${iamport.api.secretKey}" />
+		<property name="AWS_REGION" value="${cloud.aws.region.static}"/>
+		<property name="AWS_ACCESS_KEY" value="${cloud.aws.credentials.access-key}"/>
+		<property name="AWS_SECRET_KEY" value="${cloud.aws.credentials.secret-key}"/>
+		<property name="AWS_BUCKET" value="${cloud.aws.s3.bucket}"/>
 	</bean>
 
 

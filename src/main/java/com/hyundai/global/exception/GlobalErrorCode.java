@@ -19,6 +19,7 @@ public enum GlobalErrorCode {
     NOT_VALID_NICKNAME(BAD_REQUEST, "영문, 한글, 숫자를 포함한 2~ 16글자를 입력해 주세요."),
     NOT_VALID_PASSWORD(BAD_REQUEST, "영문, 숫자, 특수문자를 포함한 8~20 글자를 입력해 주세요."),
     NOT_VALID_PHONENUMBER(BAD_REQUEST, "11자리 이내의 번호를 '-'를 제외한 숫자만 입력해 주세요."),
+
     // 401 Unauthorized - 권한 없음
     INVALID_TOKEN(UNAUTHORIZED, "토큰이 유효하지 않습니다"),
     // 404 Not Found - 찾을 수 없음
@@ -39,7 +40,13 @@ public enum GlobalErrorCode {
     NOT_AUTHOR(BAD_REQUEST, "작성자만 조회/수정/삭제할 수 있습니다."),
 
     // 400 BAD_REQUEST - 잘못된 요청
-    PRODUCT_STOCK_NOT_ENOUGH(BAD_REQUEST, "재고가 부족합니다.");
+    PRODUCT_STOCK_NOT_ENOUGH(BAD_REQUEST, "재고가 부족합니다."),
+
+    // 400 BAD_REQUEST - 관리자 오류
+    NOT_HAVING_DATA(BAD_REQUEST, "존재하지 않는 데이터 입니다"),
+    NON_CLEAR_REASON(BAD_REQUEST, "오류가 발생했습니다");
+
+
 
     private final HttpStatus httpStatus;
     private final String message;

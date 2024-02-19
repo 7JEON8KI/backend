@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundai.global.mapper.AdminMapper">
+    <resultMap id="memberMap" type="com.hyundai.domain.admin.dto.AdminMemberDTO">
+        <id property="memberId" column="member_id"/>
+        <result property="memberEmail" column="member_email"/>
+        <result property="memberName" column="member_name"/>
+        <result property="memberNickname" column="member_nickname"/>
+        <result property="memberPhone" column="member_phone"/>
+        <result property="memberImage" column="member_image"/>
+        <result property="memberGender" column="member_gender"/>
+        <result property="memberRole" column="member_role"/>
+        <result property="memberBirth" column="member_birth"/>
+        <result property="createdDate" column="created_at"/>
+        <result property="modifiedDate" column="modified_at"/>
+        <result property="deletedDate" column="deleted_at"/>
+    </resultMap>
+
+        <select id="getListByParams" resultMap="memberMap">
+            <![CDATA[
+            SELECT member_id
+                 , member_email
+                 , member_name
+                 , member_nickname
+                 , member_phone
+                 , member_image
+                 , member_gender
+                 , member_birth
+                 , member_role
+                 , created_at
+                 , modified_at
+                 , deleted_at
+            FROM (SELECT
+                      /*+ INDEX_DESC(tb1_board pk_board) */ rownum rn
+                       , member_id
+                       , member_email
+                       , member_name
+                       , member_nickname
+                       , member_phone
+                       , member_image
+                       , member_gender
+                       , member_birth
+                       , member_role
+                       , created_at
+                       , modified_at
+                       , deleted_at
+                  FROM tbl_member
+                  where rownum <= #{pageNum} * #{amount}
+                  ORDER BY #{standard}
+                 )
+            WHERE rn > (#{pageNum} - 1) * #{amount}
+                AND deleted_at IS NULL
+            ]]>
+        </select>
+
+    <select id="getAllMembers" resultMap="memberMap">
+        SELECT
+               member_id
+             , member_email
+             , member_name
+             , member_nickname
+             , member_phone
+             , member_gender
+             , member_birth
+             , member_role
+             , created_at
+             , deleted_at
+        FROM
+            tbl_member
+    </select>
+
+    <update id="modifyMember">
+        UPDATE
+            tbl_member
+        SET
+            member_email = #{memberEmail}
+          , member_name = #{memberName}
+          , member_nickname = #{memberNickname}
+          , member_phone = #{memberPhone}
+          , modified_at = sysdate
+        WHERE
+            member_id = #{memberId}
+    </update>
+
+    <update id="deleteMember">
+        update
+            tbl_member
+        set
+            deleted_at = sysdate
+        WHERE
+            member_id = #{memberId}
+    </update>
+
+    <update id="grantAuthorization">
+        update
+            tbl_member
+        set
+            member_role = #{memberRole}
+        WHERE
+            member_id = #{memberId}
+    </update>
+
+    <select id="getMemberDetail" resultMap="memberMap">
+        SELECT
+            member_id
+             , member_email
+             , member_name
+             , member_nickname
+             , member_phone
+             , member_gender
+             , member_birth
+             , member_role
+             , created_at
+             , deleted_at
+        FROM
+            tbl_member
+        WHERE
+            member_id = #{memberId}
+    </select>
+
+    <select id="searchMembers" resultMap="memberMap">
+        SELECT
+            member_id
+             , member_email
+             , member_name
+             , member_nickname
+             , member_phone
+             , member_gender
+             , member_birth
+             , member_role
+             , created_at
+             , deleted_at
+        FROM
+            tbl_member
+        WHERE
+            member_name LIKE '%' || #{word} || '%'
+    </select>
+</mapper>
