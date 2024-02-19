@@ -2,6 +2,7 @@ package com.hyundai.global.interceptor;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hyundai.domain.login.dto.oauth.OAuthMember;
+import com.hyundai.domain.login.entity.enumtype.Role;
 import com.hyundai.domain.login.security.JwtProvider;
 import com.hyundai.domain.login.service.kakao.KakaoClient;
 import com.hyundai.global.exception.GlobalErrorCode;
@@ -50,6 +51,9 @@ public class TokenInterceptor implements HandlerInterceptor {
         log.debug("DB로부터 받은 memberId :: " + memberId);
         // memberId를 request에 속성으로 저장
         request.setAttribute("memberId", memberId);
+        Role memberRole = getMemberRoleByEmail(memberEmail);
+        log.debug("DB로부터 받은 Role :: " + memberRole);
+        request.setAttribute("memberRole", memberRole);
         return true;
     }
 
@@ -71,5 +75,10 @@ public class TokenInterceptor implements HandlerInterceptor {
         return memberMapper.findMemberByEmail(memberEmail).orElseThrow(
                 () -> new GlobalException(GlobalErrorCode.DUPLICATE_EMAIL)
         ).getMemberId();
+    }
+    private Role getMemberRoleByEmail(String memberEmail) {
+        return memberMapper.findMemberByEmail(memberEmail).orElseThrow(
+                () -> new GlobalException(GlobalErrorCode.DUPLICATE_EMAIL)
+        ).getMemberRole();
     }
 }
