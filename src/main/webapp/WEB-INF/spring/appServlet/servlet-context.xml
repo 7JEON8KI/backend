@@ -14,8 +14,7 @@
 	<annotation-driven />
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
-	<mvc:resources mapping="/resources/**" location="/resources/"/>
-	<mvc:annotation-driven/>
+	<mvc:resources mapping="/swagger-ui.html" location="classpath:/META-INF/resources/" />
 
 	<interceptors>
 		<interceptor>

@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,15 +46,16 @@ public class PaymentController {
     }
     // 요청으로 받은 주문 상품들을 저장
     @PostMapping("/payment")
-    public ResponseEntity paymentComplete(@RequestBody List<OrderSaveDTO> orderSaveDtos) throws IOException {
+    public ResponseEntity paymentComplete(HttpServletRequest request, @RequestBody List<OrderSaveDTO> orderSaveDtos) throws IOException {
+        String memberId = (String) request.getAttribute("memberId");
         String orderNumber = orderSaveDtos.get(0).getOrderNumber();
-        log.info("결제 요청 : 주문 번호 {}", orderSaveDtos.get(0).getReceiverName());
+        log.debug("결제 요청 : 주문자 이름 {}", orderSaveDtos.get(0).getReceiverName());
         try {
-            paymentService.saveOrder(1001L, orderSaveDtos);
-            log.info("결제 성공 : 주문 번호 {}", orderNumber);
+            paymentService.saveOrder(memberId, orderSaveDtos);
+            log.debug("결제 성공 : 주문 번호 {}", orderNumber);
             return ResponseMessage.SuccessResponse("결제 성공 : 주문 번호 ", orderNumber);
         } catch (RuntimeException e) {
-            log.info("주문 상품 환불 진행 : 주문 번호 {}", orderNumber); // 만약 저장시에 예외가 발생하면 주문한 상품을 결제 취소
+            log.debug("주문 상품 환불 진행 : 주문 번호 {}", orderNumber); // 만약 저장시에 예외가 발생하면 주문한 상품을 결제 취소
             String token = refundService.getToken(apiKey, secretKey);
             refundService.refundRequest(token, orderNumber, e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -67,7 +69,7 @@ public class PaymentController {
     @PostMapping("/payment/{imp_uid}")
     public IamportResponse<Payment> validateIamport(@PathVariable String imp_uid) throws IamportResponseException, IOException {
         IamportResponse<Payment> payment = iamportClient.paymentByImpUid(imp_uid);
-        log.info("결제 요청 응답. 결제 내역 - 주문 번호: {}", payment.getResponse().getMerchantUid());
+        log.debug("결제 요청 응답. 결제 내역 - 주문 번호: {}", payment.getResponse().getMerchantUid());
         return payment;
     }
 }

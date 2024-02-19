@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundai.global.mapper.CartMapper">
+
+    <resultMap id="CartListResultMap" type="CartListResponseDto">
+        <id property="cartId" column="cart_id"/>
+        <result property="memberId" column="member_id" javaType="java.lang.String"/>
+        <result property="modifiedAt" column="modified_at" javaType="java.lang.String"/>
+        <collection property="cartProducts" ofType="CartProductDto">
+            <id property="cartProductId" column="cart_product_id"/>
+            <result property="productId" column="product_id"/>
+            <result property="cartProductCnt" column="cart_product_cnt"/>
+            <result property="productName" column="product_name"/>
+            <result property="productSubName" column="product_sub_name"/>
+            <result property="price" column="price"/>
+            <result property="producttype" column="producttype"/>
+            <result property="stock" column="stock"/>
+            <result property="discountrate" column="discountrate"/>
+            <result property="productDetail" column="product_detail"/>
+            <result property="amount" column="amount"/>
+            <result property="calorie" column="calorie"/>
+            <result property="storage" column="storage"/>
+            <result property="thumbnailimageurl" column="thumbnailimageurl"/>
+        </collection>
+    </resultMap>
+
+
+<!--  좋아요 누른 상품 정보 join 해서 모두 불러오기  -->
+    <select id="getCart" resultMap="CartListResultMap">
+        SELECT c.cart_id
+             , c.member_id
+             , c.modified_at
+             , cp.cart_product_id
+             , cp.product_id
+             , cp.cart_product_cnt
+             , p.product_name
+             , p.product_sub_name
+             , p.price
+             , p.producttype
+             , p.stock
+             , p.discountrate
+             , p.product_detail
+             , p.amount
+             , p.calorie
+             , p.storage
+             , p.thumbnailimageurl
+        FROM tbl_cart c
+                 LEFT JOIN tbl_cart_product cp ON c.cart_id = cp.cart_id
+                 LEFT JOIN tbl_product p ON cp.product_id = p.product_id
+        WHERE c.member_id = #{memberId}
+    </select>
+
+    <select id="saveOrDeleteCart" parameterType="map" statementType="CALLABLE">
+        {call add_or_remove_product_from_cart(
+                #{memberId, jdbcType=VARCHAR, mode=IN},
+                #{productId, jdbcType=NUMERIC, mode=IN},
+                #{cartProductCnt, jdbcType=NUMERIC, mode=IN},
+                #{result, jdbcType=INTEGER, mode=OUT}
+              )}
+    </select>
+
+
+    <select id="getCartProductCnt" parameterType="String" resultType="int">
+        SELECT COUNT(cp.CART_PRODUCT_ID)
+        FROM tbl_cart_product cp
+                 JOIN tbl_cart c ON cp.cart_id = c.cart_id
+        WHERE c.member_id = #{memberId}
+    </select>
+</mapper>

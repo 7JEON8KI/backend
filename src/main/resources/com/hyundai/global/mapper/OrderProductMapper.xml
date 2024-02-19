@@ -11,6 +11,6 @@
         SELECT op.ORDER_ID
         FROM TBL_ORDERPRODUCT op
                  JOIN tbl_orders o ON op.ORDER_ID = o.ORDER_ID
-        WHERE o.MEMBER_ID_NO = #{userIdNo} AND op.PRODUCT_ID = #{productId}
+        WHERE o.MEMBER_ID_NO = #{memberId} AND op.PRODUCT_ID = #{productId}
     </select>
 </mapper>
