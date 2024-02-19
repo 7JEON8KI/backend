@@ -38,8 +38,8 @@ public class ReviewController {
     @PutMapping
     public ResponseEntity updateReview(HttpServletRequest request, @RequestBody ReviewRequestDto reviewRequestDto) {
         String memberId = request.getAttribute("memberId").toString();
-        log.debug("리뷰 등록 요청 memberId :: " + memberId);
-        log.debug("리뷰 등록 요청 productId :: " + reviewRequestDto.getProductId());
+        log.debug("리뷰 수정 요청 memberId :: " + memberId);
+        log.debug("리뷰 수정 요청 productId :: " + reviewRequestDto.getProductId());
         reviewService.updateReview(reviewRequestDto, memberId);
         return ResponseMessage.SuccessResponse("리뷰 수정 성공", "");
     }
@@ -47,8 +47,8 @@ public class ReviewController {
     @DeleteMapping
     public ResponseEntity deleteReview(HttpServletRequest request, @RequestBody ReviewRequestDto reviewRequestDto) {
         String memberId = request.getAttribute("memberId").toString();
-        log.debug("리뷰 등록 요청 memberId :: " + memberId);
-        log.debug("리뷰 등록 요청 productId :: " + reviewRequestDto.getProductId());
+        log.debug("리뷰 삭제 요청 memberId :: " + memberId);
+        log.debug("리뷰 삭제 요청 productId :: " + reviewRequestDto.getProductId());
         reviewService.deleteReview(reviewRequestDto, memberId);
         return ResponseMessage.SuccessResponse("리뷰 삭제 성공", "");
     }
