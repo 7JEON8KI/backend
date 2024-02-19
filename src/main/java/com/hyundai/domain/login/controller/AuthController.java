@@ -7,9 +7,10 @@ package com.hyundai.domain.login.controller;
  */
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.hyundai.domain.login.dto.StoreRequestDto;
 import com.hyundai.domain.login.dto.kakao.KakaoParams;
 import com.hyundai.domain.login.dto.oauth.OAuthMemberRequestDto;
-import com.hyundai.domain.login.service.oauth.OAuthService;
+import com.hyundai.domain.login.service.oauth.OAuthServiceImpl;
 import com.hyundai.global.message.ResponseMessage;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 public class AuthController {
 
     @Autowired
-    private OAuthService oAuthService;
+    private OAuthServiceImpl oAuthService;
 
     @PostMapping("/login/kakao")
     public ResponseEntity handleKakaoLogin(@RequestBody KakaoParams kakaoParams){
@@ -45,6 +46,14 @@ public class AuthController {
         String accessToken = request.getAttribute("accessToken").toString();
         log.debug("deleteUser:" + memberId);
         return ResponseMessage.SuccessResponse("회원탈퇴 성공", oAuthService.deleteMember(memberId, accessToken));
+    }
+
+    // 판매자 등록요청
+    @PostMapping("/registerStore")
+    public ResponseEntity registerStore(HttpServletRequest request, @RequestBody StoreRequestDto storeRequestDto){
+        String memberId = request.getAttribute("memberId").toString();
+        log.debug("넘겨받은 판매자 정보 :: " + storeRequestDto.getStoreName());
+        return ResponseMessage.SuccessResponse("판매자 등록 요청 성공", oAuthService.registerStore(memberId, storeRequestDto));
     }
 }
 

@@ -13,13 +13,6 @@ public interface MemberMapper {
     Optional<Member> findMemberByEmail(String memberEmail);
     void updateRefreshToken(Map<String, Object> map);
     void deleteMember(String memberId);
-    Member getMemberByEmail(String email);
-
-
     Member findMemberByMemberId(@Param("memberId")String memberId);
-    Member findMemberByRefreshToken(@Param("refreshToken")String refreshToken);
-    void saveMember(Member member);
-    List<Member> getMemberList();
-    boolean updateMember(Member entity);
-    boolean updateDeletedMember(Member entity);
+    void registerStore(Map<String, Object> map);
 }

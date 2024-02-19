@@ -19,12 +19,15 @@
 	<interceptors>
 		<interceptor>
 			<mapping path="/**"/>
+			<exclude-mapping path="/v2/api-docs/**"/>
+			<exclude-mapping path="/swagger-resources/**"/>
+			<exclude-mapping path="/webjars/**"/>
+			<exclude-mapping path="/swagger-ui.html/**"/>
 			<exclude-mapping path="/reviews/product/{productId}"/>
 			<exclude-mapping path="/auth/login/kakao"/>
 			<exclude-mapping path="/auth/save"/>
 			<beans:bean id="tokenInterceptor" class="com.hyundai.global.interceptor.TokenInterceptor" />
 		</interceptor>
 	</interceptors>
-
 	<context:component-scan base-package="com.hyundai" />
 </beans:beans>
