@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundai.global.mapper.ReviewMapper">
+
+    <resultMap id="ReviewResponseResultMap" type="ReviewResponseDto">
+        <id property="reviewId" column="review_id" />
+        <result property="productId" column="product_id" />
+        <result property="memberNickname" column="member_nickname" />
+        <result property="reviewTitle" column="review_title" />
+        <result property="reviewContent" column="review_content" />
+        <result property="reviewImageUrl" column="review_image_url" />
+        <result property="reviewStar" column="review_star" />
+        <result property="modifiedAt" column="modified_at" />
+    </resultMap>
+
+
+
+
+    <select id="saveReview" parameterType="map" statementType="CALLABLE">
+        {call manage_review(
+                #{memberId, mode=IN, jdbcType=VARCHAR},
+                #{productId, mode=IN, jdbcType=INTEGER},
+                #{reviewTitle, mode=IN, jdbcType=VARCHAR},
+                #{reviewContent, mode=IN, jdbcType=CLOB},
+                #{reviewImageUrl, mode=IN, jdbcType=VARCHAR},
+                #{reviewStar, mode=IN, jdbcType=VARCHAR},
+                #{operation, mode=IN, jdbcType=VARCHAR},
+                #{result, mode=OUT, jdbcType=INTEGER}
+              )}
+    </select>
+
+    <select id="updateReview" parameterType="map" statementType="CALLABLE">
+        {call manage_review(
+                #{memberId, mode=IN, jdbcType=VARCHAR},
+                #{productId, mode=IN, jdbcType=INTEGER},
+                #{reviewTitle, mode=IN, jdbcType=VARCHAR},
+                #{reviewContent, mode=IN, jdbcType=CLOB},
+                #{reviewImageUrl, mode=IN, jdbcType=VARCHAR},
+                #{reviewStar, mode=IN, jdbcType=VARCHAR},
+                #{operation, mode=IN, jdbcType=VARCHAR},
+                #{result, mode=OUT, jdbcType=INTEGER}
+              )}
+    </select>
+
+    <select id="deleteReview" parameterType="map" statementType="CALLABLE">
+        {call manage_review(
+                #{memberId, mode=IN, jdbcType=VARCHAR},
+                #{productId, mode=IN, jdbcType=INTEGER},
+                null,
+                null,
+                null,
+                null,
+                #{operation, mode=IN, jdbcType=VARCHAR},
+                #{result, mode=OUT, jdbcType=INTEGER}
+              )}
+    </select>
+
+    <!-- 상품에 대한 내 리뷰 조회 -->
+    <select id="getProductReviewByMemberId" parameterType="map" statementType="CALLABLE">
+        {call get_reviews(
+                #{memberId, jdbcType=VARCHAR, mode=IN},
+                #{productId, jdbcType=NUMERIC, mode=IN},
+                #{reviewType, jdbcType=VARCHAR, mode=IN},
+                #{cursor, jdbcType=CURSOR, mode=OUT, javaType=java.sql.ResultSet, resultMap=ReviewResponseResultMap}
+              )}
+    </select>
+
+    <!-- 내가 쓴 모든 리뷰 조회 -->
+    <select id="getReviewsByMemberId" parameterType="map" statementType="CALLABLE">
+        {call get_reviews(
+            #{memberId, jdbcType=VARCHAR, mode=IN},
+            null,
+            #{reviewType, jdbcType=VARCHAR, mode=IN},
+            #{cursor, jdbcType=CURSOR, mode=OUT, javaType=java.sql.ResultSet, resultMap=ReviewResponseResultMap}
+        )}
+    </select>
+
+    <!-- 상품에 대한 모든 리뷰 조회 -->
+    <select id="getProductReviews" parameterType="map" statementType="CALLABLE">
+        {call get_reviews(
+            null,
+            #{productId, jdbcType=NUMERIC, mode=IN},
+            #{reviewType, jdbcType=VARCHAR, mode=IN},
+            #{cursor, jdbcType=CURSOR, mode=OUT, javaType=java.sql.ResultSet, resultMap=ReviewResponseResultMap}
+        )}
+    </select>
+
+</mapper>
