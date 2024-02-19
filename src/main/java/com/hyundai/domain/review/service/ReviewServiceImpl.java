@@ -1,6 +1,5 @@
 package com.hyundai.domain.review.service;
 
-import com.amazonaws.services.apigateway.model.Op;
 import com.hyundai.domain.review.dto.request.ReviewRequestDto;
 import com.hyundai.domain.review.dto.response.ReviewResponseDto;
 import com.hyundai.domain.review.entity.enumType.ReviewGetType;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * @author : 변형준

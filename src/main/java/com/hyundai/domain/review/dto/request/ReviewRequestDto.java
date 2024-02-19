@@ -10,7 +10,6 @@ import lombok.*;
  */
 @Getter
 @Builder
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReviewRequestDto {
@@ -19,14 +18,5 @@ public class ReviewRequestDto {
     private String reviewContent;
     private String reviewImageUrl;
     private String reviewStar;
-    public Review toEntity(String memberId) {
-        return Review.builder()
-                .memberId(memberId)
-                .productId(productId)
-                .reviewTitle(reviewTitle)
-                .reviewContent(reviewContent)
-                .reviewImageUrl(reviewImageUrl)
-                .reviewStar(reviewStar)
-                .build();
-    }
+
 }
