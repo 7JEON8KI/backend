@@ -15,6 +15,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
+@ToString
 public class AdminProductDTO {
     private Long productId;
     private Long storeId;

@@ -38,7 +38,7 @@
 
     <resultMap id="tempMap" type="hashmap"/>
 
-    <select id="getProductByPage" resultMap="tempMap" statementType="CALLABLE">
+    <select id="getProductByPage" statementType="CALLABLE">
         {call GET_PRODUCT_LIST(
                 #{pageNum, mode=IN, jdbcType=INTEGER},
                 #{pageAmount, mode=IN, jdbcType=INTEGER},
@@ -48,16 +48,23 @@
               )}
     </select>
 
-    <select id="test" resultMap="productMap">
-        select *
-        from tbl_product
-        order by ${standard} ${sort}
-    </select>
-
-    <select id="getProductDetail" resultMap="productDetailMap">
+    <select id="getProductDetail" resultMap="productDetailMap" statementType="CALLABLE">
         {call GET_PRODUCT_THEME_AND_INGREDIENT(
                 #{productId, mode=IN, jdbcType=INTEGER},
                 #{result, mode=OUT, jdbcType=CURSOR, javaType=ResultSet, resultMap=productDetailMap}
               )}
     </select>
+
+    <update id="deleteProduct">
+        update
+            tbl_product
+        set
+            deleted_at = sysdate
+        WHERE
+            product_id = #{productId}
+    </update>
+
+    <update id="modifyProduct">
+
+    </update>
 </mapper>

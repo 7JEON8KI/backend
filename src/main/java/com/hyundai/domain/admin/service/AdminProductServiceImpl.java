@@ -33,7 +33,9 @@ public class AdminProductServiceImpl implements AdminProductService{
         params.put("pageAmount",paramDTO.getPageAmount());
         params.put("standard",paramDTO.getStandard());
         params.put("sort",paramDTO.getSort());
-        // 프로시저 커서 결과 변수명 확인용
+
+
+        // 프로시저 커서 결과 변수명
         params.put("result", null);
 
         adminProductMapper.getProductByPage(params);
@@ -61,12 +63,13 @@ public class AdminProductServiceImpl implements AdminProductService{
             params.put("result", null);
 
             adminProductMapper.getProductDetail(params);
-            log.info("test :  ----  " + params.size());
-            log.info("test :    " + (AdminProductDTO) params.get("result"));
-            AdminProductDTO productDTO= (AdminProductDTO) params.get("result");
-            return productDTO;
-        } catch (Exception e
+            List<AdminProductDTO> list = (List<AdminProductDTO>) params.get("result");
+
+            return list.get(0);
+        }
+        catch (Exception e
         ){
+            log.info(e.getMessage());
             throw new GlobalException(GlobalErrorCode.NON_CLEAR_REASON);
         }
     }
@@ -82,13 +85,12 @@ public class AdminProductServiceImpl implements AdminProductService{
     }
 
     @Override
-    public List<AdminProductDTO> test(Map<String, Object> test) {
-
-        List<AdminProductDTO> result = adminProductMapper.test(test);
-
-        for (int i=0; i< result.size(); i++){
-            log.info("test :   "+result.get(i).toString());
+    public void modifyProduct(AdminProductDTO paramDTO) {
+        try{
+            adminProductMapper.modifyProduct(paramDTO);
+        } catch (Exception e
+        ){
+            throw new GlobalException(GlobalErrorCode.NON_CLEAR_REASON);
         }
-        return result;
     }
 }

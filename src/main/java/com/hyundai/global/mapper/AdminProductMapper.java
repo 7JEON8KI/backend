@@ -20,5 +20,5 @@ public interface AdminProductMapper {
 
     void deleteProduct(Long productId);
 
-    List<AdminProductDTO> test(Map<String, Object> test);
+    void modifyProduct(AdminProductDTO productDTO);
 }

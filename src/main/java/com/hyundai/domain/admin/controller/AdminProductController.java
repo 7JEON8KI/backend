@@ -25,27 +25,24 @@ import java.util.Map;
 public class AdminProductController {
     @Autowired
     private AdminProductService adminProductService;
-    @PostMapping("/product/{pageNum}")
-    public ResponseEntity getProductList(HttpServletRequest request,
-                                         @PathVariable("pageNum") Long pageNum, @RequestBody AdminProductParamDTO paramDTO){
-    //보류
-        return ResponseMessage.SuccessResponse(pageNum + "페이지 조회에 성공했습니다", adminProductService.getProductByPage(paramDTO));
+    @PostMapping("/products")
+    public ResponseEntity getProductList(@RequestBody AdminProductParamDTO paramDTO){
+        return ResponseMessage.SuccessResponse(paramDTO.getPageNum() + "페이지 조회에 성공했습니다", adminProductService.getProductByPage(paramDTO));
     }
-    @PostMapping("/product")
-    public ResponseEntity getProductDetail(HttpServletRequest request, @RequestBody AdminProductDTO productDTO){
-        log.info("test_product_id           " + productDTO.getProductId());
-        return ResponseMessage.SuccessResponse(" ",  adminProductService.getProductDetail(productDTO.getProductId()));
+    @PostMapping("/products/{productNum}")
+    public ResponseEntity getProductDetail(@PathVariable long productNum){
+        return ResponseMessage.SuccessResponse(productNum + " 번 상품 상세내용을 조회했습니다.",  adminProductService.getProductDetail(productNum));
     }
 
-    @PostMapping("/product/delete")
-    public ResponseEntity deleteProduct(HttpServletRequest request, @PathVariable("pageNum") Long pageNum){
+    @PostMapping("/products/delete/{productNum}")
+    public ResponseEntity deleteProduct(@PathVariable long productNumm){
+        adminProductService.deleteProduct(productNumm);
+        return ResponseMessage.SuccessResponse(productNumm + " 번 상품 삭제했습니다 ", " ");
+    }
 
+    @PostMapping("/products/modify")
+    public ResponseEntity modifyProductDetail(@RequestBody AdminProductDTO paramDTO){
+        adminProductService.modifyProduct(paramDTO);
         return ResponseMessage.SuccessResponse(" ", " ");
-    }
-
-    @PostMapping("/product/test")
-    public ResponseEntity test(@RequestBody Map<String, Object> map){
-        log.info(map.keySet().toString());
-        return ResponseMessage.SuccessResponse(" ", adminProductService.test(map));
     }
 }
