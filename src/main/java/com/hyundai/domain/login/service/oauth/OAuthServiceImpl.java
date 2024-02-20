@@ -17,7 +17,6 @@ import com.hyundai.global.exception.GlobalException;
 import com.hyundai.global.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,9 +28,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * @author : 변형준
- * @fileName : OauthService
- * @since : 2/11/24
+ * author : 변형준
+ * fileName : OauthService
+ * since : 2/11/24
  */
 @Slf4j
 @Component
@@ -42,8 +41,6 @@ public class OAuthServiceImpl implements OAuthService {
     private final RequestOAuthInfoService requestOAuthInfoService;
     private final JwtProvider jwtProvider;
     private final KakaoClient kakaoClient;
-    private final AuthenticationManager authenticationManager;
-
     // 받아온 유저정보로 로그인 시도
     public KakaoLoginResponseDto getMemberByOauthLogin(OAuthParams oAuthParams) {
         log.debug("------ Oauth 로그인 시도 ------");

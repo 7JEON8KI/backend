@@ -7,7 +7,9 @@ import com.hyundai.domain.login.dto.oauth.OAuthParams;
 import com.hyundai.domain.login.entity.enumtype.OAuthProvider;
 import com.hyundai.domain.login.service.oauth.OAuthClient;
 import com.hyundai.global.config.ApplicationProperties;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -24,14 +26,13 @@ import java.util.Objects;
  * @fileName : KakaoClient
  * @since : 2/11/24
  */
-@Log4j
+@Slf4j
 @Component
+@RequiredArgsConstructor
 public class KakaoClient implements OAuthClient {
 
     private static final String GRANT_TYPE = "authorization_code";
-
-    @Autowired
-    private ApplicationProperties applicationProperties;
+    private final ApplicationProperties applicationProperties;
 
     @Override
     public OAuthProvider oauthProvider() {
@@ -53,8 +54,7 @@ public class KakaoClient implements OAuthClient {
         body.add("grant_type", GRANT_TYPE);
         body.add("client_id", applicationProperties.getKAKAO_CLIENT_ID());
         body.add("redirect_uri", applicationProperties.getKAKAO_REDIRECT_URI());
-        log.debug(applicationProperties.getKAKAO_CLIENT_ID());
-        log.debug(applicationProperties.getKAKAO_REDIRECT_URI());
+
         // 헤더와 바디 합체
         HttpEntity<MultiValueMap<String, String>> tokenRequest = new HttpEntity<>(body, headers);
         log.debug("현재 httpEntity 상태:: " + tokenRequest);

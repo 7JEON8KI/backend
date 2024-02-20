@@ -26,20 +26,4 @@ public class Member {
     private LocalDateTime deletedAt;
     private String refreshToken;
 
-    public Member toDto() {
-        return Member.builder()
-                .memberId(memberId)
-                .memberEmail(memberEmail)
-                .memberName(memberName)
-                .memberNickname(memberNickname)
-                .memberPhone(memberPhone)
-                .memberGender(memberGender)
-                .memberBirth(memberBirth)
-                .memberRole(memberRole)
-                .createdAt(createdAt)
-                .updatedAt(updatedAt)
-                .deletedAt(deletedAt)
-                .refreshToken(refreshToken)
-                .build();
-    }
 }

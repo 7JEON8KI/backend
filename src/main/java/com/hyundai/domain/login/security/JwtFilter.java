@@ -32,10 +32,14 @@ public class JwtFilter extends OncePerRequestFilter {
     private final JwtProvider jwtProvider;
 
     // "/api/v1" 붙여서 작성
-    private final List<String> EXCLUDE_URL_PATTERN = List.of("/api/v1/test", "/api/v1/auth/save", "/api/v1/refreshToken", "/api/v1/auth/login/kakao");
+    private final List<String> EXCLUDE_URL_PATTERN = List.of("/api/v1/test"
+            , "/api/v1/auth/save"
+            , "/api/v1/auth/login/kakao"
+            ,"/api/v1/swagger-ui.html/**"
+            );
 
     @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+    protected boolean shouldNotFilter(HttpServletRequest request){
         String path = request.getRequestURI();
         return EXCLUDE_URL_PATTERN.stream().anyMatch(path::startsWith);
     }

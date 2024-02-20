@@ -11,7 +11,7 @@ import com.hyundai.domain.login.entity.enumtype.OAuthProvider;
  * @since : 2/11/24
  */
 public interface OAuthClient {
-    public OAuthProvider oauthProvider();
-    public KakaoTokenResponseDto getOauthLoginToken(OAuthParams oauthParams);
-    public OAuthMember getMemberInfo(String accessToken);
+    OAuthProvider oauthProvider();
+    KakaoTokenResponseDto getOauthLoginToken(OAuthParams oauthParams);
+    OAuthMember getMemberInfo(String accessToken);
 }

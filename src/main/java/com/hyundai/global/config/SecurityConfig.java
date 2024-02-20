@@ -70,7 +70,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         "/api/v1/test"
                         , "/api/v1/auth/login/kakao"
-                        , "/api/v1/auth/save")
+                        , "/api/v1/auth/save"
+                        , "/api/v1/swagger-ui.html/**"
+                        )
                 .permitAll()
                 .antMatchers("/refresh")
                 .authenticated()

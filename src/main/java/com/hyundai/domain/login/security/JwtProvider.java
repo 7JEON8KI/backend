@@ -21,9 +21,9 @@ import java.util.Date;
 import java.util.stream.Collectors;
 
 /**
- * @author : 변형준
- * @fileName : JwtProvider
- * @since : 2/11/24
+ * author : 변형준
+ * fileName : JwtProvider
+ * since : 2/11/24
  */
 @Slf4j
 @Setter

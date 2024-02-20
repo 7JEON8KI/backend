@@ -1,7 +1,7 @@
 package com.hyundai.domain.login.dto;
 
 
-import com.hyundai.domain.login.entity.Member;
+
 import com.hyundai.domain.login.entity.enumtype.Role;
 import lombok.*;
 
@@ -27,36 +27,4 @@ public class MemberDto {
     private LocalDateTime deletedAt;
     private String refreshToken;
 
-    public Member toEntity() {
-        return Member.builder()
-                .memberId(memberId)
-                .memberEmail(memberEmail)
-                .memberName(memberName)
-                .memberNickname(memberNickname)
-                .memberPhone(memberPhone)
-                .memberGender(memberGender)
-                .memberBirth(memberBirth)
-                .memberRole(memberRole)
-                .createdAt(createdAt)
-                .updatedAt(updatedAt)
-                .deletedAt(deletedAt)
-                .refreshToken(refreshToken)
-                .build();
-    }
-
-    public Member updateToEntity() {
-        return Member.builder()
-                .memberId(this.getMemberId())
-                .memberNickname(this.getMemberNickname())
-                .updatedAt(this.getUpdatedAt())
-                .build();
-    }
-
-    public Member updateDeletedUserToEntity() {
-        return Member.builder()
-                .memberId(this.getMemberId())
-                .updatedAt(this.getUpdatedAt())
-                .deletedAt(this.getDeletedAt())
-                .build();
-    }
 }
