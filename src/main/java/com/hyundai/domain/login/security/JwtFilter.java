@@ -36,8 +36,12 @@ public class JwtFilter extends OncePerRequestFilter {
             "/api/v1/test/all"
             , "/api/v1/auth/save"
             , "/api/v1/auth/login/kakao"
-            , "/api/v1/swagger-ui.html/**"
-            , "/api/v1/reviews/{productId}"
+            , "/api/v1/swagger-ui.html"
+            , "/api/v1/webjars"
+            , "/api/v1/v2/api-docs"
+            , "/api/v1/v3/api-docs"
+            , "/api/v1/swagger-resources"
+            , "/api/v1/reviews/product"
 
             );
 

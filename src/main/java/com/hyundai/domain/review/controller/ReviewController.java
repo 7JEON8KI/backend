@@ -71,7 +71,7 @@ public class ReviewController {
     }
 
     // 상품에 대한 리뷰 전체 조회
-    @GetMapping("/{productId}")
+    @GetMapping("/product/{productId}")
     public ResponseEntity<?> getProductReviews(@PathVariable int productId) {
         log.debug("상품에 대한 리뷰 조회 요청 productId :: " + productId);
         return ResponseMessage.SuccessResponse("상품에 대한 리뷰 조회 성공", reviewService.getProductReviews(productId));
