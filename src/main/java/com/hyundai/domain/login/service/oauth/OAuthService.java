@@ -12,7 +12,7 @@ import com.hyundai.domain.login.dto.oauth.OAuthParams;
  */
 public interface OAuthService {
     KakaoLoginResponseDto getMemberByOauthLogin(OAuthParams oAuthParams);
-    String saveMember(OAuthMemberRequestDto oAuthMemberRequestDto, String jwtRefreshToken);
-    String deleteMember(String memberId, String accessToken);
+    String saveMember(OAuthMemberRequestDto oAuthMemberRequestDto);
+    String deleteMember(String memberId);
     Object registerStore(String memberId, StoreRequestDto storeRequestDto);
 }

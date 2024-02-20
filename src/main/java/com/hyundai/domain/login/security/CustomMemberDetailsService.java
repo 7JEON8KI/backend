@@ -33,6 +33,7 @@ public class CustomMemberDetailsService implements UserDetailsService {
     }
 
     public UserDetails loadUserByMemberId(String memberId) {
+        log.debug("loadUserByMemberId() :: " + memberId);
         Member member = memberMapper.findMemberByMemberId(memberId)
                 .orElseThrow(() -> new GlobalException(GlobalErrorCode.USER_NOT_FOUND));
         log.debug("loadUserByMemberId() :: " + member.getMemberId());

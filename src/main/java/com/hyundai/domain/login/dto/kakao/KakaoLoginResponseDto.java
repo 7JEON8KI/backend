@@ -16,6 +16,5 @@ import lombok.*;
 public class KakaoLoginResponseDto {
     private String memberEmail;
     private String accessToken;
-    private String refreshToken;
     private Boolean isMember;
 }

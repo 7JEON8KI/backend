@@ -18,7 +18,6 @@ public class Member {
     private String memberName;
     private String memberNickname;
     private String memberPhone;
-    private String memberImage;
     private String memberGender;
     private LocalDate memberBirth;
     private Role memberRole;
@@ -34,7 +33,6 @@ public class Member {
                 .memberName(memberName)
                 .memberNickname(memberNickname)
                 .memberPhone(memberPhone)
-                .memberImage(memberImage)
                 .memberGender(memberGender)
                 .memberBirth(memberBirth)
                 .memberRole(memberRole)

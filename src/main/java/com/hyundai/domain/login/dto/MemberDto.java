@@ -19,7 +19,6 @@ public class MemberDto {
     private String memberName;
     private String memberNickname;
     private String memberPhone;
-    private String memberImage;
     private String memberGender;
     private LocalDate memberBirth;
     private Role memberRole;
@@ -35,7 +34,6 @@ public class MemberDto {
                 .memberName(memberName)
                 .memberNickname(memberNickname)
                 .memberPhone(memberPhone)
-                .memberImage(memberImage)
                 .memberGender(memberGender)
                 .memberBirth(memberBirth)
                 .memberRole(memberRole)
@@ -50,7 +48,6 @@ public class MemberDto {
         return Member.builder()
                 .memberId(this.getMemberId())
                 .memberNickname(this.getMemberNickname())
-                .memberImage(this.getMemberImage())
                 .updatedAt(this.getUpdatedAt())
                 .build();
     }

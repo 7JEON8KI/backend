@@ -10,7 +10,6 @@
             , #{memberName}
             , #{memberNickname}
             , #{memberPhone}
-            , #{memberImage}
             , #{memberGender}
             , #{memberBirth}
             , #{memberRole}
@@ -25,10 +24,9 @@
              , member_name AS "memberName"
              , member_nickname AS "memberNickname"
              , member_phone AS "memberPhone"
-             , member_image AS "memberImage"
              , member_gender AS "memberGender"
              , member_birth AS "memberBirth"
-             , member_role AS "member_role"
+             , member_role AS "memberRole"
              , REFRESH_TOKEN AS "refreshToken"
              , created_at AS "createdAt"
              , modified_at AS "updatedAt"
@@ -49,10 +47,9 @@
              , member_name AS "memberName"
              , member_nickname AS "memberNickname"
              , member_phone AS "memberPhone"
-             , member_image AS "memberImage"
              , member_gender AS "memberGender"
              , member_birth AS "memberBirth"
-             , member_role AS "member_role"
+             , member_role AS "memberRole"
              , REFRESH_TOKEN AS "refreshToken"
              , created_at AS "createdAt"
              , modified_at AS "updatedAt"

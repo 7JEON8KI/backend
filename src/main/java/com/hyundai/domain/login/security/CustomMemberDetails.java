@@ -34,7 +34,7 @@ public class CustomMemberDetails implements UserDetails {
 
     public static CustomMemberDetails create(Member member) {
         List<SimpleGrantedAuthority> authorities = Collections
-                .singletonList(new SimpleGrantedAuthority(member.getMemberRole().toString()));
+                .singletonList(new SimpleGrantedAuthority(member.getMemberRole().name()));
 
         return new CustomMemberDetails(member.getMemberId(),
                 member.getMemberEmail(),

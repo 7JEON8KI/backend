@@ -3,12 +3,10 @@ package com.hyundai.global.config;
 import com.hyundai.domain.login.security.CustomAuthenticationEntryPoint;
 import com.hyundai.domain.login.security.CustomDeniedHandler;
 import com.hyundai.domain.login.security.JwtFilter;
-import com.hyundai.domain.login.security.JwtProvider2;
+import com.hyundai.domain.login.security.JwtProvider;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
@@ -33,7 +31,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final JwtProvider2 jwtProvider;
+    private final JwtProvider jwtProvider;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     private final CustomDeniedHandler customDeniedHandler;
 
@@ -57,7 +55,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return roleHierarchyVoter;
     }
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
@@ -70,7 +67,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .accessDeniedHandler(customDeniedHandler)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/login")
+                .antMatchers(
+                        "/api/v1/test"
+                        , "/api/v1/auth/login/kakao"
+                        , "/api/v1/auth/save")
                 .permitAll()
                 .antMatchers("/refresh")
                 .authenticated()

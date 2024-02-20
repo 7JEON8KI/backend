@@ -9,7 +9,8 @@ import com.hyundai.domain.login.dto.oauth.OAuthMemberRequestDto;
 import com.hyundai.domain.login.dto.oauth.OAuthParams;
 import com.hyundai.domain.login.entity.Member;
 import com.hyundai.domain.login.entity.enumtype.Role;
-import com.hyundai.domain.login.security.JwtProvider2;
+import com.hyundai.domain.login.security.CustomMemberDetails;
+import com.hyundai.domain.login.security.JwtProvider;
 import com.hyundai.domain.login.service.kakao.KakaoClient;
 import com.hyundai.global.exception.GlobalErrorCode;
 import com.hyundai.global.exception.GlobalException;
@@ -39,7 +40,7 @@ public class OAuthServiceImpl implements OAuthService {
 
     private final MemberMapper memberMapper;
     private final RequestOAuthInfoService requestOAuthInfoService;
-    private final JwtProvider2 jwtProvider;
+    private final JwtProvider jwtProvider;
     private final KakaoClient kakaoClient;
     private final AuthenticationManager authenticationManager;
 
@@ -51,101 +52,74 @@ public class OAuthServiceImpl implements OAuthService {
         OAuthMember oAuthMember = kakaoClient.getMemberInfo(kakaoTokenResponseDto.getAccessToken());
         log.debug("전달받은 유저정보:: " + oAuthMember.getEmail());
         // 획득된 회원정보 DB 조회
-        Member accessMember = memberMapper.findMemberByEmail(oAuthMember.getEmail())
-                .orElseThrow(() -> new GlobalException(GlobalErrorCode.USER_NOT_FOUND));
+        Optional<Member> accessMember = memberMapper.findMemberByEmail(oAuthMember.getEmail());
+        if(accessMember.isPresent()) {
+            CustomMemberDetails userDetails = CustomMemberDetails.create(accessMember.get());
 
-        boolean isMember = true;
-        // accessToken 과 refreshToken  JWT 암호화
-        log.debug("------ JWT 발급 ------");
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        accessMember.getMemberEmail(),
-                        accessMember.getMemberId())
-        );
-        String accessToken = jwtProvider.createAccessToken(authentication);
-        String refreshToken = jwtProvider.createRefreshToken(authentication);
-        log.debug("------ JWT 발급완료 ------");
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+            // 사용자 정보를 기반으로 Authentication 객체 생성
+            Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            // SecurityContext에 Authentication 객체 설정
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        Map<String, Object> map = new HashMap<>();
-        map.put("memberId", accessMember.getMemberId());
-        map.put("refreshToken", refreshToken);
-        memberMapper.updateRefreshToken(map);
+            // accessToken 과 refreshToken  JWT 암호화
+            log.debug("------ JWT 발급 ------");
+            String accessToken = jwtProvider.createAccessToken(authentication);
+            String refreshToken = jwtProvider.createRefreshToken(authentication);
+            log.debug("------ JWT 발급완료 ------");
 
-        return KakaoLoginResponseDto.builder()
-                .memberEmail(oAuthMember.getEmail())
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .isMember(isMember)
-                .build();
+            Map<String, Object> map = new HashMap<>();
+            map.put("memberId", accessMember.get().getMemberId());
+            map.put("refreshToken", refreshToken);
+            memberMapper.updateRefreshToken(map);
+
+            return KakaoLoginResponseDto.builder()
+                    .memberEmail(oAuthMember.getEmail())
+                    .accessToken(accessToken)
+                    .isMember(true)
+                    .build();
+        } else {
+            return KakaoLoginResponseDto.builder()
+                    .memberEmail(oAuthMember.getEmail())
+                    .accessToken(null)
+                    .isMember(false)
+                    .build();
+        }
     }
 
-//    // 받아온 유저정보로 로그인 시도
-//    public KakaoLoginResponseDto getMemberByOauthLogin(OAuthParams oAuthParams) {
-//        log.debug("------ Oauth 로그인 시도 ------");
-//
-//        KakaoTokenResponseDto kakaoTokenResponseDto = requestOAuthInfoService.request(oAuthParams);
-//        OAuthMember oAuthMember = kakaoClient.getMemberInfo(kakaoTokenResponseDto.getAccessToken());
-//        log.debug("전달받은 유저정보:: " + oAuthMember.getEmail());
-//
-//        // 획득된 회원정보 DB 조회
-//        Optional<Member> accessMember = memberMapper.findMemberByEmail(oAuthMember.getEmail());
-//
-//        boolean isMember = false;
-//
-//        // accessToken 과 refreshToken  JWT 암호화
-//        log.debug("------ JWT 발급 ------");
-//        String accessToken = jwtProvider.createAccessToken(kakaoTokenResponseDto);
-//        String refreshToken = jwtProvider.createRefreshToken(kakaoTokenResponseDto);
-//        log.debug("------ JWT 발급완료 ------");
-//
-//        if (accessMember.isPresent()) {
-//            isMember = true;
-//            Map<String, Object> map = new HashMap<>();
-//            map.put("memberId", accessMember.get().getMemberId());
-//            map.put("refreshToken", refreshToken);
-//            memberMapper.updateRefreshToken(map);
-//        }
-//
-//        return KakaoLoginResponseDto.builder()
-//                .memberEmail(oAuthMember.getEmail())
-//                .accessToken(accessToken)
-//                .refreshToken(refreshToken)
-//                .isMember(isMember)
-//                .build();
-//    }
-
-    public String saveMember(OAuthMemberRequestDto oAuthMemberRequestDto, String jwtRefreshToken) {
+    public String saveMember(OAuthMemberRequestDto oAuthMemberRequestDto) {
         log.debug("------ 회원가입 ------");
         memberMapper.findMemberByEmail(oAuthMemberRequestDto.getMemberEmail()).ifPresent(
                 member -> {
                     throw new GlobalException(GlobalErrorCode.DUPLICATE_EMAIL);
                 }
         );
-
+        String memberId = UUID.randomUUID().toString();
+        while(memberMapper.findMemberByMemberId(memberId).isPresent()) {
+            memberId = UUID.randomUUID().toString();
+        }
         Map<String, Object> params = new HashMap<>();
-        params.put("memberId", UUID.randomUUID().toString());
+        params.put("memberId", memberId);
         params.put("memberEmail", oAuthMemberRequestDto.getMemberEmail());
         params.put("memberName", oAuthMemberRequestDto.getMemberName());
         params.put("memberPhone", oAuthMemberRequestDto.getMemberPhone());
         params.put("memberNickname", oAuthMemberRequestDto.getMemberNickname());
-        params.put("memberImage", oAuthMemberRequestDto.getMemberImage());
         params.put("memberGender", oAuthMemberRequestDto.getMemberGender());
         params.put("memberBirth", oAuthMemberRequestDto.getMemberBirth());
-        params.put("memberRole", Role.ROLE_USER);
+        params.put("memberRole", Role.ROLE_MEMBER);
+        params.put("refreshToken", "null");
         params.put("infoAddr", oAuthMemberRequestDto.getInfoAddr());
         params.put("infoZipcode", oAuthMemberRequestDto.getInfoZipcode());
-        params.put("refreshToken", jwtRefreshToken);
+
         memberMapper.insertMemberAndInfo(params);
         log.debug("------ 회원가입 완료 ------");
         return oAuthMemberRequestDto.getMemberName();
     }
 
-    public String deleteMember(String memberId, String accessToken) {
+    public String deleteMember(String memberId) {
         log.debug("------ 회원 탈퇴 ------");
         memberMapper.deleteMember(memberId);
         //카카오 연결 끊기
-        kakaoClient.unlink(accessToken);
+//        kakaoClient.unlink(accessToken);
         log.debug("------ 회원 탈퇴 완료 ------");
         Member member = memberMapper.findMemberByMemberId(memberId)
                 .orElseThrow(() -> new GlobalException(GlobalErrorCode.USER_NOT_FOUND));
