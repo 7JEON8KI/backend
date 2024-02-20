@@ -8,9 +8,7 @@ import com.hyundai.domain.login.entity.enumtype.OAuthProvider;
 import com.hyundai.domain.login.service.oauth.OAuthClient;
 import com.hyundai.global.config.ApplicationProperties;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -22,9 +20,9 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Objects;
 
 /**
- * @author : 변형준
- * @fileName : KakaoClient
- * @since : 2/11/24
+ * author : 변형준
+ * fileName : KakaoClient
+ * since : 2/11/24
  */
 @Slf4j
 @Component
