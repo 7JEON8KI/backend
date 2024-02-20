@@ -2,6 +2,7 @@ package com.hyundai.domain.admin.service;
 
 import com.hyundai.domain.admin.dto.AdminProductDTO;
 import com.hyundai.domain.admin.dto.AdminProductParamDTO;
+import com.hyundai.domain.admin.dto.AdminThemeDTO;
 import com.hyundai.global.exception.GlobalErrorCode;
 import com.hyundai.global.exception.GlobalException;
 import com.hyundai.global.mapper.AdminProductMapper;
@@ -91,6 +92,32 @@ public class AdminProductServiceImpl implements AdminProductService{
         } catch (Exception e
         ){
             throw new GlobalException(GlobalErrorCode.NON_CLEAR_REASON);
+        }
+    }
+
+    @Override
+    public void addTheme(AdminThemeDTO params) {
+        int result = adminProductMapper.addTheme(params);
+        if (result==0){
+            throw new GlobalException(GlobalErrorCode.NOT_COMPLETED_SQL);
+        }
+    }
+
+    @Override
+    public void deleteTheme(AdminThemeDTO params) {
+        int result = adminProductMapper.deleteTheme(params.getThemeId());
+
+        if(result==0){
+            throw new GlobalException(GlobalErrorCode.NOT_COMPLETED_SQL);
+        }
+    }
+
+    @Override
+    public void modifyTheme(AdminThemeDTO params) {
+        int result = adminProductMapper.modifyTheme(params);
+
+        if(result==0){
+            throw new GlobalException(GlobalErrorCode.NOT_COMPLETED_SQL);
         }
     }
 }

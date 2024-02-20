@@ -3,6 +3,7 @@ package com.hyundai.domain.admin.controller;
 import com.hyundai.domain.admin.dto.AdminMemberParamDTO;
 import com.hyundai.domain.admin.dto.AdminProductDTO;
 import com.hyundai.domain.admin.dto.AdminProductParamDTO;
+import com.hyundai.domain.admin.dto.AdminThemeDTO;
 import com.hyundai.domain.admin.service.AdminProductService;
 import com.hyundai.global.message.ResponseMessage;
 import lombok.extern.slf4j.Slf4j;
@@ -40,9 +41,19 @@ public class AdminProductController {
         return ResponseMessage.SuccessResponse(productNumm + " 번 상품 삭제했습니다 ", " ");
     }
 
-    @PostMapping("/products/modify")
-    public ResponseEntity modifyProductDetail(@RequestBody AdminProductDTO paramDTO){
-        adminProductService.modifyProduct(paramDTO);
-        return ResponseMessage.SuccessResponse(" ", " ");
+    @PostMapping("/products/theme/add")
+    public ResponseEntity addTheme(@RequestBody AdminThemeDTO paramDTO){
+        adminProductService.addTheme(paramDTO);
+        return ResponseMessage.SuccessResponse("테마를 추가하셨습니다.", " ");
+    }
+    @PostMapping("/products/theme/delete")
+    public ResponseEntity deleteTheme(@RequestBody AdminThemeDTO paramDTO){
+        adminProductService.deleteTheme(paramDTO);
+        return ResponseMessage.SuccessResponse("테마 삭제에 성공하셨습니다", " ");
+    }
+    @PostMapping("/products/theme/modify")
+    public ResponseEntity modifyTheme(@RequestBody AdminThemeDTO paramDTO){
+        adminProductService.modifyTheme(paramDTO);
+        return ResponseMessage.SuccessResponse("테마 변경에 성공하셨습니다", " ");
     }
 }

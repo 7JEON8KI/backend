@@ -2,6 +2,7 @@ package com.hyundai.global.mapper;
 
 import com.hyundai.domain.admin.dto.AdminProductDTO;
 import com.hyundai.domain.admin.dto.AdminProductParamDTO;
+import com.hyundai.domain.admin.dto.AdminThemeDTO;
 
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,13 @@ public interface AdminProductMapper {
 
     void getProductDetail(Map<String, Object> params);
 
-    void deleteProduct(Long productId);
+    int deleteProduct(Long productId);
 
-    void modifyProduct(AdminProductDTO productDTO);
+    int modifyProduct(AdminProductDTO productDTO);
+
+    int addTheme(AdminThemeDTO params);
+
+    int deleteTheme(Long themeId);
+
+    int modifyTheme(AdminThemeDTO params);
 }

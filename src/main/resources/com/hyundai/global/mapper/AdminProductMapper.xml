@@ -20,7 +20,7 @@
         <result property="updatedAt" column="updated_at"/>
     </resultMap>
 
-    <resultMap id="themeMap" type="com.hyundai.domain.admin.dto.AdminProductThemeDTO">
+    <resultMap id="themeMap" type="com.hyundai.domain.admin.dto.AdminThemeDTO">
         <id property="themeId" column="theme_id"/>
         <result property="themeName" column="theme_name"/>
         <result property="themeDescription" column="theme_description"/>
@@ -64,7 +64,25 @@
             product_id = #{productId}
     </update>
 
-    <update id="modifyProduct">
+    <insert id="addTheme">
+        insert into
+            tbl_theme
+        (theme_name, theme_description)
+        values
+        (#{themeName}, #{themeDescription})
+    </insert>
 
+    <delete id="deleteTheme">
+        DELETE FROM
+            tbl_theme
+        WHERE theme_id = #{themeId}
+    </delete>
+
+    <update id="modifyTheme">
+        update
+            tbl_theme
+        set
+            theme_name = #{themeName},
+            theme_description = #{themeDescription}
     </update>
 </mapper>

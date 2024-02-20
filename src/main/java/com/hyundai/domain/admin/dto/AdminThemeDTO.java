@@ -15,7 +15,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class AdminProductThemeDTO {
+public class AdminThemeDTO {
     private long themeId;
     private String themeName;
     private String themeDescription;

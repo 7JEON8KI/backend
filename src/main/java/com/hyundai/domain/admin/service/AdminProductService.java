@@ -2,6 +2,7 @@ package com.hyundai.domain.admin.service;
 
 import com.hyundai.domain.admin.dto.AdminProductDTO;
 import com.hyundai.domain.admin.dto.AdminProductParamDTO;
+import com.hyundai.domain.admin.dto.AdminThemeDTO;
 
 import java.util.List;
 import java.util.Map;
@@ -20,4 +21,10 @@ public interface AdminProductService {
     void deleteProduct(Long productId);
 
     void modifyProduct(AdminProductDTO paramDTO);
+
+    void addTheme(AdminThemeDTO params);
+
+    void deleteTheme(AdminThemeDTO params);
+
+    void modifyTheme(AdminThemeDTO params);
 }

@@ -33,6 +33,6 @@ public class AdminProductDTO {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    private List<AdminProductThemeDTO> themeList;
+    private List<AdminThemeDTO> themeList;
     private List<AdminProductIngredientDTO> ingredientList;
 }
