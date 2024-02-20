@@ -8,20 +8,23 @@ import com.hyundai.global.config.ApplicationProperties;
 import io.jsonwebtoken.*;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import javax.xml.bind.DatatypeConverter;
 import java.util.Base64;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 /**
  * @author : 변형준
  * @fileName : JwtProvider
  * @since : 2/11/24
  */
-@Log4j
+@Slf4j
 @Setter
 @Getter
 @Component
@@ -29,9 +32,36 @@ public class JwtProvider {
 
     @Autowired
     private ApplicationProperties applicationProperties;
+
+    private final Long ACCESS_TOKEN_EXPIRE_LENGTH = 1000L * 60 * 60;        // 1hour
+    private final Long REFRESH_TOKEN_EXPIRE_LENGTH = 1000L * 60 * 60 * 24 * 7;    // 1week
+    private final String AUTHORITIES_KEY = "role";
+
+    @Autowired
+    private CustomMemberDetailsService customMemberDetailsService;
     /*
      * 토큰 생성 메소드 jwt에 저장할 회원정보를 파라미터로 전달
      */
+    private String createToken(Authentication authentication, Long expireLength) {
+        Date now = new Date();
+        Date expiration = new Date(now.getTime() + expireLength);
+
+        CustomMemberDetails member = (CustomMemberDetails) authentication.getPrincipal();
+        String memberId = member.getMemberId();
+        String role = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
+
+        return Jwts.builder()
+                .signWith(SignatureAlgorithm.HS256, applicationProperties.getJWT_SECRET_KEY())
+                .setSubject(memberId)
+                .claim(AUTHORITIES_KEY, role)
+                .setIssuedAt(now)
+                .setExpiration(expiration)
+                .compact();
+    }
+
+
     public String createAccessToken(KakaoTokenResponseDto kakaoTokenResponseDto) {
         Date now = new Date(System.currentTimeMillis());
         Long expiration = 10 * 24 * 60 * 60 * 1000L; //만료기한 설정 시 사용

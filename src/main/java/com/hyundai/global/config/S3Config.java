@@ -11,15 +11,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebMvc
+@RequiredArgsConstructor
 public class S3Config implements WebMvcConfigurer {
-    @Autowired
-    private ApplicationProperties applicationProperties;
-    @Bean
+
+    private final ApplicationProperties applicationProperties;
+
     public BasicAWSCredentials AwsCredentials() {
         BasicAWSCredentials AwsCreds = new BasicAWSCredentials(applicationProperties.getAWS_ACCESS_KEY(), applicationProperties.getAWS_SECRET_KEY());
         return AwsCreds;

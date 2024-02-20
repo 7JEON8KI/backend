@@ -1,22 +1,23 @@
 package com.hyundai.global.config;
 
 import com.hyundai.global.interceptor.TokenInterceptor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.config.annotation.*;
 
 @Log4j
 @EnableWebMvc
-@Service
+@Component
+@RequiredArgsConstructor
 public class WebMvcConfig implements WebMvcConfigurer {
 
+    private final ApplicationProperties properties;
 
-    @Autowired
-    private ApplicationProperties properties;
-
-    @Autowired
-    private TokenInterceptor tokenInterceptor;
+//    private final TokenInterceptor tokenInterceptor = new TokenInterceptor();
 
 
     @Override
@@ -26,12 +27,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .allowedMethods("OPTIONS","GET","POST","PUT","DELETE");
     }
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(tokenInterceptor)
-                .addPathPatterns("/**")
-                .excludePathPatterns();
-    }
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(tokenInterceptor)
+//                .addPathPatterns("/**")
+//                .excludePathPatterns();
+//    }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
