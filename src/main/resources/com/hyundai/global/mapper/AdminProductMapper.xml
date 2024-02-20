@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundai.global.mapper.AdminProductMapper">
+    <resultMap id="productMap" type="com.hyundai.domain.admin.dto.AdminProductDTO">
+        <id property="productId" column="product_id"/>
+        <result property="storeId" column="store_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="productSubName" column="product_sub_name"/>
+        <result property="price" column="price"/>
+        <result property="productType" column="productType"/>
+        <result property="stock" column="stock"/>
+        <result property="discountRate" column="discountRate"/>
+        <result property="productDetail" column="product_detail"/>
+        <result property="amount" column="amount"/>
+        <result property="calorie" column="calorie"/>
+        <result property="storage" column="storage"/>
+        <result property="thumbnailImageUrl" column="thumbnailImageUrl"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <resultMap id="themeMap" type="com.hyundai.domain.admin.dto.AdminProductThemeDTO">
+        <id property="themeId" column="theme_id"/>
+        <result property="themeName" column="theme_name"/>
+        <result property="themeDescription" column="theme_description"/>
+    </resultMap>
+
+    <resultMap id="ingredientMap" type="com.hyundai.domain.admin.dto.AdminProductIngredientDTO">
+        <id property="ingredientId" column="ingredient_id"/>
+        <result property="ingredientName" column="ingredient_name"/>
+    </resultMap>
+
+    <resultMap id="productDetailMap" type="com.hyundai.domain.admin.dto.AdminProductDTO" extends="productMap">
+        <association property="themeList" resultMap="themeMap"/>
+        <association property="ingredientList" resultMap="ingredientMap"/>
+    </resultMap>
+
+    <resultMap id="tempMap" type="hashmap"/>
+
+    <select id="getProductByPage" resultMap="tempMap" statementType="CALLABLE">
+        {call GET_PRODUCT_LIST(
+                #{pageNum, mode=IN, jdbcType=INTEGER},
+                #{pageAmount, mode=IN, jdbcType=INTEGER},
+                #{standard, mode=IN, jdbcType=VARCHAR},
+                #{sort, mode=IN, jdbcType=VARCHAR},
+                #{result, mode=OUT, jdbcType=CURSOR, javaType=ResultSet, resultMap=productMap}
+              )}
+    </select>
+
+    <select id="test" resultMap="productMap">
+        select *
+        from tbl_product
+        order by ${standard} ${sort}
+    </select>
+
+    <select id="getProductDetail" resultMap="productDetailMap">
+        {call GET_PRODUCT_THEME_AND_INGREDIENT(
+                #{productId, mode=IN, jdbcType=INTEGER},
+                #{result, mode=OUT, jdbcType=CURSOR, javaType=ResultSet, resultMap=productDetailMap}
+              )}
+    </select>
+</mapper>

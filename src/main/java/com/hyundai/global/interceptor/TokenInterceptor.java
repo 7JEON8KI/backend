@@ -57,6 +57,11 @@ public class TokenInterceptor implements HandlerInterceptor {
         return true;
     }
 
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
+    }
+
     // accessToken을 이용해 카카오 API를 호출하여 email을 가져오는 메소드
     private Map<String, Object> callKakaoApi(String accessToken) throws JsonProcessingException {
         Map<String, Object> map = new HashMap<>();

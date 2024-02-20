@@ -27,9 +27,6 @@ public class AdminServiceImpl implements AdminService{
     @Override
     @Transactional(readOnly = true)
     public List<AdminMemberDTO> getMemberList(AdminMemberParamDTO paramDTO) {
-        if(adminMapper.getListByParams(paramDTO).isEmpty()){
-
-        }
         return adminMapper.getListByParams(paramDTO);
     }
 

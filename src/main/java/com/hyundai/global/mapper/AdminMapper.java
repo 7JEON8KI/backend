@@ -2,10 +2,9 @@ package com.hyundai.global.mapper;
 
 import com.hyundai.domain.admin.dto.AdminMemberDTO;
 import com.hyundai.domain.admin.dto.AdminMemberParamDTO;
-import com.hyundai.domain.utils.paging.Criteria;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface AdminMapper {
     List<AdminMemberDTO> getListByParams(AdminMemberParamDTO params);
@@ -21,5 +20,7 @@ public interface AdminMapper {
     AdminMemberDTO getMemberDetail(String memberId);
 
     List<AdminMemberDTO> searchMembers(String word);
+
+
 
 }
