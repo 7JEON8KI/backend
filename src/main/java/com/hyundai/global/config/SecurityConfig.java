@@ -57,7 +57,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http
+                .csrf().disable()
                 .formLogin().disable()
                 .httpBasic().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -67,21 +68,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .accessDeniedHandler(customDeniedHandler)
                 .and()
                 .authorizeRequests()
+                .antMatchers("/api/v1/test/admin").hasRole("ADMIN") // "ROLE_ADMIN"만 접근 가능
+                .antMatchers("/api/v1/test/manager").hasAnyRole("ADMIN", "MANAGER") // "ROLE_MANAGER" 이상 접근 가능
+                .antMatchers("/api/v1/test/member").hasAnyRole("ADMIN", "MANAGER", "MEMBER") // "ROLE_MEMBER" 이상 접근 가능
                 .antMatchers(
-                        "/api/v1/test"
-                        , "/api/v1/auth/login/kakao"
-                        , "/api/v1/auth/save"
-                        , "/api/v1/swagger-ui.html/**"
-                        )
-                .permitAll()
-                .antMatchers("/refresh")
-                .authenticated()
-                .anyRequest()
-                .authenticated()
+                        "/api/v1/test/all",
+                        "/api/v1/auth/login/kakao",
+                        "/api/v1/auth/save",
+                        "/api/v1/swagger-ui.html/**",
+                        "/api/v1/reviews/{productId}"
+                )
+                .permitAll() // 누구나 접근 가능
+                .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class);
-
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {

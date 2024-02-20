@@ -32,10 +32,13 @@ public class JwtFilter extends OncePerRequestFilter {
     private final JwtProvider jwtProvider;
 
     // "/api/v1" 붙여서 작성
-    private final List<String> EXCLUDE_URL_PATTERN = List.of("/api/v1/test"
+    private final List<String> EXCLUDE_URL_PATTERN = List.of(
+            "/api/v1/test/all"
             , "/api/v1/auth/save"
             , "/api/v1/auth/login/kakao"
-            ,"/api/v1/swagger-ui.html/**"
+            , "/api/v1/swagger-ui.html/**"
+            , "/api/v1/reviews/{productId}"
+
             );
 
     @Override
