@@ -7,16 +7,15 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.hyundai.global.config.ApplicationProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 /**
  * AWS S3 파일 업로드 유틸
- * @author : 강은구
- * @fileName : AwsS3Util
- * @since : 2/11/24
+ * author : 강은구
+ * fileName : AwsS3Util
+ * since : 2/11/24
  */
 @Slf4j
 @Service
@@ -24,8 +23,7 @@ import java.io.IOException;
 public class AwsS3Util {
 
     private final AmazonS3 amazonS3;
-    @Autowired
-    private ApplicationProperties applicationProperties;
+    private final ApplicationProperties applicationProperties;
 
     public String saveFile(MultipartFile multipartFile, String savedFileName) throws IOException {
         String filepath = "/" + savedFileName;
