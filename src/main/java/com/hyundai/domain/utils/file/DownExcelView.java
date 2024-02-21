@@ -12,10 +12,10 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * @author : 강은구
- * @fileName : DownExcelView
- * @description :
- * @since : 02/13/2024
+ * author : 강은구
+ * fileName : DownExcelView
+ * description :
+ * since : 02/13/2024
  */
 @RequiredArgsConstructor
 @Service

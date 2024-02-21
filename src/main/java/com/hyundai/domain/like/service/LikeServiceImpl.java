@@ -3,19 +3,19 @@ package com.hyundai.domain.like.service;
 import com.hyundai.domain.like.dto.LikeProductListResponseDto;
 import com.hyundai.global.mapper.LikeMapper;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 
 /**
- * @author : 변형준
- * @fileName : LikeServiceImpl
- * @since : 2/15/24
+ * author : 변형준
+ * fileName : LikeServiceImpl
+ * since : 2/15/24
  */
 
-@Log4j
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class LikeServiceImpl implements LikeService {

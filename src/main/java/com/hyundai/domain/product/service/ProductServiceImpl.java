@@ -1,6 +1,5 @@
 package com.hyundai.domain.product.service;
 
-import com.hyundai.domain.product.dto.request.ProductRequestDTO;
 import com.hyundai.domain.product.dto.response.ProductResposneDTO;
 import com.hyundai.domain.product.entity.Product;
 import com.hyundai.global.exception.GlobalErrorCode;
