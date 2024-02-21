@@ -23,7 +23,8 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class AwsS3Util {
 
-    private final AmazonS3 amazonS3;
+    @Autowired
+    private AmazonS3 amazonS3;
     @Autowired
     private ApplicationProperties applicationProperties;
 
