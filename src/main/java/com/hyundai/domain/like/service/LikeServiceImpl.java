@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author : 변형준
- * @fileName : LikeServiceImpl
- * @since : 2/15/24
+ * author : 변형준
+ * fileName : LikeServiceImpl
+ * since : 2/15/24
  */
 
 @Slf4j

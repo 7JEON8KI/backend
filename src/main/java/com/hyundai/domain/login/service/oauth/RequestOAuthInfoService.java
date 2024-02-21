@@ -29,9 +29,8 @@ public class RequestOAuthInfoService {     //Enum = 키, Client = 값으로 저�
         //넘겨받은 params의 enum 클래스와 동일한 객체를 주입
         public KakaoTokenResponseDto request(OAuthParams oAuthParams) {
             OAuthClient client = clients.get(oAuthParams.oAuthProvider());
-            KakaoTokenResponseDto kakaoToken = client.getOauthLoginToken(oAuthParams);
 
-            return kakaoToken;
+            return client.getOauthLoginToken(oAuthParams);
         }
     }
 
