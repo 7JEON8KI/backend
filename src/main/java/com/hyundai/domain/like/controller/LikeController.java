@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
  * since : 2/15/24
  */
 
-
 @Slf4j
 @RestController
 @RequestMapping("/likes")

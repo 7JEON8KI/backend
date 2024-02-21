@@ -4,7 +4,7 @@ import com.hyundai.domain.cart.dto.request.CartProductRequestDto;
 import com.hyundai.domain.cart.dto.response.CartListResponseDto;
 import com.hyundai.global.mapper.CartMapper;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -15,7 +15,7 @@ import java.util.Map;
  * @fileName : CartServiceImpl
  * @since : 2/14/24
  */
-@Log4j
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CartServiceImpl implements CartService{

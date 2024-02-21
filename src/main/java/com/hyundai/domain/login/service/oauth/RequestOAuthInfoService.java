@@ -1,7 +1,6 @@
 package com.hyundai.domain.login.service.oauth;
 
 import com.hyundai.domain.login.dto.kakao.KakaoTokenResponseDto;
-import com.hyundai.domain.login.dto.oauth.OAuthMember;
 import com.hyundai.domain.login.dto.oauth.OAuthParams;
 import com.hyundai.domain.login.entity.enumtype.OAuthProvider;
 import org.springframework.stereotype.Component;
@@ -12,9 +11,9 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
- * @author : 변형준
- * @fileName : RequestOAuthInfoService
- * @since : 2/11/24
+ * author : 변형준
+ * fileName : RequestOAuthInfoService
+ * since : 2/11/24
  */
 
 @Component
