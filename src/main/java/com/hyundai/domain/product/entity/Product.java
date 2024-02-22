@@ -22,13 +22,12 @@ public class Product {
     private int discountRate;
     private int amount;
     private int calorie;
-    private String productStorage;
+    private String storage;
     private String productDetail;
     private String thumbnailImageUrl;
-    private String storeName;
-    private String storeTel;
     private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private LocalDateTime modifiedAt;
+    private LocalDateTime deletedAt;
 
     public Product(ProductRequestDTO productRequestDTO) {
         this.productName = productRequestDTO.getProductName();
@@ -39,11 +38,9 @@ public class Product {
         this.discountRate = productRequestDTO.getDiscountRate();
         this.amount = productRequestDTO.getAmount();
         this.calorie = productRequestDTO.getCalorie();
-        this.productStorage = productRequestDTO.getProductStorage();
+        this.storage = productRequestDTO.getProductStorage();
         this.productDetail = productRequestDTO.getProductDetail();
         this.thumbnailImageUrl = productRequestDTO.getThumbnailImageUrl();
-        this.storeName = productRequestDTO.getStoreName();
-        this.storeTel = productRequestDTO.getStoreTel();
     }
 }
 

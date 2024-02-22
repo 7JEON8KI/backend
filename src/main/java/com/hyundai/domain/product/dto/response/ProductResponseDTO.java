@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductResposneDTO {
+public class ProductResponseDTO {
     private Long productId;
     private String productName;
     private String productSubName;
@@ -22,17 +22,16 @@ public class ProductResposneDTO {
     private String productType;
     private int stock;
     private int discountRate;
+    private String productDetail;
     private int amount;
     private int calorie;
-    private String productStorage;
-    private String productDetail;
+    private String storage;
     private String thumbnailImageUrl;
-    private String storeName;
-    private String storeTel;
     private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
-    public ProductResposneDTO(Product product) {
+    private LocalDateTime modifiedAt;
+    private int isLike;
+    private String themeName;
+    public ProductResponseDTO(Product product) {
         this.productId = product.getProductId();
         this.productName = product.getProductName();
         this.productSubName = product.getProductSubName();
@@ -42,16 +41,14 @@ public class ProductResposneDTO {
         this.discountRate = product.getDiscountRate();
         this.amount = product.getAmount();
         this.calorie = product.getCalorie();
-        this.productStorage = product.getProductStorage();
+        this.storage = product.getStorage();
         this.productDetail = product.getProductDetail();
         this.thumbnailImageUrl = product.getThumbnailImageUrl();
-        this.storeName = product.getStoreName();
-        this.storeTel = product.getStoreTel();
         this.createdAt = product.getCreatedAt();
-        this.updatedAt = product.getUpdatedAt();
+        this.modifiedAt = product.getModifiedAt();
     }
 
-    public static List<ProductResposneDTO> listOf(List<Product> products) {
-        return products.stream().map(ProductResposneDTO::new).collect(Collectors.toList());
+    public static List<ProductResponseDTO> listOf(List<Product> products) {
+        return products.stream().map(ProductResponseDTO::new).collect(Collectors.toList());
     }
 }
