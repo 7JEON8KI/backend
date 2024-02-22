@@ -55,21 +55,21 @@
               )}
     </select>
 
-    <select id="findById" resultMap="ProductResultMap">
-        SELECT product_id, product_name, product_sub_name, price, product_type, stock, discount_rate, product_detail, amount, calorie, storage, thumbnail_image_url, created_at, MODIFIED_AT
-        FROM tbl_product
-        WHERE product_id = #{productId}
-    </select>
+<!--    <select id="findById" resultMap="ProductResultMap">-->
+<!--        SELECT product_id, product_name, product_sub_name, price, product_type, stock, discount_rate, product_detail, amount, calorie, storage, thumbnail_image_url, created_at, MODIFIED_AT-->
+<!--        FROM tbl_product-->
+<!--        WHERE product_id = #{productId}-->
+<!--    </select>-->
 
-    <select id="findAll" resultMap="ProductResultMap">
-        SELECT product_id, product_name, product_sub_name, price, product_type, stock, discount_rate, product_detail, amount, calorie, storage, thumbnail_image_url,  created_at, MODIFIED_AT  FROM tbl_product
-    </select>
+<!--    <select id="findAll" resultMap="ProductResultMap">-->
+<!--        SELECT product_id, product_name, product_sub_name, price, product_type, stock, discount_rate, product_detail, amount, calorie, storage, thumbnail_image_url,  created_at, MODIFIED_AT  FROM tbl_product-->
+<!--    </select>-->
 
-    <select id="findByType" resultMap="ProductResultMap">
-        SELECT product_id, product_name, product_sub_name, price, product_type, stock, discount_rate, product_detail, amount, calorie, storage, thumbnail_image_url, created_at, MODIFIED_AT
-        FROM tbl_product
-        WHERE PRODUCT_TYPE = #{productType}
-    </select>
+<!--    <select id="findByType" resultMap="ProductResultMap">-->
+<!--        SELECT product_id, product_name, product_sub_name, price, product_type, stock, discount_rate, product_detail, amount, calorie, storage, thumbnail_image_url, created_at, MODIFIED_AT-->
+<!--        FROM tbl_product-->
+<!--        WHERE PRODUCT_TYPE = #{productType}-->
+<!--    </select>-->
 
     <select id="selectProductStock" resultType="int">
         SELECT STOCK FROM tbl_product WHERE PRODUCT_ID = #{productId}
