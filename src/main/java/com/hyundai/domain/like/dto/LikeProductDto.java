@@ -21,12 +21,12 @@ public class LikeProductDto {
     private String productName;
     private String productSubName;
     private int price;
-    private String producttype;
+    private String productType;
     private int stock;
-    private int discountrate;
+    private int discountRate;
     private String productDetail;
     private int amount;
     private int calorie;
     private String storage;
-    private String thumbnailimageurl;
+    private String thumbnailImageUrl;
 }
