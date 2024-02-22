@@ -81,6 +81,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         ,"/api/v1/v3/api-docs"
                         ,"/api/v1/swagger-resources/**"
                         ,"/api/v1/reviews/product/{productId}"
+                        ,"/api/v1/products/**"
                 )
                 .permitAll() // 누구나 접근 가능
                 .anyRequest().authenticated()

@@ -1,14 +1,16 @@
 package com.hyundai.global.config;
 
 
+
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j;
-import org.springframework.stereotype.Component;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.*;
 
-@Log4j
+
+@Slf4j
 @EnableWebMvc
-@Component
+@Configuration
 @RequiredArgsConstructor
 public class WebMvcConfig implements WebMvcConfigurer {
 
