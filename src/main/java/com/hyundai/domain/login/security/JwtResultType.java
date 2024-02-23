@@ -7,5 +7,5 @@ package com.hyundai.domain.login.security;
  * 내용           :
  */
 public enum JwtResultType {
-    VALID_JWT, EXPIRED_JWT, INVALID_JWT
+    VALID_JWT, EXPIRED_JWT, INVALID_JWT, NO_JWT
 }

@@ -37,14 +37,14 @@
              , p.product_name
              , p.product_sub_name
              , p.price
-             , p.producttype
+             , p.product_type
              , p.stock
-             , p.discountrate
+             , p.discount_rate
              , p.product_detail
              , p.amount
              , p.calorie
              , p.storage
-             , p.thumbnailimageurl
+             , p.THUMBNAIL_IMAGE_URL
         FROM tbl_cart c
                  LEFT JOIN tbl_cart_product cp ON c.cart_id = cp.cart_id
                  LEFT JOIN tbl_product p ON cp.product_id = p.product_id

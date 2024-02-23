@@ -1,16 +1,12 @@
 package com.hyundai.global.mapper;
 
-import com.hyundai.domain.product.entity.Product;
 import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 public interface ProductMapper {
-    Optional<Product> findById(Long productId);
-
-    List<Product> findAll();
-
+    void findById(Map<String, Object> params);
+    void findAll(Map<String, Object> params);
+    void findByTheme(Map<String, Object> params);
     int selectProductStock(@Param("productId") Long id);
     void updateProductStock(@Param("productId") Long id, @Param("orderCount") int orderCount);
 
