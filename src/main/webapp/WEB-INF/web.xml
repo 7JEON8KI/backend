@@ -20,7 +20,14 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
-
+	<filter>
+		<filter-name>corsFilter</filter-name>
+		<filter-class>com.hyundai.global.config.CorsConfig</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>corsFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 	<!-- 시큐리티 -->
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>

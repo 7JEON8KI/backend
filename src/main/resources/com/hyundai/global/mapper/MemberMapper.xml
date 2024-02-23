@@ -37,7 +37,8 @@
     
     <select id="updateRefreshToken">
         UPDATE tbl_member
-        SET REFRESH_TOKEN = #{refreshToken}
+        SET REFRESH_TOKEN = #{refreshToken},
+            MODIFIED_AT = sysdate
         WHERE member_id = #{memberId}
     </select>
 
