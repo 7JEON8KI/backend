@@ -26,7 +26,7 @@ public class CorsConfig implements Filter {
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "*");
         response.setHeader("Access-Control-Allow-Headers"
-                , "x-requested-with, Authorization, kakaoParams, Content-Type, Accept, Origin, Access-Control-Request-Method, Access-Control-Request-Headers");
+                , "x-requested-with, Authorization, Content-Type, Accept, Origin, Access-Control-Request-Method, Access-Control-Request-Headers");
 
         chain.doFilter(req, res);
     }
