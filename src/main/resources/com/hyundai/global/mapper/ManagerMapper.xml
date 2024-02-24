@@ -42,7 +42,7 @@
 
     <!--MemberId를 통해 store_id를 불러온 후 사용-->
     <insert id="insertProduct" parameterType="com.hyundai.domain.manager.dto.ManagerProductDTO">
-        {call INSERT_PRODUCT(
+        {call MANAGER.INSERT_PRODUCT(
                 #{memberId, mode=IN, jdbcType=VARCHAR},
                 #{productId, mode=IN, jdbcType=INTEGER},
                 #{productName, mode=IN, jdbcType=VARCHAR},
@@ -60,13 +60,13 @@
     </insert>
     <!--MemberId를 통해 store_id를 불러온 후 사용-->
     <select id="getProductByMemberId" parameterType="map" statementType="CALLABLE">
-        {call MANAGER_GET_PRODUCTS(
+        {call MANAGER.MANAGER_GET_PRODUCTS(
                 #{memberId, mode=IN, jdbcType=VARCHAR},
                 #{result, mode=OUT, jdbcType=CURSOR, javaType=ResultSet, resultMap=managerProductMap}
               )}
     </select>
     <update id="deleteProduct"  parameterType="map">
-        {call MANAGER_DELETE_PRODUCT(
+        {call MANAGER.MANAGER_DELETE_PRODUCT(
                 #{productId, mode=IN, jdbcType=INTEGER},
                 #{memberId, mode=IN, jdbcType=VARCHAR}
               )}
@@ -92,7 +92,7 @@
     </insert>
 
     <delete id="deleteProductIngTheme" parameterType="map" statementType="CALLABLE">
-        { CALL MANAGER_DELETE_PRODUCT_ING_THEME(
+        { CALL MANAGER.MANAGER_DELETE_PRODUCT_ING_THEME(
                 #{productId, mode=IN, jdbcType=INTEGER},
                 #{ingredientId, mode=IN, jdbcType=INTEGER},
                 #{themeId, mode=IN, jdbcType=INTEGER}
@@ -100,7 +100,7 @@
     </delete>
 
     <select id="getOrdersByMemberId" parameterType="map" statementType="CALLABLE">
-        {call MANAGER_GET_ORDERS(
+        {call MANAGER.MANAGER_GET_ORDERS(
                 #{memberId, mode=IN, jdbcType=VARCHAR},
                 #{result, mode=OUT, jdbcType=CURSOR, javaType=ResultSet, resultMap=orderProductMap}
               )}
