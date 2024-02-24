@@ -2,24 +2,44 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hyundai.global.mapper.ManagerMapper">
-    <resultMap id="productMap" type="com.hyundai.domain.manager.dto.ManagerProductDTO">
-    <id property="productId" column="product_id"/>
-    <result property="productName" column="product_name"/>
-    <result property="storeId" column="store_id"/>
-    <result property="productSubName" column="product_sub_name"/>
-    <result property="price" column="price"/>
-    <result property="productType" column="product_type"/>
-    <result property="stock" column="stock"/>
-    <result property="discountRate" column="discount_rate"/>
-    <result property="productDetail" column="product_detail"/>
-    <result property="amount" column="amount"/>
-    <result property="calorie" column="calorie"/>
-    <result property="storage" column="storage"/>
-    <result property="thumbnailImageUrl" column="thumbnail_image_url"/>
-    <result property="createdDate" column="created_at"/>
-    <result property="modifiedDate" column="modified_at"/>
-    <result property="deletedDate" column="deleted_at"/>
+    <resultMap id="managerProductMap" type="com.hyundai.domain.manager.dto.ManagerProductDTO">
+        <id property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="storeId" column="store_id"/>
+        <result property="productSubName" column="product_sub_name"/>
+        <result property="price" column="price"/>
+        <result property="productType" column="product_type"/>
+        <result property="stock" column="stock"/>
+        <result property="discountRate" column="discount_rate"/>
+        <result property="productDetail" column="product_detail"/>
+        <result property="amount" column="amount"/>
+        <result property="calorie" column="calorie"/>
+        <result property="storage" column="storage"/>
+        <result property="thumbnailImageUrl" column="thumbnail_image_url"/>
+        <result property="createdDate" column="created_at"/>
+        <result property="modifiedDate" column="modified_at"/>
     </resultMap>
+
+    <resultMap id="orderProductMap" type="com.hyundai.domain.manager.dto.ManagerOrderProductDTO">
+        <id property="orderDetailId" column="order_detail_id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="productId" column="product_id"/>
+        <result property="orderProductCnt" column="order_product_cnt"/>
+        <result property="orderProductPrice" column="order_product_price"/>
+        <result property="orderProductDiscount" column="order_product_discount"/>
+
+        <result property="memberId" column="member_id"/>
+        <result property="orderDate" column="order_date"/>
+        <result property="address" column="address"/>
+        <result property="zipCode" column="zipcode"/>
+        <result property="receiverName" column="receive_name"/>
+        <result property="phoneNumber" column="phone_number"/>
+        <result property="orderStatus" column="order_status"/>
+        <result property="orderNumber" column="order_number"/>
+        <result property="orderRequired" column="order_required"/>
+        <result property="paymentMethod" column="payment_method"/>
+    </resultMap>
+
     <!--MemberId를 통해 store_id를 불러온 후 사용-->
     <insert id="insertProduct" parameterType="com.hyundai.domain.manager.dto.ManagerProductDTO">
         {call INSERT_PRODUCT(
@@ -35,21 +55,54 @@
                 #{amount, mode=IN, jdbcType=INTEGER},
                 #{calorie, mode=IN, jdbcType=INTEGER},
                 #{storage, mode=IN, jdbcType=INTEGER},
-                #{thumbnailImageUrl, mode=IN, jdbcType=VARCHAR},
+                #{thumbnailImageUrl, mode=IN, jdbcType=VARCHAR}
               )}
     </insert>
     <!--MemberId를 통해 store_id를 불러온 후 사용-->
-    <select id="getProductByMemberId" resultMap="productMap">
-        {call GET_PRODUCT_LIST_BY_MEMBER_ID(
+    <select id="getProductByMemberId" parameterType="map" statementType="CALLABLE">
+        {call MANAGER_GET_PRODUCTS(
                 #{memberId, mode=IN, jdbcType=VARCHAR},
-                #{result, mode=OUT, jdbcType=CURSOR, javaType=ResultSet, resultMap=productMap}
+                #{result, mode=OUT, jdbcType=CURSOR, javaType=ResultSet, resultMap=managerProductMap}
               )}
     </select>
-
-    <delete id="deleteProduct">
-        {call GET_PRODUCT_LIST_BY_MEMBER_ID(
+    <update id="deleteProduct"  parameterType="map">
+        {call MANAGER_DELETE_PRODUCT(
                 #{productId, mode=IN, jdbcType=INTEGER},
                 #{memberId, mode=IN, jdbcType=VARCHAR}
               )}
+    </update>
+
+    <insert id="addProductIngredients" parameterType="map">
+        <if test="ingredientIdArray != null">
+            insert into TBL_PRODUCT_INGREDIENT (product_id, ingredient_id)
+            <foreach collection="ingredientIdArray" item="ingredientId" separator="UNION ALL ">
+                SELECT #{productId}, #{ingredientId} FROM DUAL
+            </foreach>
+        </if>
+
+    </insert>
+
+    <insert id="addProductTheme" parameterType="map">
+        <if test="themeIdArray != null">
+            insert into TBL_PRODUCT_THEME (product_id, theme_id)
+            <foreach collection="themeIdArray" item="themeId" separator="UNION ALL ">
+                SELECT #{productId}, #{themeId} FROM DUAL
+            </foreach>
+        </if>
+    </insert>
+
+    <delete id="deleteProductIngTheme" parameterType="map" statementType="CALLABLE">
+        { CALL MANAGER_DELETE_PRODUCT_ING_THEME(
+                #{productId, mode=IN, jdbcType=INTEGER},
+                #{ingredientId, mode=IN, jdbcType=INTEGER},
+                #{themeId, mode=IN, jdbcType=INTEGER}
+               ) }
     </delete>
+
+    <select id="getOrdersByMemberId" parameterType="map" statementType="CALLABLE">
+        {call MANAGER_GET_ORDERS(
+                #{memberId, mode=IN, jdbcType=VARCHAR},
+                #{result, mode=OUT, jdbcType=CURSOR, javaType=ResultSet, resultMap=orderProductMap}
+              )}
+    </select>
 </mapper>

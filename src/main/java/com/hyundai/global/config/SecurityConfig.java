@@ -68,8 +68,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .accessDeniedHandler(customDeniedHandler)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/v1/test/admin").hasRole("ADMIN") // "ROLE_ADMIN"만 접근 가능
-                .antMatchers("/api/v1/test/manager").hasAnyRole("ADMIN", "MANAGER") // "ROLE_MANAGER" 이상 접근 가능
+                .antMatchers("/api/v1/admin/**").hasRole("ADMIN") // "ROLE_ADMIN"만 접근 가능
+                .antMatchers("/api/v1/manager/**").hasAnyRole("ADMIN", "MANAGER") // "ROLE_MANAGER" 이상 접근 가능
                 .antMatchers("/api/v1/test/member").hasAnyRole("ADMIN", "MANAGER", "MEMBER") // "ROLE_MEMBER" 이상 접근 가능
                 .antMatchers(
                         "/api/v1/test/all"

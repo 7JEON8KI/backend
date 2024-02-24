@@ -18,9 +18,8 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class ManagerProductDTO {
     private Long productId;
-    @NotNull
     private Long storeId;
-    @NotNull
+    private String memberId;
     private String productName;
     private String productSubName;
     private Long price;

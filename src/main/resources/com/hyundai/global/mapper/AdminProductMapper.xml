@@ -8,14 +8,14 @@
         <result property="productName" column="product_name"/>
         <result property="productSubName" column="product_sub_name"/>
         <result property="price" column="price"/>
-        <result property="productType" column="productType"/>
+        <result property="productType" column="product_type"/>
         <result property="stock" column="stock"/>
-        <result property="discountRate" column="discountRate"/>
+        <result property="discountRate" column="discount_rate"/>
         <result property="productDetail" column="product_detail"/>
         <result property="amount" column="amount"/>
         <result property="calorie" column="calorie"/>
         <result property="storage" column="storage"/>
-        <result property="thumbnailImageUrl" column="thumbnailImageUrl"/>
+        <result property="thumbnailImageUrl" column="thumbnail_image_url"/>
         <result property="createdAt" column="created_at"/>
         <result property="updatedAt" column="updated_at"/>
     </resultMap>
