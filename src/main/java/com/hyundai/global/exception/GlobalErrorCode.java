@@ -45,7 +45,8 @@ public enum GlobalErrorCode {
 
     // 400 BAD_REQUEST - 관리자 오류
     NOT_HAVING_DATA(BAD_REQUEST, "존재하지 않는 데이터 입니다"),
-    NON_CLEAR_REASON(BAD_REQUEST, "오류가 발생했습니다");
+    NON_CLEAR_REASON(BAD_REQUEST, "오류가 발생했습니다"),
+    NOT_COMPLETED_SQL(BAD_REQUEST, "SQL이 실행되지 않았습니다");
 
 
 

@@ -54,7 +54,7 @@
              , created_at AS "createdAt"
              , modified_at AS "updatedAt"
              , deleted_at AS "deletedAt"
-        FROM   tbl_member
+        FROM tbl_member
         WHERE  member_id = #{memberId}
     </select>
 

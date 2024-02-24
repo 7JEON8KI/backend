@@ -50,6 +50,8 @@ public class OAuthServiceImpl implements OAuthService {
         log.debug("전달받은 유저정보:: " + oAuthMember.getEmail());
         // 획득된 회원정보 DB 조회
         Optional<Member> accessMember = memberMapper.findMemberByEmail(oAuthMember.getEmail());
+
+        log.debug("test:: " + accessMember.isPresent());
         if(accessMember.isPresent()) {
             CustomMemberDetails userDetails = CustomMemberDetails.create(accessMember.get());
 
