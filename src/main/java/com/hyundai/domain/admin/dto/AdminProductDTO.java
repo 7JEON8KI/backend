@@ -31,7 +31,8 @@ public class AdminProductDTO {
     private String storage;
     private String thumbnailImageUrl;
     private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private LocalDateTime modifiedAt;
+    private LocalDateTime deletedAt;
 
     private List<AdminThemeDTO> themeList;
     private List<AdminProductIngredientDTO> ingredientList;

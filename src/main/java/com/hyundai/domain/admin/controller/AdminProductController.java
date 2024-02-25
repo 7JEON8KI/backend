@@ -1,18 +1,13 @@
 package com.hyundai.domain.admin.controller;
 
-import com.hyundai.domain.admin.dto.AdminMemberParamDTO;
-import com.hyundai.domain.admin.dto.AdminProductDTO;
 import com.hyundai.domain.admin.dto.AdminProductParamDTO;
 import com.hyundai.domain.admin.dto.AdminThemeDTO;
 import com.hyundai.domain.admin.service.AdminProductService;
 import com.hyundai.global.message.ResponseMessage;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
 /**
  * @author : 강은구
@@ -23,9 +18,10 @@ import java.util.Map;
 @Slf4j
 @RequestMapping("/admin")
 @RestController
+@RequiredArgsConstructor
 public class AdminProductController {
-    @Autowired
-    private AdminProductService adminProductService;
+
+    private final AdminProductService adminProductService;
     @PostMapping("/products")
     public ResponseEntity getProductList(@RequestBody AdminProductParamDTO paramDTO){
         return ResponseMessage.SuccessResponse(paramDTO.getPageNum() + "페이지 조회에 성공했습니다", adminProductService.getProductByPage(paramDTO));

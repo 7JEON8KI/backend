@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundai.global.mapper.AdminBannerMapper">
+
+    <select id="getBannerList" resultType="com.hyundai.domain.admin.dto.AdminBannerDTO">
+        SELECT
+            banner_id AS bannerId,
+            banner_title AS bannerTitle,
+            banner_image_url AS bannerImageUrl,
+            banner_start_day AS bannerStartDay,
+            banner_end_day AS bannerEndDay,
+            created_at AS createAt,
+            modified_at AS modifiedAt
+        FROM
+            tbl_banner
+        WHERE
+            deleted_at IS NULL
+    </select>
+
+    <insert id="insertBanner" parameterType="com.hyundai.domain.admin.dto.AdminBannerDTO">
+        INSERT INTO
+            tbl_banner
+        (
+            banner_title,
+            banner_image_url,
+            banner_start_day,
+            banner_end_day
+        )
+        VALUES
+        (
+            #{bannerTitle},
+            #{bannerImageUrl},
+            #{bannerStartDay},
+            #{bannerEndDay}
+        )
+    </insert>
+
+    <update id="modifyBanner" parameterType="com.hyundai.domain.admin.dto.AdminBannerDTO">
+        UPDATE
+            tbl_banner
+        SET
+            banner_title = #{bannerTitle},
+            banner_image_url = #{bannerImageUrl},
+            banner_start_day = #{bannerStartDay},
+            banner_end_day = #{bannerEndDay},
+            modified_at = SYSDATE
+        WHERE
+            banner_id = #{bannerId}
+    </update>
+
+    <update id="deleteBanner" parameterType="com.hyundai.domain.admin.dto.AdminBannerDTO">
+        UPDATE
+            tbl_banner
+        SET
+            deleted_at = SYSDATE
+        WHERE
+            banner_id = #{bannerId}
+    </update>
+</mapper>

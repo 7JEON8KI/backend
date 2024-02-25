@@ -4,9 +4,8 @@ import com.hyundai.domain.admin.dto.AdminMemberDTO;
 import com.hyundai.domain.admin.dto.AdminMemberParamDTO;
 
 import java.util.List;
-import java.util.Map;
 
-public interface AdminMapper {
+public interface AdminMemberMapper {
     List<AdminMemberDTO> getListByParams(AdminMemberParamDTO params);
 
     List<AdminMemberDTO> getAllMembers();
