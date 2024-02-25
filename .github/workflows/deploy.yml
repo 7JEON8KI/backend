@@ -23,16 +23,16 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
-          cache: maven
+          cache: 'maven'
+          
         # (3) 메이븐 캐싱
       - name: Cache Maven packages
         uses: actions/cache@v2
         with:
-          path: |
-            ~/.m2
+          path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
-            ${{ runner.os }}-m2
+            ${{ runner.os }}-m2-
           
         # (4) 메이븐 빌드
       - name: Build with Maven
