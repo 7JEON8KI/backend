@@ -42,8 +42,8 @@ jobs:
       - name: Build and Push Docker Image
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/mealkeat:${{ github.sha }} .
-          docker push ${{ secrets.DOCKER_USERNAME }}/mealkeat:${{ github.sha }}
+          docker build -t -t ${{ secrets.DOCKER_USERNAME }}/mealkeat:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/mealkeat:latest
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
