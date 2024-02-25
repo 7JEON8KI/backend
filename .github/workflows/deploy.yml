@@ -13,20 +13,37 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+        # (1) 기본 체크아웃
       - name: Checkout
         uses: actions/checkout@v3
-
+        
+        # (2) JDK 11 세팅
       - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
-          java-version: '17'
+          java-version: '11'
           distribution: 'temurin'
           cache: maven
+        # (3) 메이븐 캐싱
+      - name: Cache Maven packages
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-m2
+          
+        # (4) 메이븐 빌드
       - name: Build with Maven
         run: mvn -B package --file pom.xml
 
-      - name: Build Docker Image For Spring
+        # (5) 도커 이미지생성 및 허브 푸시
+      - name: Build and Push Docker Image
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build -t ${{ secrets.DOCKER_USERNAME }} .
-          docker push ${{ secrets.DOCKER_USERNAME }}
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/mealkeat:${{ github.sha }} .
+          docker push ${{ secrets.DOCKER_USERNAME }}/mealkeat:${{ github.sha }}
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
