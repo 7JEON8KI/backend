@@ -8,7 +8,7 @@ import com.hyundai.global.exception.GlobalErrorCode;
 import com.hyundai.global.exception.GlobalException;
 import com.hyundai.global.mapper.ReviewMapper;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -20,7 +20,7 @@ import java.util.Map;
  * @fileName : ReviewServiceImpl
  * @since : 2/18/24
  */
-@Log4j
+@Log4j2
 @RequiredArgsConstructor
 @Service
 public class ReviewServiceImpl implements ReviewService{
