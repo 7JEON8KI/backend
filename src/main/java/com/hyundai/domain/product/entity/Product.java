@@ -34,7 +34,7 @@ public class Product {
     private LocalDateTime modifiedAt;
     private LocalDateTime deletedAt;
 
-    public Product(ProductRequestDTO productRequestDTO) {
+    /*public Product(ProductRequestDTO productRequestDTO) {
         this.productName = productRequestDTO.getProductName();
         this.productSubName = productRequestDTO.getProductSubName();
         this.price = productRequestDTO.getPrice();
@@ -46,5 +46,5 @@ public class Product {
         this.storage = productRequestDTO.getProductStorage();
         this.productDetail = productRequestDTO.getProductDetail();
         this.thumbnailImageUrl = productRequestDTO.getThumbnailImageUrl();
-    }
+    }*/
 }

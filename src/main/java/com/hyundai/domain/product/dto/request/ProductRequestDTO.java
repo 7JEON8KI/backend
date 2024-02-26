@@ -9,7 +9,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ProductRequestDTO {
     private String productName;
-    private String productSubName;
+    private String productMainImage;
+    /*private String productSubName;
     private int price;
     private String productType;
     private int stock;
@@ -20,5 +21,5 @@ public class ProductRequestDTO {
     private String productDetail;
     private String thumbnailImageUrl;
     private String storeName;
-    private String storeTel;
+    private String storeTel;*/
 }

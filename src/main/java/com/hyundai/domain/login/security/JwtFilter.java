@@ -47,7 +47,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
     // "/api/v1" 붙여서 작성, 특정 URI에서는 에러 응답을 보내지 않음
     private final List<String> EXCLUDE_CONTINUE_URL_PATTERN = List.of(
-        "/api/v1/products"
+        "/api/v1/products", "/api/v1/recommendation"
     );
 
     private boolean isSkippableUri(String requestUri) {
