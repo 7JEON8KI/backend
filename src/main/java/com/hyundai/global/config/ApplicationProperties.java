@@ -21,4 +21,8 @@ public class ApplicationProperties {
 //    iamport
     private String IMP_API_KEY;
     private String IMP_SECRET_KEY;
+
+    // redis
+    private int REDIS_PORT;
+    private String REDIS_HOST;
 }
