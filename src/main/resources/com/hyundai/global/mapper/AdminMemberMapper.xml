@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hyundai.global.mapper.AdminMapper">
+<mapper namespace="com.hyundai.global.mapper.AdminMemberMapper">
     <resultMap id="memberMap" type="com.hyundai.domain.admin.dto.AdminMemberDTO">
         <id property="memberId" column="member_id"/>
         <result property="memberEmail" column="member_email"/>
@@ -80,7 +80,7 @@
           , member_phone = #{memberPhone}
           , modified_at = sysdate
         WHERE
-            member_id = #{memberId}
+            member_id = #{memberId} AND deleted_at IS NULL
     </update>
 
     <update id="deleteMember">
@@ -116,7 +116,7 @@
         FROM
             tbl_member
         WHERE
-            member_id = #{memberId}
+            member_id = #{memberId} AND deleted_at IS NULL
     </select>
 
     <select id="searchMembers" resultMap="memberMap">
@@ -135,5 +135,7 @@
             tbl_member
         WHERE
             member_name LIKE '%' || #{word} || '%'
+        WHERE
+            deleted_at IS NULL
     </select>
 </mapper>

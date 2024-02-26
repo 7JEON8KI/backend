@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundai.global.mapper.AdminEventMapper">
+
+    <select id="getEventList" resultType="com.hyundai.domain.admin.dto.AdminEventDTO">
+        SELECT
+            event_id AS eventId,
+            event_title AS eventTitle,
+            event_detail AS eventDetail,
+            event_image_url AS eventImageUrl,
+            event_start_day AS eventStartDay,
+            event_end_day AS eventEndDay,
+            created_at AS createAt,
+            modified_at AS modifiedAt,
+            deleted_at AS deletedAt
+        FROM
+            tbl_event
+        WHERE
+            deleted_at IS NULL
+    </select>
+
+    <insert id="insertEvent" parameterType="com.hyundai.domain.admin.dto.AdminBannerDTO">
+        INSERT INTO
+            tbl_event
+        (
+            event_title,
+            event_detail,
+            event_image_url,
+            event_start_day,
+            event_end_day
+        )
+        VALUES
+        (
+            #{eventTitle},
+            #{eventDetail},
+            #{eventImageUrl},
+            #{eventStartDay},
+            #{eventEndDay}
+        )
+    </insert>
+
+    <update id="modifyEvent" parameterType="com.hyundai.domain.admin.dto.AdminEventDTO">
+        UPDATE
+            tbl_event
+        SET
+            event_title = #{eventTitle},
+            event_detail = #{eventDetail},
+            event_image_url = #{eventImageUrl},
+            event_start_day = #{eventStartDay},
+            event_end_day = #{eventEndDay},
+            modified_at = SYSDATE
+        WHERE
+            event_id = #{eventId}
+    </update>
+
+    <update id="deleteEvent" parameterType="com.hyundai.domain.admin.dto.AdminEventDTO">
+        UPDATE
+            tbl_event
+        SET
+            deleted_at = SYSDATE
+        WHERE
+            event_id = #{eventId}
+    </update>
+</mapper>
