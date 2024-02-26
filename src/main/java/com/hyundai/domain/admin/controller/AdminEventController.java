@@ -30,7 +30,7 @@ public class AdminEventController {
         return ResponseMessage.SuccessResponse("이벤트 수정 성공", adminEventService.modifyEvent(paramDTO));
     }
 
-    @PutMapping("/event")
+    @DeleteMapping("/event")
     public ResponseEntity<?> deleteEvent(@RequestBody AdminEventDTO paramDTO){
         return ResponseMessage.SuccessResponse("이벤트 삭제 성공", adminEventService.deleteEvent(paramDTO));
     }

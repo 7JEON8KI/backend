@@ -4,8 +4,8 @@ import com.hyundai.domain.admin.dto.AdminMemberDTO;
 import com.hyundai.domain.admin.dto.AdminMemberParamDTO;
 import com.hyundai.domain.admin.service.AdminMemberService;
 import com.hyundai.global.message.ResponseMessage;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,9 +15,9 @@ import java.util.Map;
 @Slf4j
 @RequestMapping("/admin")
 @RestController
+@RequiredArgsConstructor
 public class AdminMemberController {
-    @Autowired
-    private AdminMemberService adminMemberService;
+    private final AdminMemberService adminMemberService;
 
     @PostMapping("/member")
     public ResponseEntity getMembers(@RequestBody AdminMemberParamDTO paramDTO){
@@ -35,7 +35,7 @@ public class AdminMemberController {
                 .SuccessResponse(memberDTO.getMemberId() + "회원 수정 성공", adminMemberService.modifyMember(memberDTO));
     }
 
-    @PostMapping("/member/delete")
+    @DeleteMapping("/member/delete")
     public ResponseEntity deleteMember(@RequestBody AdminMemberDTO memberDTO){
         return ResponseMessage
                 .SuccessResponse(memberDTO.getMemberId() + "회원 삭제 성공", adminMemberService.deleteMember(memberDTO));
