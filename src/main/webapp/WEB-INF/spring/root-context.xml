@@ -38,8 +38,9 @@
 		<property name="AWS_ACCESS_KEY" value="${cloud.aws.credentials.access-key}"/>
 		<property name="AWS_SECRET_KEY" value="${cloud.aws.credentials.secret-key}"/>
 		<property name="AWS_BUCKET" value="${cloud.aws.s3.bucket}"/>
+		<property name="REDIS_HOST" value="${spring.redis.host}"/>
+		<property name="REDIS_PORT" value="${spring.redis.port}"/>
 	</bean>
-
 
 	<mybatis-spring:scan base-package="com.hyundai.global.mapper"/>
 	<context:component-scan base-package="com.hyundai" />

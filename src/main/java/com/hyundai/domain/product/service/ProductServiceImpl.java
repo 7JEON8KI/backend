@@ -8,6 +8,7 @@ import com.hyundai.domain.product.repository.ProductSearchRepository;
 import com.hyundai.global.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,17 +29,11 @@ public class ProductServiceImpl implements ProductService{
     private final ElasticsearchTemplate elasticsearchTemplate;
 
     @Override
-    public List<ProductResponseDTO> getProducts() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String memberId = null;
-        log.debug("authentication : " + authentication);
-        if (authentication != null && authentication.isAuthenticated()
-                && !(authentication.getPrincipal() instanceof String)) {
-            CustomMemberDetails userDetails = (CustomMemberDetails) authentication.getPrincipal();
-            memberId = userDetails.getMemberId();
-            log.debug("memberId : " + memberId);
-        }
-
+    @Transactional(readOnly = true)
+    // product나 product_like가 바뀌면 캐시 삭제 해줘야 함
+    // (product가 바뀌면 allEntries = true, product_like가 바뀌면 해당 key(memberId) 캐시 삭제)
+    @Cacheable(cacheNames = "ProductResponseDTOs", key = "#memberId != null ? #memberId : 'anonymous'")
+    public List<ProductResponseDTO> getProducts(String memberId) {
         Map<String, Object> params = new HashMap<>();
         params.put("memberId", memberId);
         params.put("action", "FIND_ALL");
@@ -47,9 +42,9 @@ public class ProductServiceImpl implements ProductService{
         return (List<ProductResponseDTO>) params.get("cursor");
     }
 
-
     @Override
     public ProductResponseDTO getProductDetail(Long productId) {
+        // todo product에서 이 코드 반복됨
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String memberId = null;
         log.debug("authentication : " + authentication);
@@ -96,7 +91,7 @@ public class ProductServiceImpl implements ProductService{
     @Override
     @Transactional(readOnly = true)
     // todo : productId -> productResponseDTO로 변경
-    public List<Long> getSearchProducts(SearchRequestDTO searchDTO) {
+    public List<Long> getSearchProducts(SearchRequestDTO searchDTO, String memberId) {
         // Elasticsearch를 통한 상품 검색
         List<Long> productIds;
         productIds = productSearchRepository.search(searchDTO, elasticsearchTemplate);
