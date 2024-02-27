@@ -31,6 +31,7 @@ public class ProductResponseDTO {
     private LocalDateTime modifiedAt;
     private int isLike;
     private String themeName;
+    private int rn;
     public ProductResponseDTO(Product product) {
         this.productId = product.getProductId();
         this.productName = product.getProductName();

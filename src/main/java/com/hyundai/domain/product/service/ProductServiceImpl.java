@@ -1,6 +1,7 @@
 package com.hyundai.domain.product.service;
 
 import com.hyundai.domain.login.security.CustomMemberDetails;
+import com.hyundai.domain.product.dto.request.ProductCriteria;
 import com.hyundai.domain.product.dto.request.SearchRequestDTO;
 import com.hyundai.domain.product.dto.response.ProductResponseDTO;
 import com.hyundai.domain.product.entity.Product;
@@ -32,12 +33,17 @@ public class ProductServiceImpl implements ProductService{
     @Transactional(readOnly = true)
     // product나 product_like가 바뀌면 캐시 삭제 해줘야 함
     // (product가 바뀌면 allEntries = true, product_like가 바뀌면 해당 key(memberId) 캐시 삭제)
-    @Cacheable(cacheNames = "ProductResponseDTOs", key = "#memberId != null ? #memberId : 'anonymous'")
-    public List<ProductResponseDTO> getProducts(String memberId) {
+//    @Cacheable(cacheNames = "ProductResponseDTOs", key = "#memberId != null ? #memberId : 'anonymous'")
+    public List<ProductResponseDTO> getProducts(ProductCriteria productCriteria, String memberId) {
         Map<String, Object> params = new HashMap<>();
         params.put("memberId", memberId);
-        params.put("action", "FIND_ALL");
+        params.put("themeName", productCriteria.getThemeName());
+        params.put("sort", productCriteria.getSort());
+        params.put("pageNum", productCriteria.getPageNum());
+        params.put("pageAmount", "12");
+        params.put("includeSoldOut", productCriteria.getIncludeSoldOut());
         params.put("cursor", null);
+
         productMapper.findAll(params);
         return (List<ProductResponseDTO>) params.get("cursor");
     }
@@ -66,27 +72,6 @@ public class ProductServiceImpl implements ProductService{
         return list.get(0);
     }
 
-    @Override
-    public List<ProductResponseDTO> getThemeProducts(String themeName) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String memberId = null;
-        log.debug("authentication : " + authentication);
-        if (authentication != null && authentication.isAuthenticated()
-                && !(authentication.getPrincipal() instanceof String)) {
-            CustomMemberDetails userDetails = (CustomMemberDetails) authentication.getPrincipal();
-            memberId = userDetails.getMemberId();
-            log.debug("memberId : " + memberId);
-        }
-
-        Map<String, Object> params = new HashMap<>();
-        params.put("memberId", memberId);
-        params.put("themeName", themeName);
-        params.put("action", "FIND_BY_THEME");
-        params.put("cursor", null);
-
-        productMapper.findByTheme(params);
-        return (List<ProductResponseDTO>) params.get("cursor");
-    }
 
     @Override
     @Transactional(readOnly = true)
@@ -106,26 +91,26 @@ public class ProductServiceImpl implements ProductService{
 //        return convertToProductResponseDTOList(products);
     }
 
-    private List<ProductResponseDTO> convertToProductResponseDTOList(List<Product> products) {
-        return products.stream()
-                .map(product -> new ProductResponseDTO(product.getProductId(),
-                        product.getProductName(),
-                        product.getProductSubName(),
-                        product.getPrice(),
-                        product.getProductType(),
-                        product.getStock(),
-                        product.getDiscountRate(),
-                        product.getProductDetail(),
-                        product.getAmount(),
-                        product.getCalorie(),
-                        product.getStorage(),
-                        product.getThumbnailImageUrl(),
-                        product.getCreatedAt(),
-                        product.getModifiedAt(),
-                        0, // isLike 필드 값 설정
-                        null)) // themeName 필드 값 설정
-                .collect(Collectors.toList());
-    }
+//    private List<ProductResponseDTO> convertToProductResponseDTOList(List<Product> products) {
+//        return products.stream()
+//                .map(product -> new ProductResponseDTO(product.getProductId(),
+//                        product.getProductName(),
+//                        product.getProductSubName(),
+//                        product.getPrice(),
+//                        product.getProductType(),
+//                        product.getStock(),
+//                        product.getDiscountRate(),
+//                        product.getProductDetail(),
+//                        product.getAmount(),
+//                        product.getCalorie(),
+//                        product.getStorage(),
+//                        product.getThumbnailImageUrl(),
+//                        product.getCreatedAt(),
+//                        product.getModifiedAt(),
+//                        0, // isLike 필드 값 설정
+//                        null)) // themeName 필드 값 설정
+//                .collect(Collectors.toList());
+//    }
 
 
 }
