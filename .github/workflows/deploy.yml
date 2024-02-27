@@ -57,6 +57,6 @@ jobs:
           key: ${{ secrets.AWS_PRIVATE_KEY }}
           script: |
             sudo docker rm -f $(sudo docker ps -qa) || true
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/mealkeat:frontlatest
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/mealkeat:backlatest
             sudo docker-compose up -d
             sudo docker image prune -f
