@@ -52,7 +52,7 @@
     </select>
 
     <select id="saveOrDeleteCart" parameterType="map" statementType="CALLABLE">
-        {call add_or_remove_product_from_cart(
+        {call manage_carts(
                 #{memberId, jdbcType=VARCHAR, mode=IN},
                 #{productId, jdbcType=NUMERIC, mode=IN},
                 #{cartProductCnt, jdbcType=NUMERIC, mode=IN},
