@@ -9,8 +9,8 @@ import java.util.Map;
 public interface ProductMapper {
     void findById(Map<String, Object> params);
     void findAll(Map<String, Object> params);
-    List<Product> findAllByProductId(@Param("productIds") List<Long> productIds);
-    void findByTheme(Map<String, Object> params);
+//    List<Product> findAllByProductId(@Param("productIds") List<Long> productIds);
+
     int selectProductStock(@Param("productId") Long id);
     void updateProductStock(@Param("productId") Long id, @Param("orderCount") int orderCount);
 

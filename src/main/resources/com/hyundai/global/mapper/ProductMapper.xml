@@ -20,6 +20,7 @@
         <result column="MODIFIED_AT" property="modifiedAt" />
         <result column="isLike" property="isLike" />
         <result column="theme_name" property="themeName" />
+        <result column="rn" property="rn" />
     </resultMap>
 
     <select id="findById" statementType="CALLABLE">
@@ -34,42 +35,17 @@
     </select>
 
     <select id="findAll" statementType="CALLABLE">
-        {call get_products(
+        {call CLIENT_GET_PRODUCTS(
                 #{memberId, jdbcType=VARCHAR, mode=IN},
-                #{productId, jdbcType=NUMERIC, mode=IN},
-                #{productType, jdbcType=VARCHAR, mode=IN},
                 #{themeName, jdbcType=VARCHAR, mode=IN},
-                #{action, jdbcType=VARCHAR, mode=IN},
+                #{pageNum, jdbcType=NUMERIC, mode=IN},
+                #{pageAmount, jdbcType=NUMERIC, mode=IN},
+                #{sort, jdbcType=VARCHAR, mode=IN},
+                #{includeSoldOut, jdbcType=NUMERIC, mode=IN},
                 #{cursor, jdbcType=CURSOR, javaType=ResultSet, mode=OUT, resultMap=map}
               )}
     </select>
 
-    <select id="findByTheme" statementType="CALLABLE">
-        {call get_products(
-                #{memberId, jdbcType=VARCHAR, mode=IN},
-                #{productId, jdbcType=NUMERIC, mode=IN},
-                #{productType, jdbcType=VARCHAR, mode=IN},
-                #{themeName, jdbcType=VARCHAR, mode=IN},
-                #{action, jdbcType=VARCHAR, mode=IN},
-                #{cursor, jdbcType=CURSOR, javaType=ResultSet, mode=OUT, resultMap=map}
-              )}
-    </select>
-
-<!--    <select id="findById" resultMap="ProductResultMap">-->
-<!--        SELECT product_id, product_name, product_sub_name, price, product_type, stock, discount_rate, product_detail, amount, calorie, storage, thumbnail_image_url, created_at, MODIFIED_AT-->
-<!--        FROM tbl_product-->
-<!--        WHERE product_id = #{productId}-->
-<!--    </select>-->
-
-<!--    <select id="findAll" resultMap="ProductResultMap">-->
-<!--        SELECT product_id, product_name, product_sub_name, price, product_type, stock, discount_rate, product_detail, amount, calorie, storage, thumbnail_image_url,  created_at, MODIFIED_AT  FROM tbl_product-->
-<!--    </select>-->
-
-<!--    <select id="findByType" resultMap="ProductResultMap">-->
-<!--        SELECT product_id, product_name, product_sub_name, price, product_type, stock, discount_rate, product_detail, amount, calorie, storage, thumbnail_image_url, created_at, MODIFIED_AT-->
-<!--        FROM tbl_product-->
-<!--        WHERE PRODUCT_TYPE = #{productType}-->
-<!--    </select>-->
 
     <select id="selectProductStock" resultType="int">
         SELECT STOCK FROM tbl_product WHERE PRODUCT_ID = #{productId}
