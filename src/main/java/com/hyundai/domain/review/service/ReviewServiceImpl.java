@@ -1,5 +1,6 @@
 package com.hyundai.domain.review.service;
 
+import com.hyundai.domain.product.dto.response.ProductResponseDTO;
 import com.hyundai.domain.review.dto.request.ReviewRequestDto;
 import com.hyundai.domain.review.dto.response.ReviewResponseDto;
 import com.hyundai.domain.review.entity.enumType.ReviewGetType;
@@ -110,13 +111,28 @@ public class ReviewServiceImpl implements ReviewService{
         return reviews;
     }
 
+//    @Override
+//    public List<ReviewResponseDto> getProductReviews(int productId) {
+//        Map<String, Object> params = new HashMap<>();
+//        params.put("productId", productId);
+//        params.put("reviewType", ReviewGetType.PRODUCT_REVIEWS.toString());
+//        params.put("result", null);
+//        List<ReviewResponseDto> reviews = reviewMapper.getProductReviews(params);
+//        if(reviews == null || reviews.isEmpty()) {
+//            throw new GlobalException(GlobalErrorCode.REVIEW_NOT_FOUND);
+//        }
+//        return reviews;
+//    }
+
     @Override
-    public List<ReviewResponseDto> getProductReviews(int productId) {
+    public List<ReviewResponseDto> getProductReviews(int productId, int pageNum){
         Map<String, Object> params = new HashMap<>();
         params.put("productId", productId);
         params.put("reviewType", ReviewGetType.PRODUCT_REVIEWS.toString());
-        params.put("result", null);
-        List<ReviewResponseDto> reviews = reviewMapper.getProductReviews(params);
+        params.put("cursor", null);
+        params.put("pageNum", pageNum);
+        params.put("pageSize", 3);
+        List<ReviewResponseDto> reviews = reviewMapper.getProductReview(params);
         if(reviews == null || reviews.isEmpty()) {
             throw new GlobalException(GlobalErrorCode.REVIEW_NOT_FOUND);
         }
