@@ -1,5 +1,6 @@
 package com.hyundai.global.mapper;
 
+import com.hyundai.domain.login.dto.MemberInfoResponseDto;
 import com.hyundai.domain.login.entity.Member;
 import org.apache.ibatis.annotations.Param;
 
@@ -14,4 +15,7 @@ public interface MemberMapper {
     void deleteMember(String memberId);
     Optional<Member> findMemberByMemberId(@Param("memberId")String memberId);
     void registerStore(Map<String, Object> map);
+    Optional<MemberInfoResponseDto> getMemberByMemberId(String memberId);
+    void updateMember(Map<String, Object> map);
+    void updateMemberInfo(Map<String, Object> map);
 }

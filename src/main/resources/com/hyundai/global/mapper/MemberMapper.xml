@@ -75,5 +75,47 @@
         VALUES(SEQ_STORE_ID.nextval, #{memberId}, #{storeName}, #{storeTel}, sysdate)
     </insert>
 
+    <select id="getMemberByMemberId" resultType="MemberInfoResponseDto">
+        SELECT m.member_id AS "memberId",
+               m.member_email AS "memberEmail",
+               m.member_name AS "memberName",
+               m.member_nickname AS "memberNickname",
+               m.member_phone AS "memberPhone",
+               m.member_gender AS "memberGender",
+               m.member_birth AS "memberBirth",
+               m.member_role AS "memberRole",
+               m.REFRESH_TOKEN AS "refreshToken",
+               m.created_at AS "createdAt",
+               m.modified_at AS "updatedAt",
+               m.deleted_at AS "deletedAt",
+               mi.info_addr AS "infoAddr",
+               mi.info_zipcode AS "infoZipcode"
+        FROM tbl_member m
+                 LEFT JOIN tbl_member_info mi ON m.member_id = mi.member_id
+        WHERE m.member_id = #{memberId}
+    </select>
+
+    <update id="updateMember" parameterType="Map">
+        <!-- tbl_member 테이블 업데이트 -->
+        UPDATE tbl_member
+        SET
+        member_name = #{memberName},
+        member_nickname = #{memberNickname},
+        member_phone = #{memberPhone},
+        member_gender = #{memberGender},
+        member_birth = #{memberBirth},
+        modified_at = CURRENT_TIMESTAMP
+        WHERE member_id = #{memberId}
+    </update>
+
+    <update id="updateMemberInfo" parameterType="Map">
+        <!-- tbl_member_info 테이블 업데이트 -->
+        UPDATE tbl_member_info
+        SET
+        info_addr = #{infoAddr},
+        info_zipcode = #{infoZipcode}
+        WHERE member_id = #{memberId}
+    </update>
+
 
 </mapper>
