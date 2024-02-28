@@ -91,6 +91,8 @@ public class ProductServiceImpl implements ProductService{
 //        return convertToProductResponseDTOList(products);
     }
 
+
+
 //    private List<ProductResponseDTO> convertToProductResponseDTOList(List<Product> products) {
 //        return products.stream()
 //                .map(product -> new ProductResponseDTO(product.getProductId(),
@@ -112,5 +114,32 @@ public class ProductServiceImpl implements ProductService{
 //                .collect(Collectors.toList());
 //    }
 
+    @Override
+    public List<ProductResponseDTO> getWineProducts(ProductCriteria productCriteria, String memberId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("memberId", memberId);
+        params.put("sort", productCriteria.getSort());
+        params.put("pageNum", productCriteria.getPageNum());
+        params.put("pageAmount", "12");
+        params.put("includeSoldOut", productCriteria.getIncludeSoldOut());
+        params.put("cursor", null);
+
+        productMapper.findWineAll(params);
+        return (List<ProductResponseDTO>) params.get("cursor");
+    }
+    @Override
+    public List<ProductResponseDTO> getThemeProducts(ProductCriteria productCriteria, String memberId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("memberId", memberId);
+        params.put("themeName", productCriteria.getThemeName());
+        params.put("sort", productCriteria.getSort());
+        params.put("pageNum", productCriteria.getPageNum());
+        params.put("pageAmount", "12");
+        params.put("includeSoldOut", productCriteria.getIncludeSoldOut());
+        params.put("cursor", null);
+
+        productMapper.findThemeProducts(params);
+        return (List<ProductResponseDTO>) params.get("cursor");
+    }
 
 }

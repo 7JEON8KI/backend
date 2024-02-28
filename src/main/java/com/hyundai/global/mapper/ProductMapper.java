@@ -1,5 +1,6 @@
 package com.hyundai.global.mapper;
 
+import com.hyundai.domain.product.dto.response.ProductResponseDTO;
 import com.hyundai.domain.product.entity.Product;
 import org.apache.ibatis.annotations.Param;
 
@@ -10,7 +11,8 @@ public interface ProductMapper {
     void findById(Map<String, Object> params);
     void findAll(Map<String, Object> params);
 //    List<Product> findAllByProductId(@Param("productIds") List<Long> productIds);
-
+    void findWineAll(Map<String, Object> params);
+    void findThemeProducts(Map<String, Object> params);
     int selectProductStock(@Param("productId") Long id);
     void updateProductStock(@Param("productId") Long id, @Param("orderCount") int orderCount);
 

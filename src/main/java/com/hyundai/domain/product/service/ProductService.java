@@ -12,4 +12,8 @@ public interface ProductService {
 
     // todo : productId -> productResponseDTO로 변경
     List<Long> getSearchProducts(SearchRequestDTO searchDTO, String memberId);
+
+    List<ProductResponseDTO> getWineProducts(ProductCriteria productCriteria, String memberId);
+
+    List<ProductResponseDTO> getThemeProducts(ProductCriteria productCriteria, String memberId);
 }
