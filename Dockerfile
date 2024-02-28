@@ -10,6 +10,7 @@ COPY .mvn .mvn
 COPY pom.xml .
 COPY src src
 
+
 # mvnw에 실행 권한 부여
 RUN chmod +x ./mvnw
 
