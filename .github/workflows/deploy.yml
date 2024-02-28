@@ -49,14 +49,13 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
         # (6) docker compose up
-      - name: executing remote ssh commands using password
+      - name: Restart 'back' service only
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.AWS_HOST_ID }}
           username: ec2-user
           key: ${{ secrets.AWS_PRIVATE_KEY }}
           script: |
-            sudo docker rm -f $(sudo docker ps -qa) || true
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/mealkeat:backlatest
-            sudo docker-compose up -d
-            sudo docker image prune -f
+            sudo docker-compose pull back # 최신 이미지로 업데이트
+            sudo docker-compose up -d back # 'back' 서비스만 다시 시작
+            sudo docker image prune -f # 불필요한 이미지 정리
