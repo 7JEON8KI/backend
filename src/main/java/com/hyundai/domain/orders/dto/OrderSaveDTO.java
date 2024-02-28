@@ -1,10 +1,14 @@
 package com.hyundai.domain.orders.dto;
 
 import lombok.Getter;
-import lombok.ToString;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 @Getter
-//@ToString
+@Setter
+@NoArgsConstructor
 public class OrderSaveDTO {
     private String memberId;
     private Long productId;
@@ -19,4 +23,5 @@ public class OrderSaveDTO {
     private String orderRequired;
     private String paymentMethod;
     private String productImage;
+    private LocalDateTime deliveryDepartureTime;
 }
