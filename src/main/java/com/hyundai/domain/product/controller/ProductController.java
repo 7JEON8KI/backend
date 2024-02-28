@@ -33,7 +33,7 @@ public class ProductController {
     }*/
 
     // 상품 리스트 조회
-    @GetMapping()
+    @PostMapping()
     public ResponseEntity<?> getProducts(@RequestBody WrapperSearchDTO wrapperSearchDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String memberId = null;
