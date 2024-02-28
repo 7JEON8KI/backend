@@ -2,15 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.hyundai.global.mapper.OrderProductMapper">
-    <insert id="insertOrderProduct" parameterType="com.hyundai.domain.orderProduct.entity.OrderProduct" keyProperty="orderProductId">
-        INSERT INTO TBL_ORDERPRODUCT (ORDER_ID, PRODUCT_ID, ORDER_PRODUCT_PRICE, ORDER_PRODUCT_COUNT, ORDER_PRODUCT_DISCOUNT, PRODUCT_IMAGE)
-        VALUES (#{orderId}, #{productId}, #{orderProductPrice}, #{orderProductCount}, #{orderProductDiscount}, #{productImage})
+    <insert id="insertOrderProduct" useGeneratedKeys="true" keyProperty="orderProductId">
+        <selectKey keyProperty="orderProductId" order="BEFORE" resultType="long">
+            select SEQ_TBL_ORDERPRODUCT.nextval from dual
+        </selectKey>
+        INSERT INTO TBL_ORDERPRODUCT (orderproduct_id, ORDER_ID, PRODUCT_ID, ORDER_PRODUCT_PRICE, ORDER_PRODUCT_COUNT, ORDER_PRODUCT_DISCOUNT, PRODUCT_IMAGE)
+        VALUES (#{orderProductId}, #{orderId}, #{productId}, #{orderProductPrice}, #{orderProductCount}, #{orderProductDiscount}, #{productImage})
     </insert>
 
     <select id="selectOPIdByOrderIdAndProductId" resultType="Long">
         SELECT op.ORDER_ID
         FROM TBL_ORDERPRODUCT op
                  JOIN tbl_orders o ON op.ORDER_ID = o.ORDER_ID
-        WHERE o.MEMBER_ID_NO = #{memberId} AND op.PRODUCT_ID = #{productId}
+        WHERE o.MEMBER_ID = #{memberId} AND op.PRODUCT_ID = #{productId}
     </select>
 </mapper>

@@ -2,25 +2,28 @@ package com.hyundai.domain.orders.entity;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
 public class Orders {
     private Long orderId;
-    private String memberId;
-    private String orderNumber;
-    private String receiverName;
-    private String phoneNumber;
-    private int zipcode;
-    private String address;
-    private String orderRequired;
-    private String orderStatus;
-    private String paymentMethod;
+    private final String memberId;
+    private final String orderNumber;
+    private final String receiverName;
+    private final String phoneNumber;
+    private final int zipcode;
+    private final String address;
+    private final String orderRequired;
+    private final String orderStatus;
+    private final String paymentMethod;
     private LocalDateTime orderDate;
+    private LocalDateTime deliveryDepartureTime;
 
     @Builder
-    public Orders(String memberId, String orderNumber, String receiverName, String phoneNumber, int zipcode, String address, String orderRequired, String orderStatus, String paymentMethod) {
+    public Orders(String memberId, String orderNumber, String receiverName, String phoneNumber, int zipcode, String address, String orderRequired, String orderStatus, String paymentMethod, LocalDateTime deliveryDepartureTime) {
         this.memberId = memberId;
         this.orderNumber = orderNumber;
         this.receiverName = receiverName;
@@ -30,5 +33,6 @@ public class Orders {
         this.orderRequired = orderRequired;
         this.orderStatus = orderStatus;
         this.paymentMethod = paymentMethod;
+        this.deliveryDepartureTime = deliveryDepartureTime;
     }
 }
