@@ -10,19 +10,22 @@ import com.hyundai.global.mapper.OrderMapper;
 import com.hyundai.global.mapper.OrderProductMapper;
 import com.hyundai.global.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Transactional
+
 @RequiredArgsConstructor
 @Service
+@Log4j2
 public class PaymentServiceImpl {
     private final OrderMapper orderMapper;
     private final OrderProductMapper orderProductMapper;
     private final ProductMapper productMapper;
 
+    @Transactional
     public void saveOrder(String memberId, List<OrderSaveDTO> orderSaveDtos) {
         OrderSaveDTO saveDto = orderSaveDtos.get(0);
         Orders orders = Orders.builder()
@@ -36,6 +39,7 @@ public class PaymentServiceImpl {
                 .orderStatus(PayStatus.SUCCESS.getStatus())
                 .paymentMethod(saveDto.getPaymentMethod())
                 .build();
+        orders.setDeliveryDepartureTime(saveDto.getDeliveryDepartureTime());
         orderMapper.insertOrder(orders);
 
         for (OrderSaveDTO dto : orderSaveDtos) {

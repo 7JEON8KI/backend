@@ -8,10 +8,10 @@
         <selectKey keyProperty="orderId" order="BEFORE" resultType="long">
             select SEQ_TBL_ORDERS.nextval from dual
         </selectKey>
-        INSERT INTO tbl_orders (ORDER_ID, MEMBER_ID_NO, ORDER_NUMBER, RECEIVER_NAME, PHONE_NUMBER, ZIPCODE,
-                            ADDRESS, ORDER_REQUIRED, ORDER_STATUS, PAYMENT_METHOD)
+        INSERT INTO tbl_orders (ORDER_ID, MEMBER_ID, ORDER_NUMBER, RECEIVER_NAME, PHONE_NUMBER, ZIPCODE,
+                            ADDRESS, ORDER_REQUIRED, ORDER_STATUS, PAYMENT_METHOD, DELIVERYDEPARTURETIME)
         VALUES (
-                SEQ_TBL_ORDERS.nextval,
+                    #{orderId},
                    #{memberId},
                    #{orderNumber},
                    #{receiverName},
@@ -20,7 +20,8 @@
                    #{address},
                    #{orderRequired},
                    #{orderStatus},
-                   #{paymentMethod}
+                   #{paymentMethod},
+                #{deliveryDepartureTime}
                )
     </insert>
 

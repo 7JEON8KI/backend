@@ -14,14 +14,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import javax.annotation.PostConstruct;
-
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.List;
 
@@ -45,6 +44,8 @@ public class PaymentController {
         this.secretKey = applicationProperties.getIMP_SECRET_KEY();
         this.iamportClient = new IamportClient(apiKey, secretKey);
     }
+
+    // todo 쿠폰, 포인트 추가
     // 요청으로 받은 주문 상품들을 저장
     @PostMapping("/payment")
     public ResponseEntity<?> paymentComplete(@RequestBody List<OrderSaveDTO> orderSaveDtos) throws IOException {
@@ -62,7 +63,6 @@ public class PaymentController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-
 
     // imp_uid(결제 고유 ID) 값을 받아 결제 상세 내역을 조회하는 함수
     // imp_uid 값은 발급받은 "가맹정 식별 코드"이고 클라이언트 측에서 요청할 때 넣어줌
