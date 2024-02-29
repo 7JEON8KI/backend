@@ -46,6 +46,29 @@
               )}
     </select>
 
+    <select id="findWineAll" statementType="CALLABLE">
+        {call CLIENT_GET_WINES(
+                #{memberId, jdbcType=VARCHAR, mode=IN},
+                #{pageNum, jdbcType=NUMERIC, mode=IN},
+                #{pageAmount, jdbcType=NUMERIC, mode=IN},
+                #{sort, jdbcType=VARCHAR, mode=IN},
+                #{includeSoldOut, jdbcType=NUMERIC, mode=IN},
+                #{cursor, jdbcType=CURSOR, javaType=ResultSet, mode=OUT, resultMap=map}
+              )}
+    </select>
+
+    <select id="findThemeProducts" statementType="CALLABLE">
+        {call CLIENT_GET_THEMES_PRODUCTS(
+                #{memberId, jdbcType=VARCHAR, mode=IN},
+                #{themeName, jdbcType=VARCHAR, mode=IN},
+                #{pageNum, jdbcType=NUMERIC, mode=IN},
+                #{pageAmount, jdbcType=NUMERIC, mode=IN},
+                #{sort, jdbcType=VARCHAR, mode=IN},
+                #{includeSoldOut, jdbcType=NUMERIC, mode=IN},
+                #{cursor, jdbcType=CURSOR, javaType=ResultSet, mode=OUT, resultMap=map}
+              )}
+    </select>
+
 
     <select id="selectProductStock" resultType="int">
         SELECT STOCK FROM tbl_product WHERE PRODUCT_ID = #{productId}

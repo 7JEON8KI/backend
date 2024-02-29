@@ -4,6 +4,8 @@ package com.hyundai.domain.product.controller;
 
 //import com.hyundai.domain.product.ProductMigrationFromOracleToElasticsearch;
 import com.hyundai.domain.login.security.CustomMemberDetails;
+import com.hyundai.domain.product.dto.request.ProductCriteria;
+import com.hyundai.domain.product.dto.request.ProductRequestDTO;
 import com.hyundai.domain.product.dto.request.WrapperSearchDTO;
 import com.hyundai.domain.product.service.ProductService;
 import com.hyundai.global.message.ResponseMessage;
@@ -58,5 +60,36 @@ public class ProductController {
     @GetMapping("/{productId}")
     public ResponseEntity<?> getProductDetail(@PathVariable Long productId) {
         return ResponseMessage.SuccessResponse("상품 상세 조회 성공", productService.getProductDetail(productId));
+    }
+
+    // 와인 상품 조회
+    @PostMapping("/wine")
+    public ResponseEntity<?> getWineProducts(@RequestBody ProductCriteria productCriteria) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String memberId = null;
+        log.debug("authentication : " + authentication);
+        if (authentication != null && authentication.isAuthenticated()
+                && !(authentication.getPrincipal() instanceof String)) {
+            CustomMemberDetails userDetails = (CustomMemberDetails) authentication.getPrincipal();
+            memberId = userDetails.getMemberId();
+            log.debug("memberId : " + memberId);
+        }
+
+        return ResponseMessage.SuccessResponse("와인 상품 리스트 조회 성공", productService.getWineProducts(productCriteria, memberId));
+    }
+
+    @PostMapping("/theme")
+    public ResponseEntity<?> getThemeProducts(@RequestBody ProductCriteria productCriteria) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String memberId = null;
+        log.debug("authentication : " + authentication);
+        if (authentication != null && authentication.isAuthenticated()
+                && !(authentication.getPrincipal() instanceof String)) {
+            CustomMemberDetails userDetails = (CustomMemberDetails) authentication.getPrincipal();
+            memberId = userDetails.getMemberId();
+            log.debug("memberId : " + memberId);
+        }
+
+        return ResponseMessage.SuccessResponse("테마 상품 리스트 조회 성공", productService.getThemeProducts(productCriteria, memberId));
     }
 }
