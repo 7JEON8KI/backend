@@ -1,6 +1,8 @@
 package com.hyundai.domain.login.service.oauth;
 
 
+import com.hyundai.domain.login.dto.MemberInfoRequestDto;
+import com.hyundai.domain.login.dto.MemberInfoResponseDto;
 import com.hyundai.domain.login.dto.StoreRequestDto;
 import com.hyundai.domain.login.dto.kakao.KakaoLoginResponseDto;
 import com.hyundai.domain.login.dto.kakao.KakaoTokenResponseDto;
@@ -21,6 +23,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -125,7 +128,7 @@ public class OAuthServiceImpl implements OAuthService {
         return member.getMemberName();
     }
 
-    public Object registerStore(String memberId, StoreRequestDto storeRequestDto) {
+    public String registerStore(String memberId, StoreRequestDto storeRequestDto) {
         log.debug("------ 판매자 등록 요청 ------");
         Map<String, Object> params = new HashMap<>();
         params.put("memberId", memberId);
@@ -134,5 +137,30 @@ public class OAuthServiceImpl implements OAuthService {
         memberMapper.registerStore(params);
         log.debug("------ 판매자 등록 요청 완료 ------");
         return storeRequestDto.getStoreName();
+    }
+
+    @Override
+    public MemberInfoResponseDto getMemberInfo(String memberId) {
+        log.debug("------ 회원정보 조회 ------");
+        return memberMapper.getMemberByMemberId(memberId)
+                .orElseThrow(() -> new GlobalException(GlobalErrorCode.USER_NOT_FOUND));
+    }
+
+    @Override
+    @Transactional
+    public void updateMemberInfo(String memberId, MemberInfoRequestDto memberInfoRequestDto) {
+        log.debug("------ 회원정보 수정 ------");
+        Map<String, Object> params = new HashMap<>();
+        params.put("memberId", memberId);
+        params.put("memberName", memberInfoRequestDto.getMemberName());
+        params.put("memberNickname", memberInfoRequestDto.getMemberNickname());
+        params.put("memberPhone", memberInfoRequestDto.getMemberPhone());
+        params.put("memberGender", memberInfoRequestDto.getMemberGender());
+        params.put("memberBirth", memberInfoRequestDto.getMemberBirth());
+        params.put("infoAddr", memberInfoRequestDto.getInfoAddr());
+        params.put("infoZipcode", memberInfoRequestDto.getInfoZipcode());
+        memberMapper.updateMember(params);
+        memberMapper.updateMemberInfo(params);
+        log.debug("------ 회원정보 수정 완료 ------");
     }
 }
