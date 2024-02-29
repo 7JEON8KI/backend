@@ -24,7 +24,6 @@ public class MemberInfoResponseDto {
     private String memberPhone;
     private String memberGender;
     private LocalDate memberBirth;
-    private Role memberRole;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String infoAddr;

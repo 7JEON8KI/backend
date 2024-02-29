@@ -67,7 +67,8 @@ public class AuthController {
     public ResponseEntity<?> updateMemberInfo(@RequestBody MemberInfoRequestDto memberInfoRequestDto) {
         String memberId = ((CustomMemberDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getMemberId();
         log.debug("updateMemberInfo:" + memberId);
-        return ResponseMessage.SuccessResponse("회원정보 수정 성공", oAuthService.updateMemberInfo(memberId, memberInfoRequestDto));
+        oAuthService.updateMemberInfo(memberId, memberInfoRequestDto);
+        return ResponseMessage.SuccessResponse("회원정보 수정 성공", "");
     }
 }
 

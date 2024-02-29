@@ -2,6 +2,7 @@ package com.hyundai.domain.login.service.oauth;
 
 
 import com.hyundai.domain.login.dto.MemberInfoRequestDto;
+import com.hyundai.domain.login.dto.MemberInfoResponseDto;
 import com.hyundai.domain.login.dto.StoreRequestDto;
 import com.hyundai.domain.login.dto.kakao.KakaoLoginResponseDto;
 import com.hyundai.domain.login.dto.kakao.KakaoTokenResponseDto;
@@ -127,7 +128,7 @@ public class OAuthServiceImpl implements OAuthService {
         return member.getMemberName();
     }
 
-    public Object registerStore(String memberId, StoreRequestDto storeRequestDto) {
+    public String registerStore(String memberId, StoreRequestDto storeRequestDto) {
         log.debug("------ 판매자 등록 요청 ------");
         Map<String, Object> params = new HashMap<>();
         params.put("memberId", memberId);
@@ -139,7 +140,7 @@ public class OAuthServiceImpl implements OAuthService {
     }
 
     @Override
-    public Object getMemberInfo(String memberId) {
+    public MemberInfoResponseDto getMemberInfo(String memberId) {
         log.debug("------ 회원정보 조회 ------");
         return memberMapper.getMemberByMemberId(memberId)
                 .orElseThrow(() -> new GlobalException(GlobalErrorCode.USER_NOT_FOUND));
@@ -147,7 +148,7 @@ public class OAuthServiceImpl implements OAuthService {
 
     @Override
     @Transactional
-    public Object updateMemberInfo(String memberId, MemberInfoRequestDto memberInfoRequestDto) {
+    public void updateMemberInfo(String memberId, MemberInfoRequestDto memberInfoRequestDto) {
         log.debug("------ 회원정보 수정 ------");
         Map<String, Object> params = new HashMap<>();
         params.put("memberId", memberId);
@@ -161,6 +162,5 @@ public class OAuthServiceImpl implements OAuthService {
         memberMapper.updateMember(params);
         memberMapper.updateMemberInfo(params);
         log.debug("------ 회원정보 수정 완료 ------");
-        return memberInfoRequestDto;
     }
 }
