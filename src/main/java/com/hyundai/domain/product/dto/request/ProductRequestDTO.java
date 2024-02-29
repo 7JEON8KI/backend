@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class ProductRequestDTO {
+    private Long productId;
     private String productName;
     private String productMainImage;
     /*private String productSubName;

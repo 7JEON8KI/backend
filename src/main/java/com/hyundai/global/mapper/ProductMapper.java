@@ -1,6 +1,6 @@
 package com.hyundai.global.mapper;
 
-import com.hyundai.domain.product.entity.Product;
+import com.hyundai.domain.product.dto.response.ProductResponseDTO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -14,4 +14,5 @@ public interface ProductMapper {
     int selectProductStock(@Param("productId") Long id);
     void updateProductStock(@Param("productId") Long id, @Param("orderCount") int orderCount);
 
+    List<ProductResponseDTO> findRecommendWines(Long productId);
 }
