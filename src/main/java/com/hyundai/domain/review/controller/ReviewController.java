@@ -7,6 +7,7 @@ import com.hyundai.global.message.ResponseMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -70,11 +71,18 @@ public class ReviewController {
         return ResponseMessage.SuccessResponse("내가 쓴 리뷰 조회 성공", reviewService.getReviewsByMemberId(memberId));
     }
 
+//    // 상품에 대한 리뷰 전체 조회
+//    @GetMapping("/product/{productId}")
+//    public ResponseEntity<?> getProductReviews(@PathVariable int productId) {
+//        log.debug("상품에 대한 리뷰 조회 요청 productId :: " + productId);
+//        return ResponseMessage.SuccessResponse("상품에 대한 리뷰 조회 성공", reviewService.getProductReviews(productId));
+//    }
+
     // 상품에 대한 리뷰 전체 조회
-    @GetMapping("/product/{productId}")
-    public ResponseEntity<?> getProductReviews(@PathVariable int productId) {
+    @GetMapping("/product/{productId}/page/{pageNum}")
+    public ResponseEntity<?> getProductReviews(@PathVariable int productId, @PathVariable int pageNum) {
         log.debug("상품에 대한 리뷰 조회 요청 productId :: " + productId);
-        return ResponseMessage.SuccessResponse("상품에 대한 리뷰 조회 성공", reviewService.getProductReviews(productId));
+        return ResponseMessage.SuccessResponse("상품에 대한 리뷰 조회 성공", reviewService.getProductReviews(productId, pageNum));
     }
 
 }

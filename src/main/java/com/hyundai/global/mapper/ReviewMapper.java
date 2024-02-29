@@ -18,4 +18,5 @@ public interface ReviewMapper {
     Optional<ReviewResponseDto> getProductReviewByMemberId(Map<String, Object> params);
     List<ReviewResponseDto> getReviewsByMemberId(Map<String, Object> params);
     List<ReviewResponseDto> getProductReviews(Map<String, Object> params);
+    List<ReviewResponseDto> getProductReview(Map<String, Object> params);
 }
