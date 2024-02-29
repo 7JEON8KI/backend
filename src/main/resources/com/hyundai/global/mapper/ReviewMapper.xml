@@ -12,6 +12,8 @@
         <result column="reviewImageUrl" property="reviewImageUrl" jdbcType="VARCHAR"/>
         <result column="reviewStar" property="reviewStar" jdbcType="INTEGER"/>
         <result column="modifiedAt" property="modifiedAt" jdbcType="VARCHAR"/>
+        <result column="pageNum" property="pageNum" jdbcType="INTEGER"/>
+        <result column="pageSize" property="pageSize" jdbcType="INTEGER"/>
     </resultMap>
 
     <select id="saveReview" parameterType="map" statementType="CALLABLE">
@@ -100,6 +102,25 @@
                 #{memberId, jdbcType=VARCHAR},
                 #{productId, jdbcType=NUMERIC},
                 #{reviewType, jdbcType=VARCHAR}
+                   )) review
+    </select>
+
+    <select id="getProductReview" resultType="ReviewResponseDto">
+        SELECT
+            review.review_id AS "reviewId",
+            review.product_id AS "productId",
+            review.member_nickname AS "memberNickname",
+            review.review_title AS "reviewTitle",
+            review.review_content AS "reviewContent",
+            review.review_image_url AS "reviewImageUrl",
+            review.review_star AS "reviewStar",
+            review.modified_at AS "modifiedAt"
+        FROM TABLE(CLIENT_GET_REVIEWS(
+                #{memberId, jdbcType=VARCHAR},
+                #{productId, jdbcType=NUMERIC},
+                #{reviewType, jdbcType=VARCHAR},
+                #{pageNum, jdbcType=NUMERIC},
+                #{pageSize, jdbcType=NUMERIC}
                    )) review
     </select>
 

@@ -16,5 +16,6 @@ public interface ReviewService {
     void deleteReview(ReviewRequestDto reviewRequestDto, String memberId);
     ReviewResponseDto getProductReviewByMemberId(String memberId, int productId);
     List<ReviewResponseDto> getReviewsByMemberId(String memberId);
-    List<ReviewResponseDto> getProductReviews(int productId);
+//    List<ReviewResponseDto> getProductReviews(int productId);
+    List<ReviewResponseDto> getProductReviews(int productId, int pageNum);
 }

@@ -81,4 +81,23 @@
         WHERE
             PRODUCT_ID = #{productId}
     </update>
+
+    <select id="findRecommendWines" resultType="com.hyundai.domain.product.dto.response.ProductResponseDTO">
+        SELECT p.PRODUCT_ID as productId,
+               p.PRODUCT_NAME as productName,
+               p.PRODUCT_SUB_NAME as productSubName,
+               p.PRICE,
+               p.PRODUCT_TYPE as productType,
+               p.STOCK,
+               p.DISCOUNT_RATE as discountRate,
+                p.PRODUCT_DETAIL as productDetail,
+                p.AMOUNT,
+                p.CALORIE,
+                p.STORAGE,
+                p.THUMBNAIL_IMAGE_URL as thumbnailImageUrl,
+                p.CREATED_AT as createdAt,
+                p.MODIFIED_AT as modifiedAt
+        FROM tbl_product p
+        WHERE p.product_type = 'wine'
+    </select>
 </mapper>

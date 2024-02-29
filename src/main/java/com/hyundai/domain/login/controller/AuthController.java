@@ -1,6 +1,7 @@
 package com.hyundai.domain.login.controller;
 
 
+import com.hyundai.domain.login.dto.MemberInfoRequestDto;
 import com.hyundai.domain.login.dto.StoreRequestDto;
 import com.hyundai.domain.login.dto.kakao.KakaoParams;
 import com.hyundai.domain.login.dto.oauth.OAuthMemberRequestDto;
@@ -52,6 +53,22 @@ public class AuthController {
         String memberId = ((CustomMemberDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getMemberId();
         log.debug("넘겨받은 판매자 정보 :: " + storeRequestDto.getStoreName());
         return ResponseMessage.SuccessResponse("판매자 등록 요청 성공", oAuthService.registerStore(memberId, storeRequestDto));
+    }
+
+    @GetMapping("/member")
+    public ResponseEntity<?> getMemberInfo() {
+        String memberId = ((CustomMemberDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getMemberId();
+        log.debug("getMemberInfo:" + memberId);
+        return ResponseMessage.SuccessResponse("회원정보 조회 성공", oAuthService.getMemberInfo(memberId));
+    }
+
+    // 멤버 정보 수정
+    @PutMapping("/member")
+    public ResponseEntity<?> updateMemberInfo(@RequestBody MemberInfoRequestDto memberInfoRequestDto) {
+        String memberId = ((CustomMemberDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getMemberId();
+        log.debug("updateMemberInfo:" + memberId);
+        oAuthService.updateMemberInfo(memberId, memberInfoRequestDto);
+        return ResponseMessage.SuccessResponse("회원정보 수정 성공", "");
     }
 }
 

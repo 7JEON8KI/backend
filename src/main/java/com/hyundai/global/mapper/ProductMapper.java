@@ -16,4 +16,5 @@ public interface ProductMapper {
     int selectProductStock(@Param("productId") Long id);
     void updateProductStock(@Param("productId") Long id, @Param("orderCount") int orderCount);
 
+    List<ProductResponseDTO> findRecommendWines(Long productId);
 }

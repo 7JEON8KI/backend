@@ -21,7 +21,7 @@ public class ElasticSearchConfig {
                 .put("cluster.name", "docker-cluster")
                 .build();
         TransportClient client = new PreBuiltTransportClient(settings);
-        client.addTransportAddress(new TransportAddress(InetAddress.getByName("localhost"), 9300));
+        client.addTransportAddress(new TransportAddress(InetAddress.getByName("52.78.243.203"), 9300));
 
         return client;
     }
