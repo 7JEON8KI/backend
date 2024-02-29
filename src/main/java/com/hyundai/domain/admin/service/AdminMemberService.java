@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface AdminMemberService {
-    List<AdminMemberDTO> getMemberList(AdminMemberParamDTO paramDTO);
+    List<AdminMemberDTO> getMemberList();
 
     List<AdminMemberDTO> getMemberListByPage(AdminMemberParamDTO paramDTO, Long pageNum);
 

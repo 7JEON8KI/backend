@@ -19,9 +19,9 @@ import java.util.Map;
 public class AdminMemberController {
     private final AdminMemberService adminMemberService;
 
-    @PostMapping("/member")
-    public ResponseEntity getMembers(@RequestBody AdminMemberParamDTO paramDTO){
-        return ResponseMessage.SuccessResponse("회원 조회 성공", adminMemberService.getMemberList(paramDTO));
+    @GetMapping("/member")
+    public ResponseEntity getMembers(){
+        return ResponseMessage.SuccessResponse("회원 조회 성공", adminMemberService.getMemberList());
     }
 
     @PostMapping("/member/{pageNum}")

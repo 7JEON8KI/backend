@@ -26,8 +26,8 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<AdminMemberDTO> getMemberList(AdminMemberParamDTO paramDTO) {
-        return adminMemberMapper.getListByParams(paramDTO);
+    public List<AdminMemberDTO> getMemberList() {
+        return adminMemberMapper.getAllMembers();
     }
 
     @Override
