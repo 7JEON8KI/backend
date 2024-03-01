@@ -4,6 +4,8 @@ import com.hyundai.domain.login.security.CustomAuthenticationEntryPoint;
 import com.hyundai.domain.login.security.CustomDeniedHandler;
 import com.hyundai.domain.login.security.JwtFilter;
 import com.hyundai.domain.login.security.JwtProvider;
+import com.hyundai.global.intercepter.LogFilter;
+import com.hyundai.global.mapper.LogMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,6 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtProvider jwtProvider;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     private final CustomDeniedHandler customDeniedHandler;
+    private final LogMapper logMapper;
 
     @Override
     @Bean
@@ -89,7 +92,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll() // 누구나 접근 가능
                 .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(new JwtFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(new LogFilter(logMapper), JwtFilter.class);
     }
 
 
