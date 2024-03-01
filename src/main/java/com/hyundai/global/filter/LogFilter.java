@@ -1,4 +1,4 @@
-package com.hyundai.global.intercepter;
+package com.hyundai.global.filter;
 
 import com.hyundai.domain.login.security.CustomMemberDetails;
 import com.hyundai.global.mapper.LogMapper;
@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,6 +30,19 @@ import java.util.Map;
 public class LogFilter extends OncePerRequestFilter {
 
     private final LogMapper logMapper;
+
+    private final List<String> EXCLUDE_URL_PATTERN = List.of(
+            "/api/v1/swagger-ui.html"
+            , "/api/v1/webjars"
+            , "/api/v1/v2/api-docs"
+            , "/api/v1/v3/api-docs"
+            , "/api/v1/swagger-resources"
+    );
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request){
+        String path = request.getRequestURI();
+        return EXCLUDE_URL_PATTERN.stream().anyMatch(path::startsWith);
+    }
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         Map<String, Object> logs = new HashMap<>();

@@ -4,7 +4,7 @@ import com.hyundai.domain.login.security.CustomAuthenticationEntryPoint;
 import com.hyundai.domain.login.security.CustomDeniedHandler;
 import com.hyundai.domain.login.security.JwtFilter;
 import com.hyundai.domain.login.security.JwtProvider;
-import com.hyundai.global.intercepter.LogFilter;
+import com.hyundai.global.filter.LogFilter;
 import com.hyundai.global.mapper.LogMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
