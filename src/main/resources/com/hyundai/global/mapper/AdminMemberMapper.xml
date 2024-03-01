@@ -8,69 +8,72 @@
         <result property="memberName" column="member_name"/>
         <result property="memberNickname" column="member_nickname"/>
         <result property="memberPhone" column="member_phone"/>
-        <result property="memberImage" column="member_image"/>
         <result property="memberGender" column="member_gender"/>
         <result property="memberRole" column="member_role"/>
         <result property="memberBirth" column="member_birth"/>
         <result property="createdDate" column="created_at"/>
         <result property="modifiedDate" column="modified_at"/>
-        <result property="deletedDate" column="deleted_at"/>
+        <result property="infoAddr" column="info_addr"/>
+        <result property="infoZipcode" column="info_zipcode"/>
     </resultMap>
 
-        <select id="getListByParams" resultMap="memberMap">
-            <![CDATA[
-            SELECT member_id
-                 , member_email
-                 , member_name
-                 , member_nickname
-                 , member_phone
-                 , member_image
-                 , member_gender
-                 , member_birth
-                 , member_role
-                 , created_at
-                 , modified_at
-                 , deleted_at
-            FROM (SELECT
-                      /*+ INDEX_DESC(tb1_board pk_board) */ rownum rn
-                       , member_id
-                       , member_email
-                       , member_name
-                       , member_nickname
-                       , member_phone
-                       , member_image
-                       , member_gender
-                       , member_birth
-                       , member_role
-                       , created_at
-                       , modified_at
-                       , deleted_at
-                  FROM tbl_member
-                  where rownum <= #{pageNum} * #{amount}
-                  ORDER BY #{standard}
-                 )
-            WHERE rn > (#{pageNum} - 1) * #{amount}
-                AND deleted_at IS NULL
-            ]]>
-        </select>
+    <resultMap id="managerMap" type="com.hyundai.domain.admin.dto.AdminManagerDTO">
+        <id property="storeId" column="store_id"/>
+        <result property="storeName" column="store_name"/>
+        <result property="storeTel" column="store_tel"/>
+        <result property="memberId" column="member_id"/>
+        <result property="memberName" column="member_name"/>
+        <result property="memberPhone" column="member_phone"/>
+        <result property="memberEmail" column="member_email"/>
+        <result property="memberCreatedDate" column="memeber_created_at"/>
+        <result property="infoAddr" column="info_addr"/>
+        <result property="infoZipcode" column="info_zipcode"/>
+        <result property="storeApprovedDate" column="store_approved_at"/>
+    </resultMap>
 
     <select id="getAllMembers" resultMap="memberMap">
         SELECT
-               member_id
-             , member_email
-             , member_name
-             , member_nickname
-             , member_phone
-             , member_gender
-             , member_birth
-             , member_role
-             , created_at
-             , deleted_at
+               m.member_id
+             , m.member_email
+             , m.member_name
+             , m.member_nickname
+             , m.member_phone
+             , m.member_gender
+             , m.member_birth
+             , m.member_role
+             , m.created_at
+             , mi.info_addr
+             , mi.info_zipcode
         FROM
-            tbl_member
+            tbl_member m
+        JOIN tbl_member_info mi on m.member_id = mi.member_id
+        WHERE m.deleted_at IS NULL
     </select>
 
-    <update id="modifyMember">
+    <select id="getAllManagers" resultMap="managerMap">
+        SELECT
+               s.store_id
+             , s.store_name
+             , s.store_tel
+             , m.member_id
+             , m.member_name
+             , m.member_phone
+             , m.member_email
+             , m.created_at as "memeber_created_at"
+             , mi.info_addr
+             , mi.info_zipcode
+             , s.approved_at as "store_approved_at"
+        FROM
+            tbl_member m
+        JOIN tbl_store s on m.member_id = s.member_id
+        JOIN tbl_member_info mi on m.member_id = mi.member_id
+        WHERE 1=1
+            AND m.deleted_at IS NULL
+            AND m.member_role = 'ROLE_MANAGER'
+            AND s.approved_at IS NOT NULL
+    </select>
+
+    <update id="modifyMember" parameterType="com.hyundai.domain.admin.dto.AdminMemberDTO">
         UPDATE
             tbl_member
         SET
@@ -80,7 +83,7 @@
           , member_phone = #{memberPhone}
           , modified_at = sysdate
         WHERE
-            member_id = #{memberId} AND deleted_at IS NULL
+            member_id = #{memberId}
     </update>
 
     <update id="deleteMember">
@@ -93,49 +96,29 @@
     </update>
 
     <update id="grantAuthorization">
-        update
-            tbl_member
-        set
-            member_role = #{memberRole}
-        WHERE
-            member_id = #{memberId}
+        {call ADMIN_MANAGE_GRANT(#{memberId, mode=IN, jdbcType=VARCHAR})}
     </update>
 
-    <select id="getMemberDetail" resultMap="memberMap">
-        SELECT
-            member_id
-             , member_email
-             , member_name
-             , member_nickname
-             , member_phone
-             , member_gender
-             , member_birth
-             , member_role
-             , created_at
-             , deleted_at
-        FROM
-            tbl_member
-        WHERE
-            member_id = #{memberId} AND deleted_at IS NULL
-    </select>
 
     <select id="searchMembers" resultMap="memberMap">
         SELECT
-            member_id
-             , member_email
-             , member_name
-             , member_nickname
-             , member_phone
-             , member_gender
-             , member_birth
-             , member_role
-             , created_at
-             , deleted_at
+            m.member_id
+             , m.member_email
+             , m.member_name
+             , m.member_nickname
+             , m.member_phone
+             , m.member_gender
+             , m.member_birth
+             , m.member_role
+             , m.created_at
+             , mi.info_addr
+             , mi.info_zipcode
         FROM
-            tbl_member
+            tbl_member m
+                JOIN tbl_member_info mi on m.member_id = mi.member_id
         WHERE
-            member_name LIKE '%' || #{word} || '%'
-        WHERE
-            deleted_at IS NULL
+            m.member_name LIKE '%' || #{word} || '%'
+        AND
+            m.deleted_at IS NULL
     </select>
 </mapper>

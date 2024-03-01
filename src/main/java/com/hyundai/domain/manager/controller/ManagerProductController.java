@@ -1,14 +1,11 @@
 package com.hyundai.domain.manager.controller;
 
-import com.hyundai.domain.login.security.CustomMemberDetails;
 import com.hyundai.domain.manager.dto.ManagerProductDTO;
 import com.hyundai.domain.manager.service.ManagerProductService;
 import com.hyundai.global.message.ResponseMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -56,5 +53,4 @@ public class ManagerProductController {
     public ResponseEntity<?> orderProduct(){
         return ResponseMessage.SuccessResponse("주문한 상품을 불러왔습니다. ", managerProductService.getOrdersByMemberId());
     }
-
 }

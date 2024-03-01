@@ -1,6 +1,5 @@
 package com.hyundai.domain.admin.dto;
 
-import com.hyundai.domain.login.entity.enumtype.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -8,24 +7,27 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+/**
+ * @author : 강은구
+ * @fileName : AdminManagerDTO
+ * @description :
+ * @since : 03/01/2024
+ */
+
 @Getter
 @Setter
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class AdminMemberDTO {
-
+public class AdminManagerDTO {
+    private String storeId;
+    private String storeName;
+    private String storeTel;
     private String memberId;
-    private String memberEmail;
     private String memberName;
-    private String memberNickname;
     private String memberPhone;
-    private int memberGender;
-    private String memberBirth;
-    private Role memberRole;
-    private LocalDateTime createdDate;
-    private LocalDateTime modifiedDate;
-    private LocalDateTime deletedDate;
-
+    private String memberEmail;
     private String infoAddr;
     private String infoZipcode;
+    private LocalDateTime memberCreatedDate;
+    private LocalDateTime storeApprovedDate;
 }

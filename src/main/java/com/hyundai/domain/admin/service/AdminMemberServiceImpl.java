@@ -1,7 +1,7 @@
 package com.hyundai.domain.admin.service;
 
+import com.hyundai.domain.admin.dto.AdminManagerDTO;
 import com.hyundai.domain.admin.dto.AdminMemberDTO;
-import com.hyundai.domain.admin.dto.AdminMemberParamDTO;
 import com.hyundai.domain.utils.file.DownExcelView;
 import com.hyundai.global.exception.GlobalErrorCode;
 import com.hyundai.global.exception.GlobalException;
@@ -26,19 +26,8 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<AdminMemberDTO> getMemberList(AdminMemberParamDTO paramDTO) {
-        return adminMemberMapper.getListByParams(paramDTO);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<AdminMemberDTO> getMemberListByPage(AdminMemberParamDTO paramDTO, Long pageNum) {
-        paramDTO.setPageNum(pageNum);
-        if(adminMemberMapper.getListByParams(paramDTO).isEmpty()){
-            throw new GlobalException(GlobalErrorCode.NOT_HAVING_DATA);
-        }
-
-        return adminMemberMapper.getListByParams(paramDTO);
+    public List<AdminMemberDTO> getMemberList() {
+        return adminMemberMapper.getAllMembers();
     }
 
     @Override
@@ -64,7 +53,7 @@ public class AdminMemberServiceImpl implements AdminMemberService{
     }
 
     @Override
-    public String changeMemberAuthorization(AdminMemberDTO member) {
+    public String changeMemberAuthorization(AdminManagerDTO member) {
         try{
             adminMemberMapper.grantAuthorization(member);
             return "성공";
@@ -74,16 +63,14 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 
     }
 
-
-
     @Override
     public List<AdminMemberDTO> searchMembers(String word) {
         return adminMemberMapper.searchMembers(word);
     }
 
     @Override
-    public AdminMemberDTO getMemberDetail(String memberId) {
-        return adminMemberMapper.getMemberDetail(memberId);
+    public List<AdminManagerDTO> getManagerList() {
+        return adminMemberMapper.getAllManagers();
     }
 
     @Override
