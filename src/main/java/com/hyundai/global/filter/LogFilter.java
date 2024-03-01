@@ -49,17 +49,28 @@ public class LogFilter extends OncePerRequestFilter {
         ServletInputStream inputStream = request.getInputStream();
         String body = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
         String ipAddr = getIpAddr(request);
-        String memberId = ((CustomMemberDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getMemberId();
-        logs.put("uri", request.getRequestURI());
-        logs.put("method", request.getMethod());
-        logs.put("ipAddr", ipAddr);
-        logs.put("localAddr", request.getLocalAddr());
-        logs.put("memberId", memberId);
-        logs.put("body", body);
-        try {
+        try{
+            String memberId = ((CustomMemberDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getMemberId();
+            logs.put("uri", request.getRequestURI());
+            logs.put("method", request.getMethod());
+            logs.put("ipAddr", ipAddr);
+            logs.put("localAddr", request.getLocalAddr());
+            logs.put("memberId", memberId);
+            logs.put("body", body);
+            try {
+                logMapper.insertLog(logs);
+                filterChain.doFilter(request, response);
+            } catch (Exception e) {
+                filterChain.doFilter(request, response);
+            }
+        }  catch (Exception e){
+            logs.put("uri", request.getRequestURI());
+            logs.put("method", request.getMethod());
+            logs.put("ipAddr", ipAddr);
+            logs.put("localAddr", request.getLocalAddr());
+            logs.put("memberId", "");
+            logs.put("body", body);
             logMapper.insertLog(logs);
-            filterChain.doFilter(request, response);
-        } catch (Exception e) {
             filterChain.doFilter(request, response);
         }
     }
