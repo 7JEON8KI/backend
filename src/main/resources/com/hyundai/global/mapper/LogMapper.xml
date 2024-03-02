@@ -5,8 +5,8 @@
 
     <insert id="insertLog" parameterType="map">
         INSERT INTO tbl_log
-          (log_uri, log_method, log_ipaddr, log_localaddr, log_member_id, log_request_body)
+          (log_uri, log_method, log_ipaddr, log_member_id, log_request_body)
         VALUES
-          (#{uri}, #{method}, #{ipAddr}, #{localAddr}, #{memberId}, #{body})
+          (#{uri}, #{method}, #{ipAddr},  #{memberId}, #{body})
     </insert>
 </mapper>
