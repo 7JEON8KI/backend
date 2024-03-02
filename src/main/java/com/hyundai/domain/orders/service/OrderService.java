@@ -1,10 +1,13 @@
 package com.hyundai.domain.orders.service;
 
 import com.hyundai.domain.orders.dto.OrderInfo;
+import com.hyundai.domain.orders.dto.OrderResponseDto;
 import com.hyundai.global.mapper.OrderMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -18,5 +21,9 @@ public class OrderService {
 
     public OrderInfo selectOrderInfosByProductId(Long productId, String memberId) {
         return orderMapper.selectOrderInfosByProductId(productId, memberId);
+    }
+
+    public List<OrderResponseDto> getOrdersByMemberId(String memberId) {
+        return orderMapper.getOrdersByMemberId(memberId);
     }
 }
