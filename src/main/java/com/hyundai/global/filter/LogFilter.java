@@ -49,12 +49,12 @@ public class LogFilter extends OncePerRequestFilter {
         Map<String, Object> logs = new HashMap<>();
         String body = new String(wrappedRequest.getContentAsByteArray(), StandardCharsets.UTF_8);
         String ipAddr = getIpAddr(request);
+        if (ipAddr.startsWith("10.11")) return;
         try{
             String memberId = ((CustomMemberDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getMemberId();
             logs.put("uri", request.getRequestURI());
             logs.put("method", request.getMethod());
             logs.put("ipAddr", ipAddr);
-            logs.put("localAddr", request.getLocalAddr());
             logs.put("memberId", memberId);
             logs.put("body", body);
             try {
@@ -65,7 +65,6 @@ public class LogFilter extends OncePerRequestFilter {
             logs.put("uri", request.getRequestURI());
             logs.put("method", request.getMethod());
             logs.put("ipAddr", ipAddr);
-            logs.put("localAddr", request.getLocalAddr());
             logs.put("memberId", "");
             logs.put("body", body);
             logMapper.insertLog(logs);
