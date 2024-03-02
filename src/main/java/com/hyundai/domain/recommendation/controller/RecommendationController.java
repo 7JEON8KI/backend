@@ -3,6 +3,7 @@ package com.hyundai.domain.recommendation.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hyundai.domain.login.security.CustomMemberDetails;
 import com.hyundai.domain.product.dto.request.ProductRequestDTO;
 import com.hyundai.domain.product.dto.response.RecommendProducts;
 import com.hyundai.domain.recommendation.service.RecommendationService;
@@ -10,6 +11,8 @@ import com.hyundai.global.message.ResponseMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,6 +47,18 @@ public class RecommendationController {
         List<RecommendProducts> products = objectMapper.readValue(response.getBody(), new TypeReference<List<RecommendProducts>>(){});
 
         return ResponseMessage.SuccessResponse("추천 상품 조회 성공", products);
+    }
+
+    @PostMapping("/main")
+    public ResponseEntity<?> getMainRecommendations() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String memberId = null;
+        if (authentication != null && authentication.isAuthenticated()
+                && !(authentication.getPrincipal() instanceof String)) {
+            CustomMemberDetails userDetails = (CustomMemberDetails) authentication.getPrincipal();
+            memberId = userDetails.getMemberId();
+        }
+        return ResponseMessage.SuccessResponse("메인페이지 추천 성공", recommendationService.getRecommendProducts(memberId));
     }
 
     @PostMapping("/wine")

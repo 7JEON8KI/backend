@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface RecommendationService {
     List<ProductResponseDTO> getRecommendWines(Long productId);
+
+    List<ProductResponseDTO> getRecommendProducts(String memberId);
 }
