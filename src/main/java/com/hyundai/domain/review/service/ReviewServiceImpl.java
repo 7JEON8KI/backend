@@ -2,6 +2,7 @@ package com.hyundai.domain.review.service;
 
 import com.hyundai.domain.product.dto.response.ProductResponseDTO;
 import com.hyundai.domain.review.dto.request.ReviewRequestDto;
+import com.hyundai.domain.review.dto.response.AbleReviewProductResponseDto;
 import com.hyundai.domain.review.dto.response.ReviewResponseDto;
 import com.hyundai.domain.review.entity.enumType.ReviewGetType;
 import com.hyundai.domain.review.entity.enumType.ReviewOperatation;
@@ -137,5 +138,10 @@ public class ReviewServiceImpl implements ReviewService{
             throw new GlobalException(GlobalErrorCode.REVIEW_NOT_FOUND);
         }
         return reviews;
+    }
+
+    @Override
+    public List<AbleReviewProductResponseDto> getAbleReviewProduct(String memberId) {
+        return reviewMapper.getAbleReviewProduct(memberId);
     }
 }

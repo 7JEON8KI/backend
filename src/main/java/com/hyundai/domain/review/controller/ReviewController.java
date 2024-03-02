@@ -85,4 +85,12 @@ public class ReviewController {
         return ResponseMessage.SuccessResponse("상품에 대한 리뷰 조회 성공", reviewService.getProductReviews(productId, pageNum));
     }
 
+    //리뷰 작성이 가능한 상품 조회
+    @GetMapping("/able")
+    public ResponseEntity<?> getAbleReviewProduct() {
+        String memberId = ((CustomMemberDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getMemberId();
+        log.debug("리뷰 작성 가능한 상품 조회 요청 memberId :: " + memberId);
+        return ResponseMessage.SuccessResponse("리뷰 작성 가능한 상품 조회 성공", reviewService.getAbleReviewProduct(memberId));
+    }
+
 }

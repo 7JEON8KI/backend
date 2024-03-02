@@ -1,6 +1,7 @@
 package com.hyundai.domain.review.service;
 
 import com.hyundai.domain.review.dto.request.ReviewRequestDto;
+import com.hyundai.domain.review.dto.response.AbleReviewProductResponseDto;
 import com.hyundai.domain.review.dto.response.ReviewResponseDto;
 
 import java.util.List;
@@ -18,4 +19,5 @@ public interface ReviewService {
     List<ReviewResponseDto> getReviewsByMemberId(String memberId);
 //    List<ReviewResponseDto> getProductReviews(int productId);
     List<ReviewResponseDto> getProductReviews(int productId, int pageNum);
+    List<AbleReviewProductResponseDto> getAbleReviewProduct(String memberId);
 }
