@@ -6,6 +6,8 @@ import com.hyundai.domain.login.security.CustomMemberDetails;
 import com.hyundai.domain.product.dto.request.ProductCriteria;
 import com.hyundai.domain.product.dto.request.SearchRequestDTO;
 import com.hyundai.domain.product.dto.response.ProductResponseDTO;
+import com.hyundai.domain.product.dto.response.ProductTotalDTO;
+import com.hyundai.domain.product.dto.response.ProductWithCountResponseDTO;
 import com.hyundai.domain.product.dto.response.RecommendProducts;
 import com.hyundai.domain.product.entity.Product;
 import com.hyundai.domain.product.repository.ProductSearchRepository;
@@ -46,18 +48,27 @@ public class ProductServiceImpl implements ProductService{
     // product나 product_like가 바뀌면 캐시 삭제 해줘야 함
     // (product가 바뀌면 allEntries = true, product_like가 바뀌면 해당 key(memberId) 캐시 삭제)
 //    @Cacheable(cacheNames = "ProductResponseDTOs", key = "#memberId != null ? #memberId : 'anonymous'")
-    public List<ProductResponseDTO> getProducts(ProductCriteria productCriteria, String memberId) {
+    public ProductWithCountResponseDTO getProducts(ProductCriteria productCriteria, String memberId) {
         Map<String, Object> params = new HashMap<>();
         params.put("memberId", memberId);
         params.put("themeName", productCriteria.getThemeName());
         params.put("sort", productCriteria.getSort());
         params.put("pageNum", productCriteria.getPageNum());
-        params.put("pageAmount", "12");
+        params.put("pageAmount", productCriteria.getPageAmount());
         params.put("includeSoldOut", productCriteria.getIncludeSoldOut());
-        params.put("cursor", null);
 
         productMapper.findAll(params);
-        return (List<ProductResponseDTO>) params.get("cursor");
+        List<ProductResponseDTO> list = (List<ProductResponseDTO>) params.get("cursor");
+
+        productMapper.findProductsCount(params);
+        List<ProductTotalDTO> totalList = (List<ProductTotalDTO>) params.get("total");
+        int total = totalList.get(0).getTotal();
+
+        ProductWithCountResponseDTO dto = ProductWithCountResponseDTO.builder()
+                .productResponseDTOList(list)
+                .total(total)
+                .build();
+        return dto;
     }
 
     @Override
@@ -93,31 +104,50 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public List<ProductResponseDTO> getWineProducts(ProductCriteria productCriteria, String memberId) {
+    public ProductWithCountResponseDTO getWineProducts(ProductCriteria productCriteria, String memberId) {
         Map<String, Object> params = new HashMap<>();
         params.put("memberId", memberId);
         params.put("sort", productCriteria.getSort());
         params.put("pageNum", productCriteria.getPageNum());
-        params.put("pageAmount", "12");
+        params.put("pageAmount", productCriteria.getPageAmount());
         params.put("includeSoldOut", productCriteria.getIncludeSoldOut());
         params.put("cursor", null);
 
         productMapper.findWineAll(params);
-        return (List<ProductResponseDTO>) params.get("cursor");
+        List<ProductResponseDTO> list = (List<ProductResponseDTO>) params.get("cursor");
+
+        productMapper.findWineProductsCount(params);
+        List<ProductTotalDTO> totalList = (List<ProductTotalDTO>) params.get("total");
+        int total = totalList.get(0).getTotal();
+
+        ProductWithCountResponseDTO dto = ProductWithCountResponseDTO.builder()
+                .productResponseDTOList(list)
+                .total(total)
+                .build();
+        return dto;
+
     }
     @Override
-    public List<ProductResponseDTO> getThemeProducts(ProductCriteria productCriteria, String memberId) {
+    public ProductWithCountResponseDTO getThemeProducts(ProductCriteria productCriteria, String memberId) {
         Map<String, Object> params = new HashMap<>();
         params.put("memberId", memberId);
         params.put("themeName", productCriteria.getThemeName());
         params.put("sort", productCriteria.getSort());
         params.put("pageNum", productCriteria.getPageNum());
-        params.put("pageAmount", "12");
+        params.put("pageAmount", productCriteria.getPageAmount());
         params.put("includeSoldOut", productCriteria.getIncludeSoldOut());
-        params.put("cursor", null);
 
         productMapper.findThemeProducts(params);
-        return (List<ProductResponseDTO>) params.get("cursor");
+        List<ProductResponseDTO> list = (List<ProductResponseDTO>) params.get("cursor");
+        log.debug("list : " + list);
+        productMapper.findThemeProductsCount(params);
+        List<ProductTotalDTO> totalList = (List<ProductTotalDTO>) params.get("total");
+        int total = totalList.get(0).getTotal();
+        ProductWithCountResponseDTO dto = ProductWithCountResponseDTO.builder()
+                .productResponseDTOList(list)
+                .total(total)
+                .build();
+        return dto;
     }
 
     @Override

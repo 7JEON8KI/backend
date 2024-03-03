@@ -18,9 +18,13 @@
         <result column="thumbnail_image_url" property="thumbnailImageUrl" />
         <result column="created_at" property="createdAt" />
         <result column="MODIFIED_AT" property="modifiedAt" />
-        <result column="isLike" property="isLike" />
+        <result column="is_like" property="isLike" />
         <result column="theme_name" property="themeName" />
         <result column="rn" property="rn" />
+    </resultMap>
+
+    <resultMap id="total" type="com.hyundai.domain.product.dto.response.ProductTotalDTO">
+        <result column="total_count" property="total" />
     </resultMap>
 
     <select id="findById" statementType="CALLABLE">
@@ -69,6 +73,27 @@
               )}
     </select>
 
+    <select id="findProductsCount" statementType="CALLABLE">
+        {call CLIENT_GET_PRODUCTS_COUNT(
+                #{includeSoldOut, jdbcType=NUMERIC, mode=IN},
+                #{total, jdbcType=CURSOR, javaType=ResultSet, mode=OUT, resultMap=total}
+              )}
+    </select>
+
+    <select id="findWineProductsCount" statementType="CALLABLE">
+        {call CLIENT_GET_WINES_COUNT(
+                #{includeSoldOut, jdbcType=NUMERIC, mode=IN},
+                #{total, jdbcType=CURSOR, javaType=ResultSet, mode=OUT, resultMap=total}
+              )}
+    </select>
+
+    <select id="findThemeProductsCount" statementType="CALLABLE">
+        {call CLIENT_GET_THEMES_PRODUCTS_WITH_COUNT(
+                #{themeName, jdbcType=VARCHAR, mode=IN},
+                #{includeSoldOut, jdbcType=NUMERIC, mode=IN},
+                #{total, jdbcType=CURSOR, javaType=ResultSet, mode=OUT, resultMap=total}
+              )}
+    </select>
 
     <select id="selectProductStock" resultType="int">
         SELECT STOCK FROM tbl_product WHERE PRODUCT_ID = #{productId}
