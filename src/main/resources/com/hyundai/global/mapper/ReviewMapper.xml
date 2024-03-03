@@ -79,22 +79,41 @@
                 #{reviewType, jdbcType=VARCHAR}
                    )) review
     </select>
-    <select id="getReviewsByMemberId" resultMap="reviewResultMap">
-        SELECT
-            review.review_id AS "reviewId",
-            review.product_id AS "productId",
-            review.member_nickname AS "memberNickname",
-            review.review_title AS "reviewTitle",
-            review.review_content AS "reviewContent",
-            review.review_image_url AS "reviewImageUrl",
-            review.review_star AS "reviewStar",
-            review.modified_at AS "modifiedAt"
-        FROM TABLE(fetch_reviews(
-                #{memberId, jdbcType=VARCHAR},
-                #{productId, jdbcType=NUMERIC},
-                #{reviewType, jdbcType=VARCHAR}
-                   )) review
+
+    <select id="getReviewsByMemberId" resultType="MyReviewResponseDto">
+        SELECT r.review_id AS reviewId
+             , r.product_id AS productId
+             , m.member_nickname AS memberNickname
+             , r.review_title AS reviewTitle
+             , r.review_content AS reviewContent
+             , r.review_image_url AS reviewImageUrl
+             , r.review_star AS reviewStar
+             , TO_CHAR(r.modified_at, 'YYYY-MM-DD HH24:MI:SS') AS modifiedAt
+             , p.thumbnail_image_url AS thumbnailImageUrl
+             , p.product_name AS productName
+        FROM tbl_review r
+                 JOIN tbl_member m ON r.member_id = m.member_id
+                 JOIN tbl_product p ON r.product_id = p.product_id
+        WHERE r.member_id = #{memberid}
+          AND r.deleted_at IS NULL
     </select>
+
+<!--    <select id="getReviewsByMemberId" resultMap="reviewResultMap">-->
+<!--        SELECT-->
+<!--            review.review_id AS "reviewId",-->
+<!--            review.product_id AS "productId",-->
+<!--            review.member_nickname AS "memberNickname",-->
+<!--            review.review_title AS "reviewTitle",-->
+<!--            review.review_content AS "reviewContent",-->
+<!--            review.review_image_url AS "reviewImageUrl",-->
+<!--            review.review_star AS "reviewStar",-->
+<!--            review.modified_at AS "modifiedAt"-->
+<!--        FROM TABLE(fetch_reviews(-->
+<!--                #{memberId, jdbcType=VARCHAR},-->
+<!--                #{productId, jdbcType=NUMERIC},-->
+<!--                #{reviewType, jdbcType=VARCHAR}-->
+<!--                   )) review-->
+<!--    </select>-->
     <select id="getProductReviews" resultMap="reviewResultMap">
         SELECT
             review.review_id AS "reviewId",
