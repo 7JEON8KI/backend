@@ -12,7 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -50,6 +52,12 @@ public class ProductController {
         } else {
             return ResponseMessage.SuccessResponse("상품 리스트 조회 성공", productService.getProducts(wrapperSearchDTO.getProductCriteria(), memberId));
         }
+    }
+
+    // 상품 이미지 검색
+    @PostMapping("/image-search")
+    public ResponseEntity<?> getImageSearchProducts(MultipartFile image) throws IOException {
+        return ResponseMessage.SuccessResponse("상품 이미지 검색 성공", productService.getImageSearchProducts(image));
     }
 
     // 상품 상세 조회

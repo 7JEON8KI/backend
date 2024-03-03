@@ -12,6 +12,10 @@ public interface ProductMapper {
 //    List<Product> findAllByProductId(@Param("productIds") List<Long> productIds);
     void findWineAll(Map<String, Object> params);
     void findThemeProducts(Map<String, Object> params);
+
+    void findProductsCount(Map<String, Object> params);
+    void findWineProductsCount(Map<String, Object> params);
+    void findThemeProductsCount(Map<String, Object> params);
     int selectProductStock(@Param("productId") Long id);
     void updateProductStock(@Param("productId") Long id, @Param("orderCount") int orderCount);
 

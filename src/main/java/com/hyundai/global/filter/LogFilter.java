@@ -49,7 +49,7 @@ public class LogFilter extends OncePerRequestFilter {
         Map<String, Object> logs = new HashMap<>();
         String body = new String(wrappedRequest.getContentAsByteArray(), StandardCharsets.UTF_8);
         String ipAddr = getIpAddr(request);
-        if (ipAddr.startsWith("10.11")) return;
+        if (ipAddr.startsWith("10.11"))
         try{
             String memberId = ((CustomMemberDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getMemberId();
             logs.put("uri", request.getRequestURI());
