@@ -56,4 +56,11 @@ public class OrderController {
         return ResponseMessage.SuccessResponse("조회 성공", orderResponseDtoList);
     }
 
+    @GetMapping("/history/{orderId}")
+    public ResponseEntity<?> orderHistoryDetail(@PathVariable Long orderId) {
+        String memberId = ((CustomMemberDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getMemberId();
+        OrderResponseDto orderResponseDto = orderService.getOrderDetailByOrderId(orderId, memberId);
+        return ResponseMessage.SuccessResponse("조회 성공", orderResponseDto);
+    }
+
 }

@@ -19,7 +19,7 @@ public class OrderResponseDto {
     private String receiverName;
     private String phoneNumber;
     private String orderStatus;
-    private int orderNumber;
+    private Long orderNumber;
     private String orderRequired;
     private String paymentMethod;
     private List<OrderProductDto> orderProductDtoList;

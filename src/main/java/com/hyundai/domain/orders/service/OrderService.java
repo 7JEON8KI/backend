@@ -26,4 +26,8 @@ public class OrderService {
     public List<OrderResponseDto> getOrdersByMemberId(String memberId) {
         return orderMapper.getOrdersByMemberId(memberId);
     }
+
+    public OrderResponseDto getOrderDetailByOrderId(Long orderId, String memberId) {
+        return orderMapper.getOrderDetailByOrderId(orderId, memberId);
+    }
 }

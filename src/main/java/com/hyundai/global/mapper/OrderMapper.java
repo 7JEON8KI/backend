@@ -17,4 +17,6 @@ public interface OrderMapper {
     OrderInfo selectOrderInfosByProductId(@Param("productId") Long productId, @Param("memberId") String memberId);
 
     List<OrderResponseDto> getOrdersByMemberId(String memberId);
+
+    OrderResponseDto getOrderDetailByOrderId(@Param("orderId") Long orderId, @Param("memberId")String memberId);
 }
