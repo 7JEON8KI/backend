@@ -16,7 +16,6 @@ public interface ProductService {
     List<ProductResponseDTO> getSearchProducts(SearchRequestDTO searchDTO, String memberId);
     ProductWithCountResponseDTO getWineProducts(ProductCriteria productCriteria, String memberId);
     ProductWithCountResponseDTO getThemeProducts(ProductCriteria productCriteria, String memberId);
-    List<ProductResponseDTO> getThemeProducts(ProductCriteria productCriteria, String memberId);
     List<RecommendProducts> getImageSearchProducts(MultipartFile image) throws IOException;
 
 }
