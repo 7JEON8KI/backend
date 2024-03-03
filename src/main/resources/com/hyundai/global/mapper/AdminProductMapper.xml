@@ -11,13 +11,13 @@
         <result property="productType" column="product_type"/>
         <result property="stock" column="stock"/>
         <result property="discountRate" column="discount_rate"/>
-        <result property="productDetail" column="product_detail"/>
+        <result property="productDetail" column="product_detail" jdbcType="CLOB" javaType="java.lang.String"/>
         <result property="amount" column="amount"/>
         <result property="calorie" column="calorie"/>
         <result property="storage" column="storage"/>
         <result property="thumbnailImageUrl" column="thumbnail_image_url"/>
         <result property="createdAt" column="created_at"/>
-        <result property="updatedAt" column="updated_at"/>
+        <result property="modifiedAt" column="modified_at"/>
     </resultMap>
 
     <resultMap id="themeMap" type="com.hyundai.domain.admin.dto.AdminThemeDTO">
@@ -48,6 +48,11 @@
               )}
     </select>
 
+    <select id="test" resultMap="productMap">
+        select *
+        from tbl_product
+    </select>
+
     <select id="getProductDetail" resultMap="productDetailMap" statementType="CALLABLE">
         {call GET_PRODUCT_THEME_AND_INGREDIENT(
                 #{productId, mode=IN, jdbcType=INTEGER},
@@ -58,31 +63,26 @@
     <update id="deleteProduct">
         update
             tbl_product
-        set
-            deleted_at = sysdate
-        WHERE
-            product_id = #{productId}
+        set deleted_at = sysdate
+        WHERE product_id = #{productId}
     </update>
 
     <insert id="addTheme">
-        insert into
-            tbl_theme
-        (theme_name, theme_description)
-        values
-        (#{themeName}, #{themeDescription})
+        insert into tbl_theme
+            (theme_name, theme_description)
+        values (#{themeName}, #{themeDescription})
     </insert>
 
     <delete id="deleteTheme">
-        DELETE FROM
-            tbl_theme
+        DELETE
+        FROM tbl_theme
         WHERE theme_id = #{themeId}
     </delete>
 
     <update id="modifyTheme">
         update
             tbl_theme
-        set
-            theme_name = #{themeName},
+        set theme_name        = #{themeName},
             theme_description = #{themeDescription}
     </update>
 </mapper>

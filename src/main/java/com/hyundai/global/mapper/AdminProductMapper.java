@@ -1,7 +1,6 @@
 package com.hyundai.global.mapper;
 
 import com.hyundai.domain.admin.dto.AdminProductDTO;
-import com.hyundai.domain.admin.dto.AdminProductParamDTO;
 import com.hyundai.domain.admin.dto.AdminThemeDTO;
 
 import java.util.List;
@@ -28,4 +27,6 @@ public interface AdminProductMapper {
     int deleteTheme(Long themeId);
 
     int modifyTheme(AdminThemeDTO params);
+
+    List<AdminProductDTO> test();
 }
