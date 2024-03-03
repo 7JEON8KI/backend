@@ -1,5 +1,6 @@
 package com.hyundai.global.mapper;
 
+import com.hyundai.domain.review.dto.response.AbleReviewProductResponseDto;
 import com.hyundai.domain.review.dto.response.ReviewResponseDto;
 
 import java.util.List;
@@ -19,4 +20,5 @@ public interface ReviewMapper {
     List<ReviewResponseDto> getReviewsByMemberId(Map<String, Object> params);
     List<ReviewResponseDto> getProductReviews(Map<String, Object> params);
     List<ReviewResponseDto> getProductReview(Map<String, Object> params);
+    List<AbleReviewProductResponseDto> getAbleReviewProduct(String memberId);
 }

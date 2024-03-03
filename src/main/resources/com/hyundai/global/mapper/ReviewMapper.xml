@@ -16,6 +16,13 @@
         <result column="pageSize" property="pageSize" jdbcType="INTEGER"/>
     </resultMap>
 
+    <resultMap id="ableReview" type="com.hyundai.domain.review.dto.response.AbleReviewProductResponseDto">
+        <id column="product_id" property="productId"/>
+        <result column="product_name" property="productName"/>
+        <result column="thumbnail_image_url" property="thumbnailImageUrl"/>
+        <result column="order_date" property="orderDate"/>
+    </resultMap>
+
     <select id="saveReview" parameterType="map" statementType="CALLABLE">
         {call manage_review(
                 #{memberId, mode=IN, jdbcType=VARCHAR},
@@ -122,6 +129,23 @@
                 #{pageNum, jdbcType=NUMERIC},
                 #{pageSize, jdbcType=NUMERIC}
                    )) review
+    </select>
+
+    <!-- 리뷰 가능한 상품 리스트 조회 getAbleReviewProduct -->
+    <select id="getAbleReviewProduct" resultMap="ableReview">
+        SELECT
+            p.product_id,
+            p.product_name,
+            p.thumbnail_image_url,
+            o.order_date
+        FROM
+            tbl_orders o
+                INNER JOIN tbl_orderproduct op ON o.order_id = op.order_id
+                INNER JOIN tbl_product p ON op.product_id = p.product_id
+                LEFT JOIN tbl_review r ON op.product_id = r.product_id AND o.member_id = r.member_id
+        WHERE
+            o.member_id = #{memberId}
+          AND r.product_id IS NULL
     </select>
 
 
