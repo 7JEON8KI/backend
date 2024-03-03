@@ -26,8 +26,7 @@ public class AwsS3Util {
     private final ApplicationProperties applicationProperties;
 
     public String saveFile(MultipartFile multipartFile, String savedFileName) throws IOException {
-        String filepath = "/" + savedFileName;
-        log.debug(filepath);
+        String filepath = savedFileName;
         String bucket = applicationProperties.getAWS_BUCKET();
 
         long size = multipartFile.getSize();
