@@ -19,7 +19,7 @@
             <id property="orderproductId" column="orderproductId"/>
             <result property="productId" column="productId"/>
             <result property="orderProductPrice" column="orderProductPrice"/>
-            <result property="orderProductCnt" column="orderProductCnt"/>
+            <result property="orderProductCount" column="orderProductCount"/>
             <result property="orderProductDiscount" column="orderProductDiscount"/>
             <result property="thumbnailImageUrl" column="thumbnailImageUrl"/>
             <result property="productName" column="productName"/>
