@@ -1,6 +1,7 @@
 package com.hyundai.global.mapper;
 
 import com.hyundai.domain.product.dto.response.ProductResponseDTO;
+import com.hyundai.domain.product.dto.response.RecommendProducts;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -21,5 +22,5 @@ public interface ProductMapper {
 
     List<ProductResponseDTO> findRecommendWines(Long productId);
 
-    List<ProductResponseDTO> findProductsByAgeAndGender();
+    List<RecommendProducts> getGuestMainRecommend(List<String> productIds);
 }
