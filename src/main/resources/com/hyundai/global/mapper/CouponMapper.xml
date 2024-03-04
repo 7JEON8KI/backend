@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundai.global.mapper.CouponMapper">
+
+    <!-- 유저의 보유 쿠폰 리스트 조회 -->
+    <select id="findCouponList" parameterType="String" resultType="com.hyundai.domain.coupon.dto.CouponResponseDto">
+        SELECT
+            c.coupon_id  as "couponId",
+            c.member_id as "memberId",
+            c.coupon_name as "couponName",
+            c.discount_rate as "discountRate",
+            c.discount_price as "discountPrice",
+            c.created_at as "createdAt",
+            c.expired_at as "expiredAt"
+        FROM
+            tbl_coupon c
+        WHERE
+            c.member_id = #{memberId}
+        AND
+            c.expired_at > sysdate
+    </select>
+</mapper>

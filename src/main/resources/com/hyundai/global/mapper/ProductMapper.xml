@@ -11,16 +11,20 @@
         <result column="product_type" property="productType" />
         <result column="stock" property="stock" />
         <result column="discount_rate" property="discountRate" />
-        <result column="product_detail" property="productDetail" />
+        <result column="product_detail" property="productDetail" jdbcType="CLOB" javaType="java.lang.String" />
         <result column="amount" property="amount" />
         <result column="calorie" property="calorie" />
         <result column="storage" property="storage" />
         <result column="thumbnail_image_url" property="thumbnailImageUrl" />
         <result column="created_at" property="createdAt" />
         <result column="MODIFIED_AT" property="modifiedAt" />
-        <result column="isLike" property="isLike" />
+        <result column="is_like" property="isLike" />
         <result column="theme_name" property="themeName" />
         <result column="rn" property="rn" />
+    </resultMap>
+
+    <resultMap id="total" type="com.hyundai.domain.product.dto.response.ProductTotalDTO">
+        <result column="total_count" property="total" />
     </resultMap>
 
     <select id="findById" statementType="CALLABLE">
@@ -69,6 +73,27 @@
               )}
     </select>
 
+    <select id="findProductsCount" statementType="CALLABLE">
+        {call CLIENT_GET_PRODUCTS_COUNT(
+                #{includeSoldOut, jdbcType=NUMERIC, mode=IN},
+                #{total, jdbcType=CURSOR, javaType=ResultSet, mode=OUT, resultMap=total}
+              )}
+    </select>
+
+    <select id="findWineProductsCount" statementType="CALLABLE">
+        {call CLIENT_GET_WINES_COUNT(
+                #{includeSoldOut, jdbcType=NUMERIC, mode=IN},
+                #{total, jdbcType=CURSOR, javaType=ResultSet, mode=OUT, resultMap=total}
+              )}
+    </select>
+
+    <select id="findThemeProductsCount" statementType="CALLABLE">
+        {call CLIENT_GET_THEMES_PRODUCTS_WITH_COUNT(
+                #{themeName, jdbcType=VARCHAR, mode=IN},
+                #{includeSoldOut, jdbcType=NUMERIC, mode=IN},
+                #{total, jdbcType=CURSOR, javaType=ResultSet, mode=OUT, resultMap=total}
+              )}
+    </select>
 
     <select id="selectProductStock" resultType="int">
         SELECT STOCK FROM tbl_product WHERE PRODUCT_ID = #{productId}
@@ -99,5 +124,24 @@
                 p.MODIFIED_AT as modifiedAt
         FROM tbl_product p
         WHERE p.product_type = 'wine'
+    </select>
+
+    <select id="findProductsByAgeAndGender" resultType="com.hyundai.domain.product.dto.response.ProductResponseDTO">
+        SELECT p.PRODUCT_ID as productId,
+               p.PRODUCT_NAME as productName,
+               p.PRODUCT_SUB_NAME as productSubName,
+               p.PRICE,
+               p.PRODUCT_TYPE as productType,
+               p.STOCK,
+               p.DISCOUNT_RATE as discountRate,
+               p.PRODUCT_DETAIL as productDetail,
+               p.AMOUNT,
+               p.CALORIE,
+               p.STORAGE,
+               p.THUMBNAIL_IMAGE_URL as thumbnailImageUrl,
+               p.CREATED_AT as createdAt,
+               p.MODIFIED_AT as modifiedAt
+        FROM tbl_product p
+            FETCH FIRST 6 ROWS ONLY
     </select>
 </mapper>

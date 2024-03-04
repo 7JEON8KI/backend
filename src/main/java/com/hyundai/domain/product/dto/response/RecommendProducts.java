@@ -10,10 +10,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RecommendProducts {
-    // todo : product_id -> productId로 변경
-    //  product_name -> productName으로 변경
-    private String product_id;
-    private String product_name;
+    private String productId;
+    private String productName;
     private String price;
     private String productType;
     private int discountRate;

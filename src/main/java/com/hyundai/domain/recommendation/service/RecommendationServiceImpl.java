@@ -21,4 +21,9 @@ public class RecommendationServiceImpl implements RecommendationService {
         // todo productid 검증
         return productMapper.findRecommendWines(productId);
     }
+
+    @Override
+    public List<ProductResponseDTO> getRecommendProducts(String memberId) {
+        return productMapper.findProductsByAgeAndGender();
+    }
 }

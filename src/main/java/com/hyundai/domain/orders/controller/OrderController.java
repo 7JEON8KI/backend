@@ -2,8 +2,10 @@ package com.hyundai.domain.orders.controller;
 
 import com.hyundai.domain.login.security.CustomMemberDetails;
 import com.hyundai.domain.orders.dto.OrderInfo;
+import com.hyundai.domain.orders.dto.OrderResponseDto;
 import com.hyundai.domain.orders.service.OrderService;
 import com.hyundai.global.message.ResponseMessage;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -45,4 +47,20 @@ public class OrderController {
         orderReqDtos.add(orderReqDto);
         return ResponseMessage.SuccessResponse("조회 성공", orderReqDtos);
     }
+
+    // 주문 내역 조회
+    @GetMapping("/history")
+    public ResponseEntity<?> orderHistory() {
+        String memberId = ((CustomMemberDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getMemberId();
+        List<OrderResponseDto> orderResponseDtoList = orderService.getOrdersByMemberId(memberId);
+        return ResponseMessage.SuccessResponse("조회 성공", orderResponseDtoList);
+    }
+
+    @GetMapping("/history/{orderId}")
+    public ResponseEntity<?> orderHistoryDetail(@PathVariable Long orderId) {
+        String memberId = ((CustomMemberDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getMemberId();
+        OrderResponseDto orderResponseDto = orderService.getOrderDetailByOrderId(orderId, memberId);
+        return ResponseMessage.SuccessResponse("조회 성공", orderResponseDto);
+    }
+
 }

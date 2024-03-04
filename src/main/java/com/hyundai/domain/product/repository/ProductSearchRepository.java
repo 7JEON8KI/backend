@@ -10,11 +10,9 @@ import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public interface ProductSearchRepository extends ElasticsearchRepository<Product, Long> {
-
-    default List<Long> search(SearchRequestDTO searchRequestDTO, ElasticsearchOperations elasticsearchOperations) {
+    default List<Product> search(SearchRequestDTO searchRequestDTO, ElasticsearchOperations elasticsearchOperations) {
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
 
         // Add conditions for preferred ingredients
@@ -47,10 +45,11 @@ public interface ProductSearchRepository extends ElasticsearchRepository<Product
                 .withQuery(boolQueryBuilder)
                 .build();
 
-        return elasticsearchOperations.queryForList(searchQuery, Product.class)
+        /*return elasticsearchOperations.queryForList(searchQuery, Product.class)
                 .stream()
                 .map(Product::getProductId)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());*/
+        return elasticsearchOperations.queryForList(searchQuery, Product.class);
     }
 }
 

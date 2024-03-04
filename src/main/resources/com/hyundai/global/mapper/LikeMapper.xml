@@ -40,14 +40,14 @@
              , p.PRODUCT_NAME AS "productName"
              , p.PRODUCT_SUB_NAME AS "productSubName"
              , p.PRICE
-             , p.PRODUCT_TYPE
+             , p.PRODUCT_TYPE AS "productType"
              , p.STOCK
-             , p.DISCOUNT_RATE
+             , p.DISCOUNT_RATE AS "discountRate"
              , p.PRODUCT_DETAIL AS "productDetail"
              , p.AMOUNT
              , p.CALORIE
              , p.STORAGE
-             , p.THUMBNAIL_IMAGE_URL
+             , p.THUMBNAIL_IMAGE_URL AS "thumbnailImageUrl"
         FROM   tbl_product_like l
         Left Join tbl_product p
         ON     l.product_id = p.product_id

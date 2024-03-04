@@ -2,6 +2,8 @@ package com.hyundai.domain.review.service;
 
 import com.hyundai.domain.product.dto.response.ProductResponseDTO;
 import com.hyundai.domain.review.dto.request.ReviewRequestDto;
+import com.hyundai.domain.review.dto.response.AbleReviewProductResponseDto;
+import com.hyundai.domain.review.dto.response.MyReviewResponseDto;
 import com.hyundai.domain.review.dto.response.ReviewResponseDto;
 import com.hyundai.domain.review.entity.enumType.ReviewGetType;
 import com.hyundai.domain.review.entity.enumType.ReviewOperatation;
@@ -99,16 +101,18 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Override
-    public List<ReviewResponseDto> getReviewsByMemberId(String memberId) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("memberId", memberId);
-        params.put("reviewType", ReviewGetType.MY_REVIEWS.toString());
-        params.put("result", null);
-        List<ReviewResponseDto> reviews = reviewMapper.getReviewsByMemberId(params);
-        if(reviews == null || reviews.isEmpty()) {
-            throw new GlobalException(GlobalErrorCode.REVIEW_NOT_FOUND);
-        }
-        return reviews;
+    public List<MyReviewResponseDto> getReviewsByMemberId(String memberId) {
+//        Map<String, Object> params = new HashMap<>();
+//        params.put("memberId", memberId);
+//        params.put("reviewType", ReviewGetType.MY_REVIEWS.toString());
+//        params.put("result", null);
+//        List<MyReviewResponseDto> reviews = reviewMapper.getReviewsByMemberId(params);
+//        if(reviews == null || reviews.isEmpty()) {
+//            throw new GlobalException(GlobalErrorCode.REVIEW_NOT_FOUND);
+//        }
+//        return reviews;
+
+        return reviewMapper.getReviewsByMemberId(memberId);
     }
 
 //    @Override
@@ -137,5 +141,10 @@ public class ReviewServiceImpl implements ReviewService{
             throw new GlobalException(GlobalErrorCode.REVIEW_NOT_FOUND);
         }
         return reviews;
+    }
+
+    @Override
+    public List<AbleReviewProductResponseDto> getAbleReviewProduct(String memberId) {
+        return reviewMapper.getAbleReviewProduct(memberId);
     }
 }

@@ -1,12 +1,9 @@
 package com.hyundai.domain.product.controller;
 
-
-
-//import com.hyundai.domain.product.ProductMigrationFromOracleToElasticsearch;
 import com.hyundai.domain.login.security.CustomMemberDetails;
 import com.hyundai.domain.product.dto.request.ProductCriteria;
-import com.hyundai.domain.product.dto.request.ProductRequestDTO;
 import com.hyundai.domain.product.dto.request.WrapperSearchDTO;
+import com.hyundai.domain.product.dto.response.ProductResponseDTO;
 import com.hyundai.domain.product.service.ProductService;
 import com.hyundai.global.message.ResponseMessage;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -48,12 +47,17 @@ public class ProductController {
         }
 
         if (wrapperSearchDTO.getSearchRequestDTO() != null) {
-            // todo : productId -> productResponseDTO로 변경
-            List<Long> products = productService.getSearchProducts(wrapperSearchDTO.getSearchRequestDTO(), memberId);
+            List<ProductResponseDTO> products = productService.getSearchProducts(wrapperSearchDTO.getSearchRequestDTO(), memberId);
             return ResponseMessage.SuccessResponse("상품 검색 성공", products);
         } else {
             return ResponseMessage.SuccessResponse("상품 리스트 조회 성공", productService.getProducts(wrapperSearchDTO.getProductCriteria(), memberId));
         }
+    }
+
+    // 상품 이미지 검색
+    @PostMapping("/image-search")
+    public ResponseEntity<?> getImageSearchProducts(MultipartFile image) throws IOException {
+        return ResponseMessage.SuccessResponse("상품 이미지 검색 성공", productService.getImageSearchProducts(image));
     }
 
     // 상품 상세 조회
