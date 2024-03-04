@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hyundai.domain.login.security.CustomMemberDetails;
 import com.hyundai.domain.product.dto.request.ProductRequestDTO;
 import com.hyundai.domain.product.dto.response.RecommendProducts;
+import com.hyundai.domain.recommendation.dto.response.MainRecommendProducts;
 import com.hyundai.domain.recommendation.service.RecommendationService;
 import com.hyundai.global.message.ResponseMessage;
 import lombok.RequiredArgsConstructor;
@@ -50,7 +51,7 @@ public class RecommendationController {
     }
 
     @PostMapping("/main")
-    public ResponseEntity<?> getMainRecommendations() {
+    public ResponseEntity<?> getMainRecommendations() throws JsonProcessingException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String memberId = null;
         if (authentication != null && authentication.isAuthenticated()
@@ -58,7 +59,13 @@ public class RecommendationController {
             CustomMemberDetails userDetails = (CustomMemberDetails) authentication.getPrincipal();
             memberId = userDetails.getMemberId();
         }
-        return ResponseMessage.SuccessResponse("메인페이지 추천 성공", recommendationService.getRecommendProducts(memberId));
+        List<MainRecommendProducts> products;
+        if (memberId == null) {
+            products = recommendationService.getGuestMainRecommendProducts();
+        } else {
+            products = recommendationService.getMainRecommendProducts(memberId);
+        }
+        return ResponseMessage.SuccessResponse("메인페이지 추천 성공", products);
     }
 
     @PostMapping("/wine")

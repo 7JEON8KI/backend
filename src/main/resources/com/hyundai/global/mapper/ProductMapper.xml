@@ -124,24 +124,22 @@
                 p.MODIFIED_AT as modifiedAt
         FROM tbl_product p
         WHERE p.product_type = 'wine'
+            FETCH FIRST 5 ROWS ONLY
     </select>
 
-    <select id="findProductsByAgeAndGender" resultType="com.hyundai.domain.product.dto.response.ProductResponseDTO">
+    <select id="getGuestMainRecommend" parameterType="list" resultType="com.hyundai.domain.product.dto.response.RecommendProducts">
         SELECT p.PRODUCT_ID as productId,
-               p.PRODUCT_NAME as productName,
-               p.PRODUCT_SUB_NAME as productSubName,
-               p.PRICE,
-               p.PRODUCT_TYPE as productType,
-               p.STOCK,
-               p.DISCOUNT_RATE as discountRate,
-               p.PRODUCT_DETAIL as productDetail,
-               p.AMOUNT,
-               p.CALORIE,
-               p.STORAGE,
-               p.THUMBNAIL_IMAGE_URL as thumbnailImageUrl,
-               p.CREATED_AT as createdAt,
-               p.MODIFIED_AT as modifiedAt
+        p.PRODUCT_NAME as productName,
+        p.PRODUCT_SUB_NAME as productSubName,
+        p.PRICE,
+        p.PRODUCT_TYPE as productType,
+        p.DISCOUNT_RATE as discountRate,
+        p.THUMBNAIL_IMAGE_URL as mainImgUrl
         FROM tbl_product p
-            FETCH FIRST 6 ROWS ONLY
+        WHERE p.PRODUCT_ID IN
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        order by p.product_id desc
     </select>
 </mapper>
