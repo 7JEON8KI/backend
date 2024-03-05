@@ -138,7 +138,7 @@ public class ReviewServiceImpl implements ReviewService{
         params.put("pageSize", 5);
         List<ReviewResponseDto> reviews = reviewMapper.getProductReview(params);
         if(reviews == null || reviews.isEmpty()) {
-            throw new GlobalException(GlobalErrorCode.REVIEW_NOT_FOUND);
+            throw new GlobalException(GlobalErrorCode.SUCCESS);
         }
         return reviews;
     }
