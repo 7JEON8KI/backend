@@ -3,7 +3,6 @@ package com.hyundai.domain.admin.controller;
 import com.hyundai.domain.admin.dto.AdminProductParamDTO;
 import com.hyundai.domain.admin.dto.AdminThemeDTO;
 import com.hyundai.domain.admin.service.AdminProductService;
-import com.hyundai.global.mapper.AdminProductMapper;
 import com.hyundai.global.message.ResponseMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +22,11 @@ import org.springframework.web.bind.annotation.*;
 public class AdminProductController {
 
     private final AdminProductService adminProductService;
-    private final AdminProductMapper adminProductMapper;
+
+    @GetMapping("/products")
+    public ResponseEntity getAllProduct(){
+        return ResponseMessage.SuccessResponse("상품 조회에 성공했습니다.", adminProductService.getAllProduct());
+    }
     @PostMapping("/products")
     public ResponseEntity getProductList(@RequestBody AdminProductParamDTO paramDTO){
         return ResponseMessage.SuccessResponse(paramDTO.getPageNum() + "페이지 조회에 성공했습니다", adminProductService.getProductByPage(paramDTO));
@@ -54,10 +57,5 @@ public class AdminProductController {
     public ResponseEntity modifyTheme(@RequestBody AdminThemeDTO paramDTO){
         adminProductService.modifyTheme(paramDTO);
         return ResponseMessage.SuccessResponse("테마 변경에 성공하셨습니다", " ");
-    }
-
-    @GetMapping("test")
-    public ResponseEntity test(){
-        return ResponseMessage.SuccessResponse("테스트 성공", adminProductMapper.test());
     }
 }

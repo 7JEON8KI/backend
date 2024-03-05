@@ -13,7 +13,7 @@ import java.util.Map;
  * @since : 02/19/2024
  */
 public interface AdminProductMapper {
-//    List<AdminProductDTO> getProductByPage(Map<String, Object> params);
+    List<AdminProductDTO> getAllProduct();
     void getProductByPage(Map<String, Object> params);
 
     void getProductDetail(Map<String, Object> params);
@@ -28,5 +28,4 @@ public interface AdminProductMapper {
 
     int modifyTheme(AdminThemeDTO params);
 
-    List<AdminProductDTO> test();
 }
