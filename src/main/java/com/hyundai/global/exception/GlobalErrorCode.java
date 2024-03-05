@@ -10,6 +10,9 @@ import static org.springframework.http.HttpStatus.*;
 @Getter
 @AllArgsConstructor
 public enum GlobalErrorCode {
+    //204 NO_CONTENT - 성공
+    SUCCESS(NO_CONTENT, "성공"),
+
     //  Auth
     // 400 BAD_REQUEST - 잘못된 요청
     NOT_VALID_EMAIL(BAD_REQUEST, "유효하지 않은 이메일 입니다."),
