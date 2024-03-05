@@ -28,6 +28,11 @@ public class AdminProductServiceImpl implements AdminProductService{
     private final AdminProductMapper adminProductMapper;
 
     @Override
+    public List<AdminProductDTO> getAllProduct() {
+        return adminProductMapper.getAllProduct();
+    }
+
+    @Override
     public List<AdminProductDTO> getProductByPage(AdminProductParamDTO paramDTO) {
         Map<String, Object> params = new HashMap<>();
         params.put("pageNum",paramDTO.getPageNum());

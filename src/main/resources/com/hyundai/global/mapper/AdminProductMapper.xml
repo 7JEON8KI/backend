@@ -18,6 +18,7 @@
         <result property="thumbnailImageUrl" column="thumbnail_image_url"/>
         <result property="createdAt" column="created_at"/>
         <result property="modifiedAt" column="modified_at"/>
+        <result property="storeName" column="store_name"/>
     </resultMap>
 
     <resultMap id="themeMap" type="com.hyundai.domain.admin.dto.AdminThemeDTO">
@@ -37,6 +38,28 @@
     </resultMap>
 
     <resultMap id="tempMap" type="hashmap"/>
+
+    <select id="getAllProduct" resultMap="productMap">
+        select p.product_id,
+               p.store_id,
+               p.product_name,
+               p.product_sub_name,
+               p.price,
+               p.product_type,
+               p.stock,
+               p.discount_rate,
+               p.product_detail,
+               p.amount,
+               p.calorie,
+               p.storage,
+               p.thumbnail_image_url,
+               p.created_at,
+               p.modified_at,
+            s.store_name
+        from tbl_product p
+        join tbl_store s on p.store_id = s.store_id
+        where p.deleted_at is null
+    </select>
 
     <select id="getProductByPage" statementType="CALLABLE">
         {call GET_PRODUCT_LIST(

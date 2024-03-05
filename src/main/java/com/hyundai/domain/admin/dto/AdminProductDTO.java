@@ -33,7 +33,7 @@ public class AdminProductDTO {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private LocalDateTime deletedAt;
-
+    private String storeName;
     private List<AdminThemeDTO> themeList;
     private List<AdminProductIngredientDTO> ingredientList;
 }

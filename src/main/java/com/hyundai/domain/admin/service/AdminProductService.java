@@ -13,6 +13,7 @@ import java.util.List;
  * @since : 02/19/2024
  */
 public interface AdminProductService {
+    List<AdminProductDTO> getAllProduct();
     List<AdminProductDTO> getProductByPage(AdminProductParamDTO paramDTO);
 
     AdminProductDTO getProductDetail(Long productId);

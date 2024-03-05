@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundai.global.mapper.UserMapper">
+    <select id="getBannerList" resultType="com.hyundai.domain.admin.dto.AdminBannerDTO">
+    <![CDATA[
+        SELECT
+            banner_id AS bannerId,
+            banner_title AS bannerTitle,
+            banner_image_url AS bannerImageUrl,
+            banner_start_day AS bannerStartDay,
+            banner_end_day AS bannerEndDay,
+            created_at AS createAt,
+            modified_at AS modifiedAt
+        FROM
+            tbl_banner
+        WHERE
+            deleted_at IS NULL
+        AND
+            banner_start_day <= SYSDATE
+        AND
+            banner_end_day >= SYSDATE
+        ]]>
+    </select>
+</mapper>
