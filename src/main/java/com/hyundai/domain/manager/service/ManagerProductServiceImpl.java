@@ -32,8 +32,7 @@ public class ManagerProductServiceImpl implements ManagerProductService{
     public String insertProduct(ManagerProductDTO productDTO) {
         String memberId = ((CustomMemberDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getMemberId();
 
-        ManagerProductDTO data = ManagerProductDTO.builder()
-                .productId(productDTO.getProductId()) // productId는 sequence로 자동 생성
+        ManagerProductDTO data = ManagerProductDTO.builder()// productId는 sequence로 자동 생성
                 .memberId(memberId)
                 .productName(productDTO.getProductName())
                 .productSubName(productDTO.getProductSubName())
@@ -129,6 +128,22 @@ public class ManagerProductServiceImpl implements ManagerProductService{
             log.info("result : " + params.get("result"));
             List<ManagerOrderProductDTO> results = (List<ManagerOrderProductDTO>) params.get("result");
             return results;
+        }
+        catch (Exception e){
+            throw new GlobalException(GlobalErrorCode.NON_CLEAR_REASON);
+        }
+    }
+
+    @Override
+    public ManagerProductDTO getProductDetail(long productId) {
+        return managerMapper.getProductDetail(productId);
+    }
+
+    @Override
+    public String modifyProduct(ManagerProductDTO productDTO) {
+        try {
+            managerMapper.modifyProduct(productDTO);
+            return " ";
         }
         catch (Exception e){
             throw new GlobalException(GlobalErrorCode.NON_CLEAR_REASON);

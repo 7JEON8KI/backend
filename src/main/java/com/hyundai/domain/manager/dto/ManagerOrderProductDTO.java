@@ -19,10 +19,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class ManagerOrderProductDTO {
-    private Long orderDetailId;
+    private Long orderProductId;
     private Long orderId;
     private Long productId;
-    private Long orderProductCnt;
+    private Long orderProductCount;
     private Long orderProductPrice;
     private Long orderProductDiscount;
 

@@ -69,8 +69,8 @@
         JOIN tbl_member_info mi on m.member_id = mi.member_id
         WHERE 1=1
             AND m.deleted_at IS NULL
-            AND m.member_role = 'ROLE_MANAGER'
-            AND s.approved_at IS NOT NULL
+--             AND m.member_role = 'ROLE_MANAGER'
+--             AND s.approved_at IS NOT NULL
     </select>
 
     <update id="modifyMember" parameterType="com.hyundai.domain.admin.dto.AdminMemberDTO">

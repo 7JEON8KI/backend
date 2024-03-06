@@ -25,4 +25,8 @@ public interface ManagerProductService {
     String deleteProductIngTheme(Map<String, Object> params);
 
     List<ManagerOrderProductDTO> getOrdersByMemberId();
+
+    ManagerProductDTO getProductDetail(long productId);
+
+    String modifyProduct(ManagerProductDTO productDTO);
 }

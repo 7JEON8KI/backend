@@ -35,7 +35,7 @@ public class ManagerProductController {
 
         return ResponseMessage.SuccessResponse(" 매니저의 상품을 불러왔습니다. ", managerProductService.getProductByMemberId());
     }
-    @PutMapping("/products")
+    @DeleteMapping("/products")
     public ResponseEntity<?> deleteProduct(@RequestBody Map<String, Object> paramDTO){
         return ResponseMessage.SuccessResponse( paramDTO.get("productId") + "번 상품을 삭제했습니다. ", managerProductService.deleteProduct(paramDTO));
     }
@@ -44,7 +44,7 @@ public class ManagerProductController {
 
         return ResponseMessage.SuccessResponse(" 상품에 재료와 테마를 추가했습니다. ", managerProductService.addProductIngTheme(paramDTO));
     }
-    @PostMapping("/products/deleteIngAndTheme")
+    @DeleteMapping("/products/deleteIngAndTheme")
     public ResponseEntity<?> deleteProductIngTheme(@RequestBody Map<String,Object> paramDTO){
 
         return ResponseMessage.SuccessResponse(" 상품에 재료 또는 테마를 삭제했습니다. ", managerProductService.deleteProductIngTheme(paramDTO));
@@ -53,4 +53,14 @@ public class ManagerProductController {
     public ResponseEntity<?> orderProduct(){
         return ResponseMessage.SuccessResponse("주문한 상품을 불러왔습니다. ", managerProductService.getOrdersByMemberId());
     }
+    @GetMapping("/products/{productId}")
+    public ResponseEntity<?> getProductDetail(@PathVariable long productId){
+        return ResponseMessage.SuccessResponse("상품 상세정보를 불러왔습니다. ", managerProductService.getProductDetail(productId));
+    }
+
+    @PutMapping("/products")
+    public ResponseEntity<?> modifyProduct(@RequestBody ManagerProductDTO paramDTO){
+        return ResponseMessage.SuccessResponse("상품을 수정했습니다. ", managerProductService.modifyProduct(paramDTO));
+    }
+    // 상품 수정하기, 주문 상태여부 수정 //
 }
