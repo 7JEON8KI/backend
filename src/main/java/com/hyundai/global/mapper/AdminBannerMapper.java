@@ -17,5 +17,5 @@ public interface AdminBannerMapper {
 
     int modifyBanner(AdminBannerDTO paramDTO);
 
-    int deleteBanner(AdminBannerDTO paramDTO);
+    int deleteBanner(long bannerId);
 }

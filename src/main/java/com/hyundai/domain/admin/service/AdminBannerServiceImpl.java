@@ -54,8 +54,8 @@ public class AdminBannerServiceImpl implements AdminBannerService{
     }
 
     @Override
-    public String deleteBanner(AdminBannerDTO paramDTO) {
-        int result = adminBannerMapper.deleteBanner(paramDTO);
+    public String deleteBanner(long bannerId) {
+        int result = adminBannerMapper.deleteBanner(bannerId);
 
         if(result == 1){
             return " ";

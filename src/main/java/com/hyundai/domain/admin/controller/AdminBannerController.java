@@ -29,8 +29,8 @@ public class AdminBannerController {
     public ResponseEntity<?> modifyBanner(@RequestBody AdminBannerDTO paramDTO){
         return ResponseMessage.SuccessResponse("배너 수정 성공", adminBannerService.modifyBanner(paramDTO));
     }
-    @DeleteMapping("/banner")
-    public ResponseEntity<?> deleteBanner(@RequestBody AdminBannerDTO memberDTO){
-        return ResponseMessage.SuccessResponse("배너 삭제 성공", adminBannerService.deleteBanner(memberDTO));
+    @DeleteMapping("/banner/{bannerId}")
+    public ResponseEntity<?> deleteBanner(@PathVariable long bannerId){
+        return ResponseMessage.SuccessResponse("배너 삭제 성공", adminBannerService.deleteBanner(bannerId));
     }
 }

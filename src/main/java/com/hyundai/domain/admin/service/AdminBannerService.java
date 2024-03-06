@@ -17,5 +17,5 @@ public interface AdminBannerService {
 
     String modifyBanner(AdminBannerDTO paramDTO);
 
-    String deleteBanner(AdminBannerDTO paramDTO);
+    String deleteBanner(long bannerId);
 }
