@@ -36,10 +36,10 @@ public class AdminProductController {
         return ResponseMessage.SuccessResponse(productNum + " 번 상품 상세내용을 조회했습니다.",  adminProductService.getProductDetail(productNum));
     }
 
-    @PostMapping("/products/delete/{productNum}")
-    public ResponseEntity deleteProduct(@PathVariable long productNumm){
-        adminProductService.deleteProduct(productNumm);
-        return ResponseMessage.SuccessResponse(productNumm + " 번 상품 삭제했습니다 ", " ");
+    @DeleteMapping("/products/delete/{productNum}")
+    public ResponseEntity deleteProduct(@PathVariable long productNum){
+        adminProductService.deleteProduct(productNum);
+        return ResponseMessage.SuccessResponse(productNum + " 번 상품 삭제했습니다 ", " ");
     }
 
     @PostMapping("/products/theme/add")
