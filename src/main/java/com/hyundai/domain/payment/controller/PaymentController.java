@@ -1,7 +1,7 @@
 package com.hyundai.domain.payment.controller;
 
 import com.hyundai.domain.login.security.CustomMemberDetails;
-import com.hyundai.domain.orders.dto.OrderSaveDTO;
+import com.hyundai.domain.orders.dto.OrdersRequestDTO;
 import com.hyundai.domain.payment.service.PaymentServiceImpl;
 import com.hyundai.domain.payment.service.RefundServiceImpl;
 import com.hyundai.global.config.ApplicationProperties;
@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -48,14 +47,14 @@ public class PaymentController {
     // todo 쿠폰, 포인트 추가
     // 요청으로 받은 주문 상품들을 저장
     @PostMapping("/payment")
-    public ResponseEntity<?> paymentComplete(@RequestBody List<OrderSaveDTO> orderSaveDtos) throws IOException {
+    public ResponseEntity<?> paymentComplete(@RequestBody OrdersRequestDTO ordersRequestDTO) throws IOException {
         String memberId = ((CustomMemberDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getMemberId();
-        String orderNumber = orderSaveDtos.get(0).getOrderNumber();
-        log.debug("결제 요청 : 주문자 이름 {}", orderSaveDtos.get(0).getReceiverName());
+        String orderNumber = ordersRequestDTO.getOrders().get(0).getOrderNumber();
+        log.debug("결제 요청 : 주문자 이름 {}", ordersRequestDTO.getOrders().get(0).getReceiverName());
         try {
-            paymentService.saveOrder(memberId, orderSaveDtos);
+            paymentService.saveOrder(memberId, ordersRequestDTO);
             log.debug("결제 성공 : 주문 번호 {}", orderNumber);
-            return ResponseMessage.SuccessResponse("결제 성공 : 주문 번호 ", orderNumber);
+            return ResponseMessage.SuccessResponse("결제 성공 주문 번호 : ", orderNumber);
         } catch (RuntimeException e) {
             log.debug("주문 상품 환불 진행 : 주문 번호 {}", orderNumber); // 만약 저장시에 예외가 발생하면 주문한 상품을 결제 취소
             String token = refundService.getToken(apiKey, secretKey);

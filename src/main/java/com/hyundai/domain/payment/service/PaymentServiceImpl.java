@@ -2,6 +2,7 @@ package com.hyundai.domain.payment.service;
 
 import com.hyundai.domain.orderProduct.entity.OrderProduct;
 import com.hyundai.domain.orders.dto.OrderSaveDTO;
+import com.hyundai.domain.orders.dto.OrdersRequestDTO;
 import com.hyundai.domain.orders.entity.Orders;
 import com.hyundai.domain.payment.entity.enums.PayStatus;
 import com.hyundai.global.exception.GlobalErrorCode;
@@ -26,7 +27,9 @@ public class PaymentServiceImpl {
     private final ProductMapper productMapper;
 
     @Transactional
-    public void saveOrder(String memberId, List<OrderSaveDTO> orderSaveDtos) {
+    public void saveOrder(String memberId, OrdersRequestDTO ordersRequestDTO) {
+        List<OrderSaveDTO> orderSaveDtos = ordersRequestDTO.getOrders();
+
         OrderSaveDTO saveDto = orderSaveDtos.get(0);
         Orders orders = Orders.builder()
                 .memberId(memberId)
@@ -43,6 +46,8 @@ public class PaymentServiceImpl {
         orderMapper.insertOrder(orders);
 
         for (OrderSaveDTO dto : orderSaveDtos) {
+            log.info(dto.getProductId());
+
             int curStock = productMapper.selectProductStock(dto.getProductId());
             int orderStock = dto.getOrderCount();
 
