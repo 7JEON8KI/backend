@@ -3,6 +3,7 @@ package com.hyundai.domain.admin.service;
 import com.hyundai.domain.admin.dto.AdminProductDTO;
 import com.hyundai.domain.admin.dto.AdminProductParamDTO;
 import com.hyundai.domain.admin.dto.AdminThemeDTO;
+import com.hyundai.domain.admin.dto.AdminTotalSalesDTO;
 import com.hyundai.global.exception.GlobalErrorCode;
 import com.hyundai.global.exception.GlobalException;
 import com.hyundai.global.mapper.AdminProductMapper;
@@ -124,5 +125,10 @@ public class AdminProductServiceImpl implements AdminProductService{
         if(result==0){
             throw new GlobalException(GlobalErrorCode.NOT_COMPLETED_SQL);
         }
+    }
+
+    @Override
+    public List<AdminTotalSalesDTO> getOrderTotalSales() {
+        return adminProductMapper.getOrderTotalSales();
     }
 }

@@ -58,4 +58,9 @@ public class AdminProductController {
         adminProductService.modifyTheme(paramDTO);
         return ResponseMessage.SuccessResponse("테마 변경에 성공하셨습니다", " ");
     }
+
+    @GetMapping("/products/orders/total")
+    public ResponseEntity getOrderTotalSales(){
+        return ResponseMessage.SuccessResponse("주문내역통계 조회에 성공했습니다.", adminProductService.getOrderTotalSales());
+    }
 }

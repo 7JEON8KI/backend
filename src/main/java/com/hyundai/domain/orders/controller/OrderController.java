@@ -5,7 +5,6 @@ import com.hyundai.domain.orders.dto.OrderInfo;
 import com.hyundai.domain.orders.dto.OrderResponseDto;
 import com.hyundai.domain.orders.service.OrderService;
 import com.hyundai.global.message.ResponseMessage;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +28,7 @@ public class OrderController {
     // xxx: %5B 는 [ 를 의미
     //      %2C 는 , 를 의미
     //      %5D 는 ] 를 의미
-    @GetMapping()
+    @PostMapping()
     public ResponseEntity<?> orderProducts(@RequestBody List<Long> productIds) {
         String memberId = ((CustomMemberDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getMemberId();
         List<OrderInfo> orderReqDtos = productIds.stream()

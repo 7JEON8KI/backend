@@ -155,7 +155,7 @@ public class ProductServiceImpl implements ProductService{
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(0, new StringHttpMessageConverter(StandardCharsets.UTF_8));
 
-        String fastApiUrl = "http://localhost:8000/ai/image-search";
+        String fastApiUrl = "http://3.37.206.197:8000/ai/image-search";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);

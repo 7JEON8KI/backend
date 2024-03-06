@@ -14,14 +14,14 @@
             <result property="productName" column="product_name"/>
             <result property="productSubName" column="product_sub_name"/>
             <result property="price" column="price"/>
-            <result property="producttype" column="producttype"/>
+            <result property="productType" column="product_type"/>
             <result property="stock" column="stock"/>
-            <result property="discountrate" column="discountrate"/>
+            <result property="discountRate" column="discount_rate"/>
             <result property="productDetail" column="product_detail"/>
             <result property="amount" column="amount"/>
             <result property="calorie" column="calorie"/>
             <result property="storage" column="storage"/>
-            <result property="thumbnailimageurl" column="thumbnailimageurl"/>
+            <result property="thumbnailImageUrl" column="thumbnail_image_url"/>
         </collection>
     </resultMap>
 

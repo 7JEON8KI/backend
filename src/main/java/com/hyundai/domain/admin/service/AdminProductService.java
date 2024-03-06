@@ -3,6 +3,7 @@ package com.hyundai.domain.admin.service;
 import com.hyundai.domain.admin.dto.AdminProductDTO;
 import com.hyundai.domain.admin.dto.AdminProductParamDTO;
 import com.hyundai.domain.admin.dto.AdminThemeDTO;
+import com.hyundai.domain.admin.dto.AdminTotalSalesDTO;
 
 import java.util.List;
 
@@ -27,4 +28,6 @@ public interface AdminProductService {
     void deleteTheme(AdminThemeDTO params);
 
     void modifyTheme(AdminThemeDTO params);
+
+    List<AdminTotalSalesDTO> getOrderTotalSales();
 }
