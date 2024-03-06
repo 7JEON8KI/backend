@@ -12,7 +12,7 @@ public interface AdminMemberMapper {
 
     void deleteMember(AdminMemberDTO memberDTO);
 
-    void grantAuthorization(AdminManagerDTO managerDTO);
+    void grantAuthorization(String memberId);
 
     List<AdminMemberDTO> searchMembers(String word);
 

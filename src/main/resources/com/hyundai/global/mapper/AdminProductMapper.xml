@@ -154,4 +154,23 @@
 
 
 
+
+    <update id="modifyProduct" parameterType="com.hyundai.domain.manager.dto.ManagerProductDTO">
+        UPDATE tbl_product
+        SET
+            product_name = #{productName},
+            product_sub_name = #{productSubName},
+            price = #{price},
+            stock = #{stock},
+            discount_rate = #{discountRate},
+            product_detail = #{productDetail},
+            amount = #{amount},
+            calorie = #{calorie},
+            storage = #{storage},
+            thumbnail_image_url = #{thumbnailImageUrl},
+            created_at = #{createdAt}
+        WHERE
+            product_id = #{productId}
+          AND deleted_at IS NULL
+    </update>
 </mapper>

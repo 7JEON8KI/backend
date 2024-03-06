@@ -55,7 +55,7 @@ public class AdminMemberServiceImpl implements AdminMemberService{
     @Override
     public String changeMemberAuthorization(AdminManagerDTO member) {
         try{
-            adminMemberMapper.grantAuthorization(member);
+            adminMemberMapper.grantAuthorization(member.getMemberId());
             return "성공";
         } catch (Exception e){
             throw new GlobalException(GlobalErrorCode.NON_CLEAR_REASON);

@@ -49,7 +49,7 @@
             banner_id = #{bannerId}
     </update>
 
-    <update id="deleteBanner" parameterType="com.hyundai.domain.admin.dto.AdminBannerDTO">
+    <update id="deleteBanner" >
         UPDATE
             tbl_banner
         SET

@@ -21,10 +21,10 @@
     </resultMap>
 
     <resultMap id="orderProductMap" type="com.hyundai.domain.manager.dto.ManagerOrderProductDTO">
-        <id property="orderDetailId" column="order_detail_id"/>
+        <id property="orderProductId" column="orderproduct_id"/>
         <result property="orderId" column="order_id"/>
         <result property="productId" column="product_id"/>
-        <result property="orderProductCnt" column="order_product_cnt"/>
+        <result property="orderProductCount" column="order_product_count"/>
         <result property="orderProductPrice" column="order_product_price"/>
         <result property="orderProductDiscount" column="order_product_discount"/>
 
@@ -44,7 +44,6 @@
     <insert id="insertProduct" parameterType="com.hyundai.domain.manager.dto.ManagerProductDTO">
         {call MANAGER.INSERT_PRODUCT(
                 #{memberId, mode=IN, jdbcType=VARCHAR},
-                #{productId, mode=IN, jdbcType=INTEGER},
                 #{productName, mode=IN, jdbcType=VARCHAR},
                 #{productSubName, mode=IN, jdbcType=VARCHAR},
                 #{price, mode=IN, jdbcType=INTEGER},
@@ -54,7 +53,7 @@
                 #{productDetail, mode=IN, jdbcType=VARCHAR},
                 #{amount, mode=IN, jdbcType=INTEGER},
                 #{calorie, mode=IN, jdbcType=INTEGER},
-                #{storage, mode=IN, jdbcType=INTEGER},
+                #{storage, mode=IN, jdbcType=VARCHAR},
                 #{thumbnailImageUrl, mode=IN, jdbcType=VARCHAR}
               )}
     </insert>
@@ -65,7 +64,7 @@
                 #{result, mode=OUT, jdbcType=CURSOR, javaType=ResultSet, resultMap=managerProductMap}
               )}
     </select>
-    <update id="deleteProduct"  parameterType="map">
+    <update id="deleteProduct" parameterType="map">
         {call MANAGER.MANAGER_DELETE_PRODUCT(
                 #{productId, mode=IN, jdbcType=INTEGER},
                 #{memberId, mode=IN, jdbcType=VARCHAR}
@@ -105,4 +104,44 @@
                 #{result, mode=OUT, jdbcType=CURSOR, javaType=ResultSet, resultMap=orderProductMap}
               )}
     </select>
+
+    <select id="getProductDetail" resultMap="managerProductMap">
+        select product_id,
+               product_name,
+               product_sub_name,
+               price,
+               product_type,
+               stock,
+               discount_rate,
+               product_detail,
+               amount,
+               calorie,
+               storage,
+               thumbnail_image_url,
+               created_at
+        from tbl_product
+        where product_id = #{productId}
+        AND deleted_at IS NULL
+    </select>
+
+    <update id="modifyProduct" parameterType="com.hyundai.domain.manager.dto.ManagerProductDTO">
+        UPDATE tbl_product
+        SET
+            product_name = #{productName},
+            product_sub_name = #{productSubName},
+            price = #{price},
+            stock = #{stock},
+            discount_rate = #{discountRate},
+            product_detail = #{productDetail},
+            amount = #{amount},
+            calorie = #{calorie},
+            storage = #{storage},
+            thumbnail_image_url = #{thumbnailImageUrl},
+            created_at = #{createdAt}
+        WHERE
+            product_id = #{productId}
+          AND deleted_at IS NULL
+    </update>
+
 </mapper>
+
