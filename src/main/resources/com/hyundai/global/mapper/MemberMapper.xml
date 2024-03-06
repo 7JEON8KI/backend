@@ -80,6 +80,7 @@
                m.member_email AS "memberEmail",
                m.member_name AS "memberName",
                m.member_nickname AS "memberNickname",
+               m.member_role AS "memberRole",
                m.member_phone AS "memberPhone",
                m.member_gender AS "memberGender",
                m.member_birth AS "memberBirth",
