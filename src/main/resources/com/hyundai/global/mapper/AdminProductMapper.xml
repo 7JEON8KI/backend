@@ -37,6 +37,12 @@
         <association property="ingredientList" resultMap="ingredientMap"/>
     </resultMap>
 
+    <resultMap id="getOrderTotalSales" type="com.hyundai.domain.admin.dto.AdminTotalSalesDTO">
+        <id property="dayOfWeek" column="DayOfWeek"/>
+        <result property="totalQuantity" column="TotalQuantity"/>
+        <result property="totalSales" column="TotalSales"/>
+    </resultMap>
+
     <resultMap id="tempMap" type="hashmap"/>
 
     <select id="getAllProduct" resultMap="productMap">
@@ -108,4 +114,44 @@
         set theme_name        = #{themeName},
             theme_description = #{themeDescription}
     </update>
+
+    <select id="getOrderTotalSales" resultMap="getOrderTotalSales">
+    <![CDATA[
+        WITH DateRange AS (
+            SELECT
+                TRUNC(SYSDATE, 'IW') AS StartOfWeek,
+                TRUNC(SYSDATE, 'IW') + LEVEL - 1 AS Day
+            FROM dual
+            CONNECT BY LEVEL <= 7
+        ),
+             SalesData AS (
+                 SELECT
+                     TRUNC(o.ORDER_DATE) AS OrderDate,
+                     SUM(op.ORDER_PRODUCT_COUNT) AS TotalQuantity,
+                     SUM(op.ORDER_PRODUCT_PRICE * op.ORDER_PRODUCT_COUNT) AS TotalSales
+                 FROM TBL_ORDERS o
+                          JOIN TBL_ORDERPRODUCT op ON o.ORDER_ID = op.ORDER_ID
+                 WHERE TRUNC(o.ORDER_DATE) BETWEEN (SELECT MIN(StartOfWeek) FROM DateRange) AND (SELECT MAX(Day) FROM DateRange)
+                 GROUP BY TRUNC(o.ORDER_DATE)
+             ),
+             DayOfWeekData AS (
+                 SELECT
+                     DR.Day,
+                     TO_CHAR(DR.Day, 'DY') AS DayOfWeek,
+                     COALESCE(SD.TotalQuantity, 0) AS TotalQuantity,
+                     COALESCE(SD.TotalSales, 0) AS TotalSales
+                 FROM DateRange DR
+                          LEFT JOIN SalesData SD ON DR.Day = SD.OrderDate
+             )
+        SELECT
+            DayOfWeek,
+            TotalQuantity,
+            TotalSales
+        FROM DayOfWeekData
+        ORDER BY Day
+        ]]>
+</select>
+
+
+
 </mapper>
