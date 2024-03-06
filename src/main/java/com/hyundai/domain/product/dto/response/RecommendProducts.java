@@ -12,7 +12,7 @@ import lombok.Setter;
 public class RecommendProducts {
     private String productId;
     private String productName;
-    private String price;
+    private int price;
     private String productType;
     private int discountRate;
     private String mainImgUrl;
