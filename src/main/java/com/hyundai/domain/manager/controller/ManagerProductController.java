@@ -62,5 +62,8 @@ public class ManagerProductController {
     public ResponseEntity<?> modifyProduct(@RequestBody ManagerProductDTO paramDTO){
         return ResponseMessage.SuccessResponse("상품을 수정했습니다. ", managerProductService.modifyProduct(paramDTO));
     }
-    // 상품 수정하기, 주문 상태여부 수정 //
+    @GetMapping("/products/top5")
+    public ResponseEntity<?> getTop5Product(){
+        return ResponseMessage.SuccessResponse("매니저의 TOP5 상품을 불러왔습니다. ", managerProductService.getTop5Product());
+    }
 }

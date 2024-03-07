@@ -2,6 +2,7 @@ package com.hyundai.domain.manager.service;
 
 import com.hyundai.domain.manager.dto.ManagerOrderProductDTO;
 import com.hyundai.domain.manager.dto.ManagerProductDTO;
+import com.hyundai.domain.manager.dto.ManagerTop5ProductDTO;
 
 import java.util.List;
 import java.util.Map;
@@ -29,4 +30,6 @@ public interface ManagerProductService {
     ManagerProductDTO getProductDetail(long productId);
 
     String modifyProduct(ManagerProductDTO productDTO);
+
+    List<ManagerTop5ProductDTO> getTop5Product();
 }

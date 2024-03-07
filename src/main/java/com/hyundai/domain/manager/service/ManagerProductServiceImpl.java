@@ -3,6 +3,7 @@ package com.hyundai.domain.manager.service;
 import com.hyundai.domain.login.security.CustomMemberDetails;
 import com.hyundai.domain.manager.dto.ManagerOrderProductDTO;
 import com.hyundai.domain.manager.dto.ManagerProductDTO;
+import com.hyundai.domain.manager.dto.ManagerTop5ProductDTO;
 import com.hyundai.global.exception.GlobalErrorCode;
 import com.hyundai.global.exception.GlobalException;
 import com.hyundai.global.mapper.ManagerMapper;
@@ -148,5 +149,11 @@ public class ManagerProductServiceImpl implements ManagerProductService{
         catch (Exception e){
             throw new GlobalException(GlobalErrorCode.NON_CLEAR_REASON);
         }
+    }
+
+    @Override
+    public List<ManagerTop5ProductDTO> getTop5Product() {
+        String loginMemberId = ((CustomMemberDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getMemberId();
+        return managerMapper.getTop5Product(loginMemberId);
     }
 }

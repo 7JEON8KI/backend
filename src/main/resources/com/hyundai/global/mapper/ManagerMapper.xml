@@ -143,5 +143,32 @@
           AND deleted_at IS NULL
     </update>
 
+    <select id="getTop5Product" parameterType="com.hyundai.domain.manager.dto.ManagerTop5ProductDTO">
+    <![CDATA[
+        SELECT
+            op.product_id AS productId,
+            op.total_sum AS sum,
+        p.product_name AS productName,
+        p.product_sub_name AS productSubName,
+        p.price AS price,
+        p.stock AS stock,
+        p.THUMBNAIL_IMAGE_URL AS thumbnailImageUrl
+        FROM
+            (
+            SELECT top.product_id,
+            SUM(top.ORDER_PRODUCT_COUNT) AS total_sum
+            FROM TBL_ORDERPRODUCT top
+            JOIN tbl_product tp ON top.product_id = tp.product_id
+            JOIN tbl_store ts ON tp.store_id = ts.store_id
+            WHERE tp.deleted_at IS NULL
+            AND ts.member_id = #{memberId}
+            GROUP BY top.product_id
+            ORDER BY total_sum DESC
+            ) op
+            JOIN tbl_product p ON op.product_id = p.product_id
+        WHERE ROWNUM <= 5
+        ]]>
+</select>
+
 </mapper>
 
