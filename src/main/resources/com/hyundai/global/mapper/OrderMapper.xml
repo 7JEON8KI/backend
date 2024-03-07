@@ -97,7 +97,7 @@
                 INNER JOIN TBL_ORDERPRODUCT op ON o.order_id = op.order_id
                 INNER JOIN TBL_PRODUCT p ON op.product_id = p.product_id
         WHERE o.member_id = #{memberId}
-        ORDER BY o.order_id ASC
+        ORDER BY o.order_date DESC
     </select>
 
     <!-- getOrderDetailByOrderId -->
