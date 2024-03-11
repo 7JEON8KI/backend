@@ -4,9 +4,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-import java.util.Optional;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -23,8 +20,4 @@ public class OrderSaveDTO {
     private String orderRequired;
     private String paymentMethod;
     private String productImage;
-    private LocalDateTime deliveryDepartureTime;
-    public LocalDateTime getDeliveryDepartureTime() {
-        return Optional.ofNullable(deliveryDepartureTime).orElse(LocalDateTime.now());
-    }
 }

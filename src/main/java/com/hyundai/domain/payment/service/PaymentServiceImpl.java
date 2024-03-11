@@ -45,7 +45,6 @@ public class PaymentServiceImpl {
                 .orderStatus(PayStatus.SUCCESS.getStatus())
                 .paymentMethod(saveDto.getPaymentMethod())
                 .build();
-        orders.setDeliveryDepartureTime(saveDto.getDeliveryDepartureTime());
         orderMapper.insertOrder(orders);
 
         for (OrderSaveDTO dto : orderSaveDtos) {

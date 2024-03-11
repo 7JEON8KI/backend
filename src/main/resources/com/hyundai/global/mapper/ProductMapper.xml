@@ -124,6 +124,7 @@
                 p.MODIFIED_AT as modifiedAt
         FROM tbl_product p
         WHERE p.product_type = 'wine'
+        ORDER BY DBMS_RANDOM.VALUE
             FETCH FIRST 5 ROWS ONLY
     </select>
 
