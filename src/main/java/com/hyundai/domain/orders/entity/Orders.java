@@ -20,10 +20,9 @@ public class Orders {
     private final String orderStatus;
     private final String paymentMethod;
     private LocalDateTime orderDate;
-    private LocalDateTime deliveryDepartureTime;
 
     @Builder
-    public Orders(String memberId, String orderNumber, String receiverName, String phoneNumber, int zipcode, String address, String orderRequired, String orderStatus, String paymentMethod, LocalDateTime deliveryDepartureTime) {
+    public Orders(String memberId, String orderNumber, String receiverName, String phoneNumber, int zipcode, String address, String orderRequired, String orderStatus, String paymentMethod) {
         this.memberId = memberId;
         this.orderNumber = orderNumber;
         this.receiverName = receiverName;
@@ -33,6 +32,5 @@ public class Orders {
         this.orderRequired = orderRequired;
         this.orderStatus = orderStatus;
         this.paymentMethod = paymentMethod;
-        this.deliveryDepartureTime = deliveryDepartureTime;
     }
 }
