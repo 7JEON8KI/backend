@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**
@@ -65,5 +66,9 @@ public class ManagerProductController {
     @GetMapping("/products/top5")
     public ResponseEntity<?> getTop5Product(){
         return ResponseMessage.SuccessResponse("매니저의 TOP5 상품을 불러왔습니다. ", managerProductService.getTop5Product());
+    }
+    @GetMapping("/orders/exceldown")
+    public void excelDown(HttpServletResponse response) throws Exception{
+        managerProductService.downOrderExcel(response);
     }
 }

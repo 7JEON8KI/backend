@@ -32,7 +32,7 @@
         <result property="orderDate" column="order_date"/>
         <result property="address" column="address"/>
         <result property="zipCode" column="zipcode"/>
-        <result property="receiverName" column="receive_name"/>
+        <result property="receiverName" column="receiver_name"/>
         <result property="phoneNumber" column="phone_number"/>
         <result property="orderStatus" column="order_status"/>
         <result property="orderNumber" column="order_number"/>

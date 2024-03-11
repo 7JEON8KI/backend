@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundai.global.mapper.ExcelMapper">
+
+    <resultMap id="orderMap" type="com.hyundai.domain.utils.dto.OrderListDeliveryDTO">
+        <result property="orderProductCount" column="order_product_count"/>
+        <result property="productName" column="product_name"/>
+        <result property="productType" column="product_type"/>
+        <result property="address" column="address"/>
+        <result property="zipCode" column="zipcode"/>
+        <result property="receiverName" column="receiver_name"/>
+        <result property="phoneNumber" column="phone_number"/>
+        <result property="orderRequired" column="order_required"/>
+    </resultMap>
+
+    <select id="getOrderByDelivery" parameterType="map" statementType="CALLABLE">
+        {call GET_ORDERS_BY_DELIVERY(
+                #{memberId, mode=IN, jdbcType=VARCHAR},
+                #{result, mode=OUT, jdbcType=CURSOR, javaType=ResultSet, resultMap=orderMap}
+              )}
+    </select>
+</mapper>

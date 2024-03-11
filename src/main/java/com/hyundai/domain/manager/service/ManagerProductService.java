@@ -4,6 +4,7 @@ import com.hyundai.domain.manager.dto.ManagerOrderProductDTO;
 import com.hyundai.domain.manager.dto.ManagerProductDTO;
 import com.hyundai.domain.manager.dto.ManagerTop5ProductDTO;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -32,4 +33,6 @@ public interface ManagerProductService {
     String modifyProduct(ManagerProductDTO productDTO);
 
     List<ManagerTop5ProductDTO> getTop5Product();
+
+    void downOrderExcel(HttpServletResponse response);
 }

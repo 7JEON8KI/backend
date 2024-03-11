@@ -73,7 +73,6 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public ProductResponseDTO getProductDetail(Long productId) {
-        // todo product에서 이 코드 반복됨
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String memberId = null;
         log.debug("authentication : " + authentication);

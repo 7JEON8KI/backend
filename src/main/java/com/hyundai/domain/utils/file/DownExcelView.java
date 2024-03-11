@@ -1,6 +1,7 @@
 package com.hyundai.domain.utils.file;
 
 import com.hyundai.domain.admin.dto.AdminMemberDTO;
+import com.hyundai.domain.utils.dto.OrderListDeliveryDTO;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
@@ -52,7 +53,6 @@ public class DownExcelView {
             row = sheet.createRow(rowNo++);
             cell = row.createCell(0);
             cell.setCellValue(dto.getMemberId());
-
             cell = row.createCell(1);
             cell.setCellValue(dto.getMemberEmail());
 
@@ -83,6 +83,60 @@ public class DownExcelView {
 
         response.setContentType("application/vnd.ms-excel");
         response.setHeader("Content-Disposition", "attachment;filename=test.xls");
+        wb.write(response.getOutputStream());
+        wb.close();
+
+    }
+    public void orderExcel(List<OrderListDeliveryDTO> dataList, String fileName, HttpServletResponse response) throws IOException {
+        Workbook wb = new HSSFWorkbook();
+        Sheet sheet = wb.createSheet(fileName);
+        Row row = null;
+        Cell cell = null;
+        int rowNo =0;
+        // 테이블 헤더용 스타일
+        CellStyle headStyle = wb.createCellStyle();
+        // 가는 경계선을 가집니다.
+        headStyle.setBorderTop(BorderStyle.THIN);
+        headStyle.setBorderBottom(BorderStyle.THIN);
+        headStyle.setBorderLeft(BorderStyle.THIN);
+        headStyle.setBorderRight(BorderStyle.THIN);
+        // 배경색은 노란색입니다.
+        headStyle.setFillForegroundColor(HSSFColor.HSSFColorPredefined.YELLOW.getIndex());
+        headStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        String[] rows = {"상품 이름 및 정보", "주소","우편번호","수령인","전화번호","주문 요구 사항"};
+
+        int colNum = 0;
+
+        row = sheet.createRow(rowNo++);
+
+        for (String ro: rows) {
+            cell = row.createCell(colNum++);
+            cell.setCellStyle(headStyle);
+            cell.setCellValue(ro);
+        }
+        for(OrderListDeliveryDTO dto : dataList){
+            row = sheet.createRow(rowNo++);
+            cell = row.createCell(0);
+            cell.setCellValue(dto.getProductName() + " " + dto.getProductType() + " " + dto.getOrderProductCount() + "개");
+            cell = row.createCell(1);
+            cell.setCellValue(dto.getAddress());
+
+            cell = row.createCell(2);
+            cell.setCellValue(dto.getZipCode());
+
+            cell = row.createCell(3);
+            cell.setCellValue(dto.getReceiverName());
+
+            cell = row.createCell(4);
+            cell.setCellValue(dto.getPhoneNumber());
+
+            cell = row.createCell(5);
+            cell.setCellValue(dto.getOrderRequired());
+        }
+
+        response.setContentType("application/vnd.ms-excel");
+//        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader("Content-Disposition", "attachment;filename=example.xls");
         wb.write(response.getOutputStream());
         wb.close();
 
