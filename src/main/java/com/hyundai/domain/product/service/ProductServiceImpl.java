@@ -5,10 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hyundai.domain.login.security.CustomMemberDetails;
 import com.hyundai.domain.product.dto.request.ProductCriteria;
 import com.hyundai.domain.product.dto.request.SearchRequestDTO;
-import com.hyundai.domain.product.dto.response.ProductResponseDTO;
-import com.hyundai.domain.product.dto.response.ProductTotalDTO;
-import com.hyundai.domain.product.dto.response.ProductWithCountResponseDTO;
-import com.hyundai.domain.product.dto.response.RecommendProducts;
+import com.hyundai.domain.product.dto.response.*;
 import com.hyundai.domain.product.entity.Product;
 import com.hyundai.domain.product.repository.ProductSearchRepository;
 import com.hyundai.global.mapper.ProductMapper;
@@ -170,6 +167,11 @@ public class ProductServiceImpl implements ProductService{
         ObjectMapper objectMapper = new ObjectMapper();
         List<RecommendProducts> products = objectMapper.readValue(response.getBody(), new TypeReference<List<RecommendProducts>>(){});
         return products;
+    }
+
+    @Override
+    public List<IngredientDTO> getIngredients(Long productId) {
+        return productMapper.getIngredients(productId);
     }
 
 }
