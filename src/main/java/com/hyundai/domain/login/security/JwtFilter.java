@@ -44,6 +44,7 @@ public class JwtFilter extends OncePerRequestFilter {
             , "/api/v1/reviews/product"
             , "/api/v1/reviews/products"
             , "/api/v1/banner"
+            , "/api/v1/products/ingredients"
             );
 
     // "/api/v1" 붙여서 작성, 특정 URI에서는 에러 응답을 보내지 않음

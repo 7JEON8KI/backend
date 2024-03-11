@@ -1,5 +1,7 @@
 package com.hyundai.domain.payment.service;
 
+import com.hyundai.domain.cart.dto.request.CartProductRequestDto;
+import com.hyundai.domain.cart.service.CartService;
 import com.hyundai.domain.orderProduct.entity.OrderProduct;
 import com.hyundai.domain.orders.dto.OrderSaveDTO;
 import com.hyundai.domain.orders.dto.OrdersRequestDTO;
@@ -25,6 +27,7 @@ public class PaymentServiceImpl {
     private final OrderMapper orderMapper;
     private final OrderProductMapper orderProductMapper;
     private final ProductMapper productMapper;
+    private final CartService cartService;
 
     @Transactional
     public void saveOrder(String memberId, OrdersRequestDTO ordersRequestDTO) {
@@ -42,7 +45,6 @@ public class PaymentServiceImpl {
                 .orderStatus(PayStatus.SUCCESS.getStatus())
                 .paymentMethod(saveDto.getPaymentMethod())
                 .build();
-        orders.setDeliveryDepartureTime(saveDto.getDeliveryDepartureTime());
         orderMapper.insertOrder(orders);
 
         for (OrderSaveDTO dto : orderSaveDtos) {
@@ -65,6 +67,8 @@ public class PaymentServiceImpl {
                     .build();
             orderProductMapper.insertOrderProduct(orderProduct);
             productMapper.updateProductStock(dto.getProductId(), dto.getOrderCount());
+            CartProductRequestDto cartProductRequestDto = new CartProductRequestDto(Math.toIntExact(dto.getProductId()));
+            cartService.saveOrDeleteCart(memberId, cartProductRequestDto);
         }
     }
 }

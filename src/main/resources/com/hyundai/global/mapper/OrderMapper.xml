@@ -34,7 +34,7 @@
             select SEQ_TBL_ORDERS.nextval from dual
         </selectKey>
         INSERT INTO tbl_orders (ORDER_ID, MEMBER_ID, ORDER_NUMBER, RECEIVER_NAME, PHONE_NUMBER, ZIPCODE,
-                            ADDRESS, ORDER_REQUIRED, ORDER_STATUS, PAYMENT_METHOD, DELIVERYDEPARTURETIME)
+                            ADDRESS, ORDER_REQUIRED, ORDER_STATUS, PAYMENT_METHOD)
         VALUES (
                     #{orderId},
                    #{memberId},
@@ -45,8 +45,7 @@
                    #{address},
                    #{orderRequired},
                    #{orderStatus},
-                   #{paymentMethod},
-                #{deliveryDepartureTime}
+                   #{paymentMethod}
                )
     </insert>
 
@@ -97,7 +96,7 @@
                 INNER JOIN TBL_ORDERPRODUCT op ON o.order_id = op.order_id
                 INNER JOIN TBL_PRODUCT p ON op.product_id = p.product_id
         WHERE o.member_id = #{memberId}
-        ORDER BY o.order_id ASC
+        ORDER BY o.order_date DESC
     </select>
 
     <!-- getOrderDetailByOrderId -->

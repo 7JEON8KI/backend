@@ -15,4 +15,8 @@ import lombok.*;
 public class CartProductRequestDto {
     private int productId;
     private int cartProductCnt;
+
+    public CartProductRequestDto(int intExact) {
+        this.productId = intExact;
+    }
 }

@@ -96,4 +96,9 @@ public class ProductController {
 
         return ResponseMessage.SuccessResponse("테마 상품 리스트 조회 성공", productService.getThemeProducts(productCriteria, memberId));
     }
+
+    @GetMapping("/ingredients/{productId}")
+    public ResponseEntity<?> getIngredients(@PathVariable Long productId) {
+        return ResponseMessage.SuccessResponse("재료 리스트 조회 성공", productService.getIngredients(productId));
+    }
 }

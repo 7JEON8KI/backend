@@ -96,6 +96,7 @@
                  JOIN tbl_product p ON r.product_id = p.product_id
         WHERE r.member_id = #{memberid}
           AND r.deleted_at IS NULL
+     ORDER BY r.modified_at DESC
     </select>
 
 <!--    <select id="getReviewsByMemberId" resultMap="reviewResultMap">-->
@@ -165,6 +166,7 @@
         WHERE
             o.member_id = #{memberId}
           AND r.product_id IS NULL
+   ORDER BY o.order_date DESC
     </select>
 
 
