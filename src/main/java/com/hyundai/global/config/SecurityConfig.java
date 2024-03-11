@@ -90,6 +90,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         ,"/api/v1/recommendation/**"
                         ,"/api/v1/banner"
                         ,"/api/v1/upload"
+                        , "/api/v1/products/ingredients/**"
                 )
                 .permitAll() // 누구나 접근 가능
                 .anyRequest().authenticated()

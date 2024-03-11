@@ -2,6 +2,7 @@ package com.hyundai.domain.product.service;
 
 import com.hyundai.domain.product.dto.request.ProductCriteria;
 import com.hyundai.domain.product.dto.request.SearchRequestDTO;
+import com.hyundai.domain.product.dto.response.IngredientDTO;
 import com.hyundai.domain.product.dto.response.ProductResponseDTO;
 import com.hyundai.domain.product.dto.response.ProductWithCountResponseDTO;
 import com.hyundai.domain.product.dto.response.RecommendProducts;
@@ -17,5 +18,5 @@ public interface ProductService {
     ProductWithCountResponseDTO getWineProducts(ProductCriteria productCriteria, String memberId);
     ProductWithCountResponseDTO getThemeProducts(ProductCriteria productCriteria, String memberId);
     List<RecommendProducts> getImageSearchProducts(MultipartFile image) throws IOException;
-
+    List<IngredientDTO> getIngredients(Long productId);
 }

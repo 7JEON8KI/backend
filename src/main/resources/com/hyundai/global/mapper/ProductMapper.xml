@@ -142,4 +142,14 @@
         </foreach>
         order by p.product_id desc
     </select>
+
+    <select id="getIngredients" parameterType="long" resultType="com.hyundai.domain.product.dto.response.IngredientDTO">
+        SELECT i.INGREDIENT_ID as ingredientId,
+               i.INGREDIENT_NAME as ingredientName
+        FROM tbl_ingredient i
+                 JOIN tbl_product_ingredient pi ON i.INGREDIENT_ID = pi.INGREDIENT_ID
+                 JOIN tbl_product p ON pi.PRODUCT_ID = p.PRODUCT_ID
+        WHERE p.PRODUCT_ID = #{productId}
+    </select>
+
 </mapper>
