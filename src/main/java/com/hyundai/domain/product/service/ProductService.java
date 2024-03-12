@@ -11,6 +11,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * author : 이소민
+ */
+
 public interface ProductService {
     ProductWithCountResponseDTO getProducts(ProductCriteria productCriteria, String memberId);
     ProductResponseDTO getProductDetail(Long productId);

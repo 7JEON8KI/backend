@@ -12,6 +12,10 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 
 import java.net.InetAddress;
 
+/**
+ * author : 이소민
+ */
+
 @Configuration
 @EnableElasticsearchRepositories(basePackages = "com.hyundai.domain.product.repository")
 public class ElasticSearchConfig {

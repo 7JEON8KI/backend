@@ -17,6 +17,11 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
 
 import java.util.*;
 
+
+/**
+ * author : 이소민
+ */
+
 public interface ProductSearchRepository extends ElasticsearchRepository<Product, Long> {
     default List<Product> search(SearchRequestDTO searchRequestDTO, ElasticsearchOperations elasticsearchOperations) {
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();

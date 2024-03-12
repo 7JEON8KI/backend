@@ -3,6 +3,10 @@ package com.hyundai.domain.orderProduct.dto;
 import lombok.Builder;
 import lombok.Getter;
 
+/**
+ * author : 이소민
+ */
+
 @Getter
 public class PaymentInfoDTO {
     private String quotaInfo;

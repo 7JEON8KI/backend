@@ -1,6 +1,5 @@
 package com.hyundai.domain.product.entity;
 
-import com.hyundai.domain.product.dto.request.ProductRequestDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +8,10 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.time.LocalDateTime;
+
+/**
+ * author : 이소민
+ */
 
 @Getter
 @Setter
@@ -33,18 +36,4 @@ public class Product {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private LocalDateTime deletedAt;
-
-    /*public Product(ProductRequestDTO productRequestDTO) {
-        this.productName = productRequestDTO.getProductName();
-        this.productSubName = productRequestDTO.getProductSubName();
-        this.price = productRequestDTO.getPrice();
-        this.productType = productRequestDTO.getProductType();
-        this.stock = productRequestDTO.getStock();
-        this.discountRate = productRequestDTO.getDiscountRate();
-        this.amount = productRequestDTO.getAmount();
-        this.calorie = productRequestDTO.getCalorie();
-        this.storage = productRequestDTO.getProductStorage();
-        this.productDetail = productRequestDTO.getProductDetail();
-        this.thumbnailImageUrl = productRequestDTO.getThumbnailImageUrl();
-    }*/
 }

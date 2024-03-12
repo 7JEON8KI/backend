@@ -3,6 +3,9 @@ package com.hyundai.domain.orderProduct.entity;
 import lombok.Builder;
 import lombok.Getter;
 
+/**
+ * author : 이소민
+ */
 @Getter
 public class OrderProduct {
     private Long orderProductId;

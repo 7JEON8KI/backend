@@ -23,6 +23,10 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 
+/**
+ * author : 이소민
+ */
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -44,7 +48,6 @@ public class PaymentController {
         this.iamportClient = new IamportClient(apiKey, secretKey);
     }
 
-    // todo 쿠폰, 포인트 추가
     // 요청으로 받은 주문 상품들을 저장
     @PostMapping("/payment")
     public ResponseEntity<?> paymentComplete(@RequestBody OrdersRequestDTO ordersRequestDTO) throws IOException {

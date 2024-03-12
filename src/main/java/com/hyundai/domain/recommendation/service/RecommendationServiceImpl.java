@@ -24,6 +24,10 @@ import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.List;
 
+/**
+ * author : 이소민
+ */
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -34,7 +38,6 @@ public class RecommendationServiceImpl implements RecommendationService {
     @Override
     @Transactional(readOnly = true)
     public List<ProductResponseDTO> getRecommendWines(Long productId) {
-        // todo productid 검증
         return productMapper.findRecommendWines(productId);
     }
 
@@ -64,7 +67,7 @@ public class RecommendationServiceImpl implements RecommendationService {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(0, new StringHttpMessageConverter(StandardCharsets.UTF_8));
 
-        String fastApiUrl = "http://3.37.206.197:8000/ai/age-gender-recommendation";
+        String fastApiUrl = "http://localhost:8000/ai/age-gender-recommendation";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
