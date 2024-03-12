@@ -20,6 +20,10 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.time.Duration;
 
+/**
+ * author : 이소민
+ */
+
 @EnableCaching
 @Configuration
 @RequiredArgsConstructor

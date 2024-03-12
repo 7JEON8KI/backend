@@ -32,6 +32,10 @@ import java.util.Map;
 
 import static com.hyundai.domain.product.dto.response.ProductResponseDTO.listOf;
 
+/**
+ * author : 이소민
+ */
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -44,7 +48,7 @@ public class ProductServiceImpl implements ProductService{
     @Transactional(readOnly = true)
     // product나 product_like가 바뀌면 캐시 삭제 해줘야 함
     // (product가 바뀌면 allEntries = true, product_like가 바뀌면 해당 key(memberId) 캐시 삭제)
-//    @Cacheable(cacheNames = "ProductResponseDTOs", key = "#memberId != null ? #memberId : 'anonymous'")
+    // @Cacheable(cacheNames = "ProductResponseDTOs", key = "#memberId != null ? #memberId : 'anonymous'")
     public ProductWithCountResponseDTO getProducts(ProductCriteria productCriteria, String memberId) {
         Map<String, Object> params = new HashMap<>();
         params.put("memberId", memberId);

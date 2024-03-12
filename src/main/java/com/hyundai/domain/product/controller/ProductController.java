@@ -17,6 +17,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * author : 이소민
+ */
 
 @Slf4j
 @RestController

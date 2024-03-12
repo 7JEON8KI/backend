@@ -3,6 +3,10 @@ package com.hyundai.domain.orders.dto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * author : 이소민
+ */
+
 @Getter
 @NoArgsConstructor
 public class OrderInfo {

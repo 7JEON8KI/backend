@@ -1,7 +1,6 @@
 package com.hyundai.domain.product.dto.response;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import java.util.List;
 
@@ -13,6 +12,9 @@ import java.util.List;
  */
 @Getter
 @Builder
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductWithCountResponseDTO {
     private int total;
     private List<ProductResponseDTO> productResponseDTOList;

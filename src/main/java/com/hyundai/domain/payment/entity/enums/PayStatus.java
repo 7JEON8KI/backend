@@ -1,5 +1,8 @@
 package com.hyundai.domain.payment.entity.enums;
 
+/**
+ * author : 이소민
+ */
 public enum PayStatus {
     SUCCESS("결제완료"),
     REFUND("환불완료"),

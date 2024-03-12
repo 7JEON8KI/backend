@@ -6,6 +6,9 @@ import com.hyundai.domain.recommendation.dto.response.MainRecommendProducts;
 
 import java.util.List;
 
+/**
+ * author : 이소민
+ */
 public interface RecommendationService {
     List<ProductResponseDTO> getRecommendWines(Long productId);
 

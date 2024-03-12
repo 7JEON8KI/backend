@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * author : 이소민
+ */
+
 public class IngredientExpansion {
     private static final Map<String, List<String>> ingredientExpansions = new HashMap<>();
 

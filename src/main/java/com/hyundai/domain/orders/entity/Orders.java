@@ -6,6 +6,10 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+/**
+ * author : 이소민
+ */
+
 @Getter
 @Setter
 public class Orders {

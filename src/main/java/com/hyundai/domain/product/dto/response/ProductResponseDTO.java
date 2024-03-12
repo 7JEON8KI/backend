@@ -10,6 +10,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * author : 이소민
+ */
+
 @Getter
 @Setter
 @NoArgsConstructor

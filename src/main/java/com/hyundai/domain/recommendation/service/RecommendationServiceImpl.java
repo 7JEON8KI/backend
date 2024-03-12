@@ -24,6 +24,10 @@ import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.List;
 
+/**
+ * author : 이소민
+ */
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -34,7 +38,6 @@ public class RecommendationServiceImpl implements RecommendationService {
     @Override
     @Transactional(readOnly = true)
     public List<ProductResponseDTO> getRecommendWines(Long productId) {
-        // todo productid 검증
         return productMapper.findRecommendWines(productId);
     }
 

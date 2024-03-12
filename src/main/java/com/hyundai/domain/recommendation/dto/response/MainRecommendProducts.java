@@ -8,6 +8,10 @@ import lombok.Setter;
 
 import java.util.List;
 
+/**
+ * author : 이소민
+ */
+
 @Getter
 @Setter
 @NoArgsConstructor

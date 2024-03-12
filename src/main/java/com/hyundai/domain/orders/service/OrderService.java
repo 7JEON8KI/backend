@@ -9,6 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * author : 이소민
+ */
+
 @Service
 @Transactional
 @RequiredArgsConstructor

@@ -15,14 +15,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * author : 이소민
+ */
 @Slf4j
 @RequestMapping("/order")
 @RestController
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
-    // todo memberinfo -> 주소 가져오기
-
     // 주문 상품 여러개를 주문하는 경우
     // xxx 예시: http://localhost:8080/member/order?products=%5B1%2C2%2C3%5D
     // xxx: %5B 는 [ 를 의미

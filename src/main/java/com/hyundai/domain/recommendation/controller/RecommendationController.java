@@ -23,6 +23,9 @@ import org.springframework.web.client.RestTemplate;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+/**
+ * author : 이소민
+ */
 
 @RestController
 @RequestMapping("/recommendation")
