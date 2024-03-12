@@ -99,22 +99,6 @@
      ORDER BY r.modified_at DESC
     </select>
 
-<!--    <select id="getReviewsByMemberId" resultMap="reviewResultMap">-->
-<!--        SELECT-->
-<!--            review.review_id AS "reviewId",-->
-<!--            review.product_id AS "productId",-->
-<!--            review.member_nickname AS "memberNickname",-->
-<!--            review.review_title AS "reviewTitle",-->
-<!--            review.review_content AS "reviewContent",-->
-<!--            review.review_image_url AS "reviewImageUrl",-->
-<!--            review.review_star AS "reviewStar",-->
-<!--            review.modified_at AS "modifiedAt"-->
-<!--        FROM TABLE(fetch_reviews(-->
-<!--                #{memberId, jdbcType=VARCHAR},-->
-<!--                #{productId, jdbcType=NUMERIC},-->
-<!--                #{reviewType, jdbcType=VARCHAR}-->
-<!--                   )) review-->
-<!--    </select>-->
     <select id="getProductReviews" resultMap="reviewResultMap">
         SELECT
             review.review_id AS "reviewId",

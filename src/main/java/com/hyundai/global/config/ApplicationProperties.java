@@ -3,6 +3,13 @@ package com.hyundai.global.config;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * fileName      : ApplicationProperties
+ * author        : 변형준
+ * since         : 2/22/24
+ * 내용           :
+ */
+
 @Getter
 @Setter
 public class ApplicationProperties {

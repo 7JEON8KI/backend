@@ -11,7 +11,6 @@ import java.util.Map;
 public interface ProductMapper {
     void findById(Map<String, Object> params);
     void findAll(Map<String, Object> params);
-//    List<Product> findAllByProductId(@Param("productIds") List<Long> productIds);
     void findWineAll(Map<String, Object> params);
     void findThemeProducts(Map<String, Object> params);
 

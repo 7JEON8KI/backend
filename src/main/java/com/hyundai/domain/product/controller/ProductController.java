@@ -18,7 +18,9 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * author : 이소민
+ * author : 이소민, 변형준
+ * 작업내용 : 이소민 - 상품 추천 조회, 상품 검색,
+ *        : 변형준 -  상품 상세 조회, 와인 상품 조회, 테마 상품 조회, 재료 리스트 조회
  */
 
 @Slf4j
@@ -27,14 +29,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
-//    private final ProductMigrationFromOracleToElasticsearch migration;
-
-
-    /*@PostMapping("/migrate")
-    public ResponseEntity<?> migrate() {
-        migration.migrate();
-        return ResponseMessage.SuccessResponse("migrate success", "");
-    }*/
 
     // 상품 리스트 조회
     @PostMapping()
