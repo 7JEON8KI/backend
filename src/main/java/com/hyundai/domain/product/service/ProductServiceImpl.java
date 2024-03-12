@@ -11,7 +11,6 @@ import com.hyundai.domain.product.repository.ProductSearchRepository;
 import com.hyundai.global.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.http.*;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -49,7 +48,7 @@ public class ProductServiceImpl implements ProductService{
     @Transactional(readOnly = true)
     // product나 product_like가 바뀌면 캐시 삭제 해줘야 함
     // (product가 바뀌면 allEntries = true, product_like가 바뀌면 해당 key(memberId) 캐시 삭제)
-    @Cacheable(cacheNames = "ProductResponseDTOs", key = "#memberId != null ? #memberId : 'anonymous'")
+    // @Cacheable(cacheNames = "ProductResponseDTOs", key = "#memberId != null ? #memberId : 'anonymous'")
     public ProductWithCountResponseDTO getProducts(ProductCriteria productCriteria, String memberId) {
         Map<String, Object> params = new HashMap<>();
         params.put("memberId", memberId);
@@ -156,7 +155,7 @@ public class ProductServiceImpl implements ProductService{
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(0, new StringHttpMessageConverter(StandardCharsets.UTF_8));
 
-        String fastApiUrl = "http://localhost:8000/ai/image-search";
+        String fastApiUrl = "http://3.37.206.197:8000/ai/image-search";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
