@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * @author : 강은구
- * @fileName : AdminProductController
- * @description :
  * @since : 02/19/2024
  */
 @Slf4j

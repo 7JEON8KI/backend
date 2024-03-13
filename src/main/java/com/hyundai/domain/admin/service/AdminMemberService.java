@@ -6,7 +6,10 @@ import com.hyundai.domain.admin.dto.AdminMemberDTO;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-
+/**
+ * @author : 강은구
+ * @since : 02/19/2024
+ */
 public interface AdminMemberService {
     List<AdminMemberDTO> getMemberList();
 

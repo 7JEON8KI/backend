@@ -1,8 +1,10 @@
 package com.hyundai.domain.utils.paging;
 
 import lombok.Data;
-import org.springframework.stereotype.Component;
-
+/**
+ * @author : 강은구
+ * @since : 02/19/2024
+ */
 @Data
 public class PageDTO {
     private int pageCount;

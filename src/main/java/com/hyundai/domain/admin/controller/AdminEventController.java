@@ -7,7 +7,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+/**
+ * @author : 강은구
+ * @since : 02/19/2024
+ */
 @Slf4j
 @RequestMapping("/admin")
 @RestController

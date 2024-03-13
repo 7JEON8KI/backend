@@ -3,7 +3,10 @@ package com.hyundai.domain.utils.paging;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
+/**
+ * @author : 강은구
+ * @since : 02/19/2024
+ */
 @Getter
 @Setter
 @ToString

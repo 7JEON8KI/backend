@@ -9,7 +9,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
+/**
+ * @author : 강은구
+ * @since : 02/19/2024
+ */
 @Configuration
 @EnableWebMvc
 @RequiredArgsConstructor
