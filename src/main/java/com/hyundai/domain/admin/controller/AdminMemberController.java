@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
-
+/**
+ * @author : 강은구
+ * @since : 02/19/2024
+ */
 @Slf4j
 @RequestMapping("/admin")
 @RestController

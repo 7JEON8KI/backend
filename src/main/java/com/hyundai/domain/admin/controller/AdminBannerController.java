@@ -7,7 +7,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+/**
+ * @author : 강은구
+ * @since : 02/19/2024
+ */
 @Slf4j
 @RequestMapping("/admin")
 @RestController
@@ -15,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 public class AdminBannerController {
     private final AdminBannerService adminBannerService;
 
-    // getBanner, getEvent 부분 공통 API로 빼기?
     @GetMapping("/banner")
     public ResponseEntity<?> getBanner(){
         return ResponseMessage.SuccessResponse("배너 조회 성공", adminBannerService.getBannerList());
