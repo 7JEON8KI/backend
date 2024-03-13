@@ -7,6 +7,11 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+/**
+ * fileName      : WebMvcConfig
+ * author        : 변형준
+ * since         : 2/19/24
+ */
 
 @Slf4j
 @EnableWebMvc
